@@ -1,4 +1,4 @@
-@extends('layouts.simple.master')
+@extends('AdminDashboard.master')
 @section('title', 'Request Details- Motor Insurance')
 
 @section('css')
@@ -45,42 +45,40 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Company</label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="company_id" required>
                                     <option value="" disabled selected>Select Company</option>
-                                    @foreach($companies as $company)
-                                        <option value="{{ $company->name }}" data-email="{{ $company->name }}">
+                                    @foreach($companies->unique('name') as $company)
+                                        <option value="{{ $company->name }}" data-email="{{ $company->email }}">
                                             {{ $company->name }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Company Email</label>
                             <div class="col-sm-9">
-                                <select class="form-control" name="company_email" required>
+                                <select class="form-control" id="company_email" name="company_email_dropdown">
                                     <option value="" disabled selected>Select Email</option>
                                     @foreach($companies as $company)
-                                        <option value="{{ $company->email }}" data-email="{{ $company->email }}">
+                                        <option value="{{ $company->email }}">
                                             {{ $company->email }}
                                         </option>
                                     @endforeach
                                 </select>
+                                <input type="hidden" id="hidden_company_email" name="company_email" value="">
+                                <div id="selected_emails" class="mt-3"></div>
                             </div>
                         </div>
-
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Make</label>
                             <div class="col-sm-9">
                                 <input class="form-control" type="text" name="make" value="{{ $motors->make }}" readonly>
                             </div>
                         </div>
-
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Year</label>
                             <div class="col-sm-9">
@@ -93,7 +91,6 @@
                                 <input class="form-control digits" type="text" name="vehicle_number" value="{{ $motors->vehicle_number }}" readonly>
                             </div>
                         </div>
-
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Usage</label>
                             <div class="col-sm-9">
@@ -148,12 +145,48 @@
 @endsection
 
 @section('script')
-{{-- <script>
-    document.querySelector('select[name="company_id"]').addEventListener('change', function() {
-    let selectedOption = this.options[this.selectedIndex];
-    let email = selectedOption.getAttribute('data-email');
-    document.getElementById('company_email').value = email;
-}); --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const emailSelect = document.getElementById('company_email');
+    const selectedEmailsContainer = document.getElementById('selected_emails');
+    const hiddenInput = document.getElementById('hidden_company_email');
+    let selectedEmails = [];
+
+    emailSelect.addEventListener('change', function () {
+        const selectedEmail = emailSelect.value;
+
+        if (!selectedEmails.includes(selectedEmail)) {
+            selectedEmails.push(selectedEmail);
+            updateHiddenInput();
+            displaySelectedEmails();
+        }
+    });
+
+    function displaySelectedEmails() {
+        selectedEmailsContainer.innerHTML = '';
+        selectedEmails.forEach(email => {
+            const badge = document.createElement('span');
+            badge.classList.add('badge', 'badge-info', 'me-2', 'p-2');
+            badge.textContent = email;
+
+            const closeButton = document.createElement('button');
+            closeButton.classList.add('btn-close', 'btn-sm', 'ms-2');
+            closeButton.type = 'button';
+            closeButton.onclick = function () {
+                selectedEmails = selectedEmails.filter(e => e !== email);
+                updateHiddenInput();
+                displaySelectedEmails();
+            };
+
+            badge.appendChild(closeButton);
+            selectedEmailsContainer.appendChild(badge);
+        });
+    }
+
+    function updateHiddenInput() {
+        hiddenInput.value = selectedEmails.join(',');
+    }
+});
 
 </script>
 @endsection

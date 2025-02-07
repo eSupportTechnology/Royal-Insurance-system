@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Mail\ContactMail;
-use App\Models\Motor;
 use App\Models\Company;
 use App\Models\MailRequest;
+use App\Models\Motor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -149,30 +149,53 @@ class MotorsController extends Controller
         return redirect()->route('indexxx')->with('success', 'Motor insurance detail deleted successfully.');
     }
 
-    public function mail($id){
+    public function mail($id)
+    {
         $motors = Motor::findOrFail($id);
         $companies = Company::all();
         return view('motors.mail', compact('motors','companies'));
     }
 
     public function storeMail(Request $request, $id)
-    {
-        // dd($request);
-        $request->validate([
-            'company_id'     => 'required|string',
-            'company_email'  => 'required|email',
-            'make' => 'required|string',
-            'year'           => 'required|numeric',
-            'vehicle_number' => 'required|string',
-            'usage'          => 'required|string',
-            'vehicle_value'  => 'required|numeric',
-            'financial_interest' => 'required|string',
-            'fuel_type'      => 'required|string',
-            'name'           => 'required|string',
-            'id_number'      => 'required|string'
-        ]);
+{
+    // dd($request);
+    $request->validate([
+        'company_id'     => 'required|string',
+        'company_email'  => ['required', 'string', function ($attribute, $value, $fail) {
+            $emails = explode(',', $value);
+            foreach ($emails as $email) {
+                if (!filter_var(trim($email), FILTER_VALIDATE_EMAIL)) {
+                    $fail('The ' . $attribute . ' must contain valid email addresses.');
+                }
+            }
+        }],
+        'make'           => 'required|string',
+        'year'           => 'required|numeric',
+        'vehicle_number' => 'required|string',
+        'usage'          => 'required|string',
+        'vehicle_value'  => 'required|numeric',
+        'financial_interest' => 'required|string',
+        'fuel_type'      => 'required|string',
+        'name'           => 'required|string',
+        'id_number'      => 'required|string'
+    ]);
 
-        $recode =MailRequest::create([
+    $recode = MailRequest::create([
+        'company_id'     => $request->company_id,
+        'company_email'  => $request->company_email,
+        'make'           => $request->make,
+        'year'           => $request->year,
+        'vehicle_number' => $request->vehicle_number,
+        'usage'          => $request->usage,
+        'vehicle_value'  => $request->vehicle_value,
+        'financial_interest' => $request->financial_interest,
+        'fuel_type'      => $request->fuel_type,
+        'name'           => $request->name,
+        'id_number'      => $request->id_number
+    ]);
+
+    if ($recode) {
+        $data = [
             'company_id'     => $request->company_id,
             'company_email'  => $request->company_email,
             'make'           => $request->make,
@@ -184,24 +207,15 @@ class MotorsController extends Controller
             'fuel_type'      => $request->fuel_type,
             'name'           => $request->name,
             'id_number'      => $request->id_number
-        ]);
+        ];
 
-        if($recode){
-            $data = [
-                'company_id'     => $request->company_id,
-                'company_email'  => $request->company_email,
-                'make'           => $request->make,
-                'year'           => $request->year,
-                'vehicle_number' => $request->vehicle_number,
-                'usage'          => $request->usage,
-                'vehicle_value'  => $request->vehicle_value,
-                'financial_interest' => $request->financial_interest,
-                'fuel_type'      => $request->fuel_type,
-                'name'           => $request->name,
-                'id_number'      => $request->id_number
-            ];
-            Mail::to($request->company_email)->send(new ContactMail($data));
+        $emails = explode(',', $request->company_email);
+        foreach ($emails as $email) {
+            Mail::to(trim($email))->send(new ContactMail($data));
         }
-        return redirect()->route('indexxx')->with('success', 'Motor request send successfully.');
     }
+
+    return redirect()->route('indexxx')->with('success', 'Motor request sent successfully.');
+}
+
 }

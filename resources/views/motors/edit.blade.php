@@ -1,4 +1,4 @@
-@extends('layouts.simple.master')
+@extends('AdminDashboard.master')
 @section('title', 'Edit Motor Insurance')
 
 @section('css')
@@ -153,7 +153,7 @@
                             </div>
                         </div>
                         @endforeach
-                        
+
 
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Status</label>
@@ -176,7 +176,7 @@
                 </div>
             </div>
         </form>
-		</div>	
+		</div>
 	  </div>
 	</div>
   </div>

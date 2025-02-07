@@ -13,8 +13,8 @@ class HealthController extends Controller
      */
     public function index()
     {
-        $healths = Health::all();
-        return view('health.index',compact('healths'));
+        $helths = Health::all();
+        return view('health.index',compact('helths'));
     }
 
     /**
@@ -39,24 +39,24 @@ class HealthController extends Controller
                 'contact_number'=> 'required',
                 'blood_group'=> 'required',
             ]);
-    
+
             $data = $request->except("_token");
-    
-            $healths= new Health;
-            $healths->name=$data["name"];
-            $healths->age=$data["age"];
-            $healths->nic=$data["nic"];
-            $healths->address=$data["address"];
-            $healths->weight=$data["weight"];
-            $healths->contact_number=$data["contact_number"];
-            $healths->blood_group=$data["blood_group"];
-            $healths->save();
-    
+
+            $helths= new Health;
+            $helths->name=$data["name"];
+            $helths->age=$data["age"];
+            $helths->nic=$data["nic"];
+            $helths->address=$data["address"];
+            $helths->weight=$data["weight"];
+            $helths->contact_number=$data["contact_number"];
+            $helths->blood_group=$data["blood_group"];
+            $helths->save();
+
             return redirect()->route('health.index')->with('success','successfully created');
         }
-    
-    
-    
+
+
+
 
     /**
      * Display the specified resource.
@@ -71,8 +71,8 @@ class HealthController extends Controller
      */
     public function edit(string $id)
     {
-        $healths = Health::find($id);
-        return view('health.edit',compact('healths'));
+        $helths = Health::find($id);
+        return view('health.edit',compact('helths'));
     }
 
     /**
@@ -89,35 +89,35 @@ class HealthController extends Controller
             'contact_number'=> 'required',
             'blood_group'=> 'required',
                 ]);
-                
-                $healths=Health::find($id) ;
-                $healths->name=$request->input("name");
-                $healths->age=$request->input("age");
-                $healths->nic=$request->input("nic");
-                $healths->address=$request->input("address");
-                $healths->weight=$request->input("weight");
-                $healths->contact_number=$request->input("contact_number");
-                $healths->blood_group=$request->input("blood_group");
-                $healths->save();
-        
+
+                $helths=Health::find($id) ;
+                $helths->name=$request->input("name");
+                $helths->age=$request->input("age");
+                $helths->nic=$request->input("nic");
+                $helths->address=$request->input("address");
+                $helths->weight=$request->input("weight");
+                $helths->contact_number=$request->input("contact_number");
+                $helths->blood_group=$request->input("blood_group");
+                $helths->save();
+
                 return redirect()->route('health.index')->with('success','successfully updated');
             }
-        
-    
+
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-      $healths = Health::find($id);
-      if($healths){
-        $healths->delete();
+      $helths = Health::find($id);
+      if($helths){
+        $helths->delete();
         return redirect()->route('health.index')->with('success','Data is deleted');
       }
       return redirect()->route('health.index')->with('error','Not Available');
     }
-     
-    
+
+
 }
-   
+

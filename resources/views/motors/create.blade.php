@@ -1,4 +1,4 @@
-@extends('layouts.simple.master')
+@extends('AdminDashboard.master')
 @section('title', 'Base Inputs')
 
 @section('css')
@@ -42,7 +42,7 @@
 		<div class="card">
 		  <div class="card-header">
 			<h5>Add Details</h5>
-            
+
 		  </div>
           <form action="{{ route('storemotors') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -162,7 +162,7 @@
 
                             </div>
                         </div>
-                        
+
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label pt-0">Vehicle Photos</label>
                             <div class="col-sm-9">
@@ -171,7 +171,7 @@
                             </div>
                         </div>
 
-                        
+
 
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label pt-0">Client's Letter</label>
@@ -197,7 +197,7 @@
                                     <option value="approved">Approved</option>
                                     <option value="rejected">Rejected</option>
                                 </select>
-                                
+
                             </div>
                         </div>
 
@@ -211,10 +211,10 @@
                 </div>
             </div>
 
-            
+
         </form>
-        
-		</div>	
+
+		</div>
 	  </div>
 	</div>
   </div>

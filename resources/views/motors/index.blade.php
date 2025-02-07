@@ -2,6 +2,14 @@
 
 @section('title', 'Dashboard')
 
+@section('css')
+@endsection
+
+@section('style')
+<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/css/vendors/datatables.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/css/vendors/datatable-extension.css')}}">
+@endsection
+
 @section('content')
 <div class="container-fluid">
 	<div class="row">
@@ -32,7 +40,7 @@
 				</div>
 				<div class="card-body">
 					<div class="dt-ext table-responsive">
-						<table class="display" id="export-button">
+						<table class="table table-responsive-sm" id="export-button">
 							<thead>
 								<tr>
                                     <th>SNO</th>
@@ -145,16 +153,6 @@
                                 @endforeach
 
 							</tbody>
-							{{-- <tfoot>
-								<tr>
-									<th>Name</th>
-									<th>Position</th>
-									<th>Office</th>
-									<th>Age</th>
-									<th>Start date</th>
-									<th>Salary</th>
-								</tr>
-							</tfoot> --}}
 						</table>
 					</div>
 				</div>
@@ -166,26 +164,26 @@
 @endsection
 
 @section('script')
-<script src="{{asset('assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.buttons.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/jszip.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/buttons.colVis.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/pdfmake.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/vfs_fonts.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.autoFill.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.select.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/buttons.html5.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/buttons.print.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.responsive.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.keyTable.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
-<script src="{{asset('assets/js/datatable/datatable-extension/custom.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/jszip.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/buttons.colVis.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/pdfmake.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/vfs_fonts.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.autoFill.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.select.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/buttons.html5.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/buttons.print.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.keyTable.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.colReorder.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
+<script src="{{asset('frontend/assets/js/datatable/datatable-extension/custom.js')}}"></script>
 
 <script>
     $(document).ready(function () {
@@ -208,7 +206,7 @@
 
 
         var isDefaultView = true;
-        $('<button type="button" class="btn btn-primary mb-3">+</button>')
+        $('<button type="button" style="float: right;" class="btn btn-primary mb-3">+</button>')
             .prependTo('#export-button_wrapper')
             .on('click', function () {
                 if (isDefaultView) {

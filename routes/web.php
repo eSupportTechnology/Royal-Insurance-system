@@ -8,15 +8,30 @@ use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 
-Route::get('/', function () {
-    return view('AdminDashboard.home');
-});
+// Route::get('/', function () {
+//     return view('AdminDashboard.home');
+// });
 
-Route::prefix('dashboard')->group(function () {
-    Route::view('index', 'dashboard.index')->name('index');
-    Route::view('dashboard-02', 'dashboard.dashboard-02')->name('dashboard-02');
+// Route::get('/test', function () {
+    // return view('test');
+// });
 
-});
+// Route::prefix('dashboard')->group(function () {
+//     Route::view('index', 'dashboard.index')->name('index');
+//     Route::view('dashboard-02', 'dashboard.dashboard-02')->name('dashboard-02');
+
+// });
+
+Route::prefix('authentication')->group(function () {
+    Route::get('login', [AuthController::class, 'showLoginForm'])->name('login.form');
+    Route::post('login/page', [AuthController::class, 'login'])->name('login.store');
+    Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register.form');
+    Route::post('register/store', [AuthController::class, 'signup'])->name('register.store');
+
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+
+Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 Route::get('/indexxx', [MotorsController::class, 'indexxx'])->name('indexxx');
 Route::get('/create', [MotorsController::class, 'create'])->name('createmotors');
@@ -45,14 +60,15 @@ Route::get('/company/edit/{id}', [CompanyController::class, 'edit'])->name('comp
 Route::put('/company/update/{id}', [CompanyController::class, 'update'])->name('company.update');
 Route::delete('/company/delete/{id}', [CompanyController::class, 'destroy'])->name('company.delete');
 Route::get('/{company_id}/status', [CompanyController::class, 'status'])->name('company.status');
-
-Route::prefix('authentication')->group(function () {
-
-    Route::get('login', [AuthController::class, 'showLoginForm'])->name('login.form');
-    Route::post('login/page', [AuthController::class, 'login'])->name('login');
-    Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register.form');
-    Route::post('register/store', [AuthController::class, 'signup'])->name('register');
-    Route::view('forget-password', 'authentication.forget-password')->name('forget-password');
 });
+});
+// Route::prefix('authentication')->group(function () {
+
+//     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login.form');
+//     Route::post('login/page', [AuthController::class, 'login'])->name('login');
+//     Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register.form');
+//     Route::post('register/store', [AuthController::class, 'signup'])->name('register');
+//     Route::view('forget-password', 'authentication.forget-password')->name('forget-password');
+// });
 
 require __DIR__.'/auth.php';

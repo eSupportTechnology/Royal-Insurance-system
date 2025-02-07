@@ -13,10 +13,10 @@
       <div class="col-12 p-0">
          <div class="login-card">
             <div>
-               <div><a class="logo" href="{{ route('index') }}"><img class="img-fluid for-light" src="{{asset('assets/images/logo/login.png')}}" alt="loginpage"><img class="img-fluid for-dark" src="{{asset('assets/images/logo/logo_dark.png')}}" alt="loginpage"></a></div>
+               {{-- <div><a class="logo" href="{{ route('index') }}"><img class="img-fluid for-light" src="{{asset('assets/images/logo/login.png')}}" alt="loginpage"><img class="img-fluid for-dark" src="{{asset('assets/images/logo/logo_dark.png')}}" alt="loginpage"></a></div> --}}
                <div class="login-main">
-                 
-                  <form action="{{ route('login')}}"  method="POST" class= "theme-form">
+
+                  <form action="{{ route('login.store')}}"  method="POST" class= "theme-form">
                      @csrf
                      <h4>Sign in to account</h4>
                      <p>Enter your email & password to login</p>
@@ -27,7 +27,7 @@
                      @error('password')
                      <div class="alert alert-danger">{{ $message}}</div>
                      @enderror
-                     
+
                      <div class="form-group">
                         <label class="col-form-label">Email Address</label>
                         <input class="form-control" type="email" name="email" placeholder="Test@gmail.com" required>
@@ -42,7 +42,7 @@
                            <input id="checkbox1" type="checkbox">
                            <label class="text-muted" for="checkbox1">Remember password</label>
                         </div>
-                        <a class="link" href="{{ route('forget-password') }}">Forgot password?</a>
+                        {{-- <a class="link" href="{{ route('forget-password') }}">Forgot password?</a> --}}
                         <button class="btn btn-primary btn-block" type="submit">Sign in</button>
                      </div>
                      <h6 class="text-muted mt-4 or">Or Sign in with</h6>

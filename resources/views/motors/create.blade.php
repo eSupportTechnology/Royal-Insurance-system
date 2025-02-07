@@ -189,17 +189,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label pt-0">Status</label>
-                            <div class="col-sm-9">
-                                <select class="form-select" name="status" disabled>
-                                    <option value="pending" selected>Pending</option>
-                                    <option value="approved">Approved</option>
-                                    <option value="rejected">Rejected</option>
-                                </select>
-
-                            </div>
-                        </div>
+                        
 
                     </div>
                 </div>

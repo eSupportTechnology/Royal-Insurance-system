@@ -52,31 +52,13 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9">
-                                <select class="form-select digits" id="exampleFormControlSelect9" name="name">
-                                    <option>Sri Lanka Insurance Corporation - General</option>
-                                    <option>Ceylinco General Insurance</option>
-                                    <option>Orient Insurance</option>
-                                    <option>LOLC General Insurance</option>
-                                    <option>Co-Op General Insurance</option>
-                                    <option>Peoples' Insurance</option>
-                                    <option>Allianz General Insurance</option>
-                                    <option>Fair First Insurance</option>
-                                  </select>
+                                <input class="form-control" type="text" name="name" placeholder="Enter Insurance Company Name" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
-                                <select class="form-select digits" id="exampleFormControlSelect9" name="email">
-                                    <option> nishanf@slicgeneral.com</option>
-                                    <option>zuharas@slicgeneral.com</option>
-                                    <option>pathumt@slicgeneral.com</option>
-                                    <option>lakshmipr@slicgeneral.com</option>
-                                    <option> indikap@ceyins.lk</option>
-                                    <option>brokerservicing@ceyins.lk</option>
-                                    <option>banca3@ceyins.lk</option>
-                                    <option>banca5@ceyins.lk</option>
-                                  </select>
+                                <input class="form-control" type="email" name="email" placeholder="Enter Email Address" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -104,10 +86,7 @@
                     <a href="{{ route('company.index') }}" class="btn btn-light">Cancel</a>
                 </div>
             </div>
-
-
         </form>
-
 		</div>
 	  </div>
 	</div>

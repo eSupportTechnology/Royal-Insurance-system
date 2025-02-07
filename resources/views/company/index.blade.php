@@ -1,8 +1,7 @@
 @extends('AdminDashboard.master')
-@section('title', 'HTML 5 Data Export')
+@section('title', 'Insurance Companies')
 
 @section('css')
-
 @endsection
 
 @section('style')
@@ -11,22 +10,19 @@
 @endsection
 
 @section('breadcrumb-title')
-<h3></h3>
+<h3>Insurance Companies</h3>
 @endsection
 
 @section('breadcrumb-items')
 <li class="breadcrumb-item">Data Tables</li>
-<li class="breadcrumb-item active"></li>
+<li class="breadcrumb-item active">Insurance Companies</li>
 @endsection
 
 @section('content')
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-sm-12">
-
             <div class="container">
-
-
             @if(session('error'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Error!</strong> {{ session('error') }}
@@ -40,12 +36,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-
             </div>
 
 			<div class="card">
 				<div class="card-header">
-					<h5><a href="{{route('company.create')}}" class="btn btn-primary mb-3">add</a></h5>
+					<h5><a href="{{route('company.create')}}" class="btn btn-primary mb-3">Add</a></h5>
 				</div>
 				<div class="card-body">
 					<div class="dt-ext table-responsive">
@@ -73,39 +68,39 @@
                                         @if ($company->status == 0)
                                             <span class="badge bg-warning">Inactive</span>
                                         @else
-                                             <span class="badge bg-success">Active</span>
+                                            <span class="badge bg-success">Active</span>
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('company.edit', $company->id) }}" title="Edit">
-                                            <i class="icon-pencil-alt"></i>
+                                    @if ($company->status == 0)
+                                        <a href="{{ route('company.status', $company->id)}}" class="btn btn-info btn-sm" title="Activate">
+                                            <i class="icon-info-alt"></i> Activate
+                                        </a>
+                                        @else
+                                        <a href="{{ route('company.status', $company->id)}}" class="btn btn-secondary btn-sm" title="Deactivate">
+                                            <i class="icon-pin-alt"></i> Deactivate
+                                        </a>
+                                        @endif
+                                        <a href="{{ route('company.edit', $company->id) }}" class="btn btn-warning btn-sm" title="Edit">
+                                            <i class="icon-pencil-alt"></i> Edit
                                         </a>
                                         <form action="{{ route('company.delete', $company->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Are you sure?')" style="border: none; background: none;">
-                                                <i class="icon-trash text-danger"></i>
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')" title="Delete">
+                                                <i class="icon-trash"></i> Delete
                                             </button>
                                         </form>
-                                        @if ($company->status == 0)
-                                        <a href="{{ route('company.status', $company->id)}}">
-                                            <i class="icon-info-alt text-warning"></i></a>
-                                        @else
-                                        <a href="{{ route('company.status', $company->id)}}">
-                                            <i class="icon-pin-alt text-success"></i></a>
-                                        @endif
+                                        
                                     </td>
                                 </tr>
                                 @endforeach
-
 							</tbody>
-
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
 </div>
 @endsection
@@ -117,18 +112,18 @@
 <script src="{{asset('frontend/assets/js/datatable/datatable-extension/buttons.colVis.min.js')}}"></script>
 <script src="{{asset('frontend/assets/js/datatable/datatable-extension/pdfmake.min.js')}}"></script>
 <script src="{{asset('frontend/assets/js/datatable/datatable-extension/vfs_fonts.js')}}"></script>
-<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.autoFill.min.js')}}"></script>
-<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.select.min.js')}}"></script>
-<script src="{{asset('frontend/assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{asset('frontend/assets/js/datatable/datatable-extension/buttons.html5.min.js')}}"></script>
-<script src="{{asset('frontend/assets/js/datatable/datatable-extension/buttons.print.min.js')}}"></script>
 <script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.keyTable.min.js')}}"></script>
-<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.colReorder.min.js')}}"></script>
-<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js')}}"></script>
-<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
-<script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
-<script src="{{asset('frontend/assets/js/datatable/datatable-extension/custom.js')}}"></script>
+<script>
+    $(document).ready(function () {
+        if ($.fn.DataTable.isDataTable('#export-button')) {
+            $('#export-button').DataTable().destroy();
+        }
+        $('#export-button').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['csv', 'excel', 'pdf', 'print']
+        });
+    });
+</script>
 @endsection

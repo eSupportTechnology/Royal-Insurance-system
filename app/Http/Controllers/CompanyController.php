@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Company;
+use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
@@ -14,7 +13,7 @@ class CompanyController extends Controller
     public function index()
     {
         $companies = Company::all();
-        return view('company.index',compact('companies'));
+        return view('company.index', compact('companies'));
     }
 
     /**
@@ -30,24 +29,24 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'=> 'required',
-            'email'=> 'required',
-            'contact_number'=> 'required',
-            'insurance_type'=> 'required',
-            
+        // dd($request);
+        $request -> validate([
+            'name' => 'required',
+            'email' => 'required',
+            'contact_number' => 'required',
+            'insurance_type' => 'required',
         ]);
 
-        $data = $request->except("_token");
+        $data = $request->except('_token');
 
-        $companies= new Company;
-        $companies->name=$data["name"];
-        $companies->email=$data["email"];
-        $companies->contact_number=$data["contact_number"];
-        $companies->insurance_type=$data["insurance_type"];
+        $companies = new Company();
+        $companies->name = $data['name'];
+        $companies->email = $data['email'];
+        $companies->contact_number = $data['contact_number'];
+        $companies->insurance_type = $data['insurance_type'];
         $companies->save();
 
-        return redirect()->route('company.index')->with('success','successfully created');
+        return redirect()->route('company.index')->with('success','Successfully Add New Details');
     }
 
     /**
@@ -72,21 +71,21 @@ class CompanyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'name'=> 'required',
-            'email'=> 'required',
-            'contact_number'=> 'required',
-            'insurance_type'=> 'required',
-                ]);
-                
-                $companies=Company::find($id) ;
-                $companies->name=$request->input("name");
-                $companies->email=$request->input("email");
-                $companies->contact_number=$request->input("contact_number");
-                $companies->insurance_type=$request->input("insurance_type");
-                $companies->save();
-        
-                return redirect()->route('company.index')->with('success','successfully updated');
+        $request -> validate([
+            'name' => 'required',
+            'email' => 'required',
+            'contact_number' => 'required',
+            'insurance_type' => 'required',
+        ]);
+
+        $companies = Company::find($id);
+        $companies->name = $request->input('name');
+        $companies->email = $request->input('email');
+        $companies->contact_number = $request->input('contact_number');
+        $companies->insurance_type = $request->input('insurance_type');
+        $companies->save();
+
+        return redirect()->route('company.index')->with('success','Successfully Update Details');
     }
 
     /**
@@ -96,22 +95,20 @@ class CompanyController extends Controller
     {
         $companies = Company::find($id);
         if($companies){
-          $companies->delete();
-          return redirect()->route('company.index')->with('success','Data is deleted');
+            $companies ->delete();
+
+            return redirect()->route('company.index')->with('success','Data is Deleted!');
         }
-        return redirect()->route('company.index')->with('error','Not Available');
-      
+        return redirect()->route('company.index')->with('error','Details Not!');
     }
-
-    public function status($company_id){
-
+    public function status($company_id)
+    {
         $company = Company::find($company_id);
+        // $company = $this->company->find($company_id);
         $company->status = !$company->status;
         $company->update();
 
         return redirect()->back();
     }
-     
-   
 
 }

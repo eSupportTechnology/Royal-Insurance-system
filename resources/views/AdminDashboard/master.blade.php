@@ -37,7 +37,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/css/responsive.css')}}">
 </head>
 
-  <body onload="startTime()"> 
+  <body onload="startTime()">
     <!-- loader starts-->
     <div class="loader-wrapper">
       <div class="loader-index"> <span></span></div>
@@ -55,7 +55,7 @@
     <!-- tap on tap ends-->
     <!-- page-wrapper Start-->
     <div class="page-wrapper compact-wrapper" id="pageWrapper">
-        
+
       @include('AdminDashboard.header')
       <!-- Page Body Start-->
       <div class="page-body-wrapper">
@@ -93,10 +93,12 @@
     <script src="{{asset('frontend/assets/js/typeahead/typeahead.custom.js')}}"></script>
     <script src="{{asset('frontend/assets/js/typeahead-search/handlebars.js')}}"></script>
     <script src="{{asset('frontend/assets/js/typeahead-search/typeahead-custom.js')}}"></script>
-    <script src="{{asset('frontend/frontend/assets/js/height-equal.js')}}"></script>
+    <script src="{{asset('frontend/assets/js/height-equal.js')}}"></script>
     <script src="{{asset('frontend/assets/js/animation/wow/wow.min.js')}}"></script>
     <script src="{{asset('frontend/assets/js/script.js')}}"></script>
     <script src="{{asset('frontend/assets/js/theme-customizer/customizer.js')}}"></script>
     <script>new WOW().init();</script>
+    @yield('script')
+
   </body>
 </html>

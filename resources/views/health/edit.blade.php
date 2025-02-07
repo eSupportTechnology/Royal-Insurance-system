@@ -1,4 +1,4 @@
-@extends('layouts.simple.master')
+@extends('AdminDashboard.master')
 @section('title', 'Edit Health Insurance')
 
 @section('css')
@@ -24,13 +24,12 @@
             @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
-
         @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show">
-                {{ session('error') }}
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+        </div>
+    @endif
 
      @if ($errors->any())
     <div class="alert alert-danger">
@@ -47,7 +46,7 @@
 		  <div class="card-header">
 			<h5>Edit Request Details</h5>
 		  </div>
-          <form action="{{route('health.update',$healths->id)}}" method="POST" enctype="multipart/form-data">
+          <form action="{{ route('health.update',$helths->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="card-body">
@@ -56,47 +55,45 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="text" name="name" value="{{ $healths->name }}" placeholder="Type Your Name" required>
+                                <input class="form-control" type="text" name="name" value="{{ $helths->name }}" placeholder="name" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Age</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="number" name="age" value="{{ $healths->age }}" placeholder="Type Your Age" required>
+                                <input class="form-control" type="number" name="age" value="{{ $helths->age }}" placeholder="age" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">NIC</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="string" name="nic" value="{{ $healths->nic }}" placeholder="Type Your NIC" required>
+                                <input class="form-control" type="text" name="nic" value="{{ $helths->nic }}" placeholder="NIC" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Address</label>
                             <div class="col-sm-9">
-                                <input class="form-control digits" type="text" name="address" value="{{ $healths->address }}" placeholder="Type Your Address" required>
+                                <input class="form-control digits" type="text" name="address" value="{{ $helths->address }}" placeholder="address" required>
                             </div>
                         </div>
-                       
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Weight</label>
                             <div class="col-sm-9">
-                                <input class="form-control digits" id="weight" type="number" name="weight" value="{{ $healths->weight }}" placeholder="Type Your Weight" required>
+                                <input class="form-control digits" id="weight" name="weight" type="number" value="{{ $helths->weight }}" placeholder="weight" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">Contact </label>
+                            <label class="col-sm-3 col-form-label">Contact</label>
                             <div class="col-sm-9">
-                                <input class="form-control digits" type="number" name="contact_number" value="{{ $healths->contact_number }}" placeholder="Type Your Contact Number " required>
+                                <input class="form-control digits" type="text" name="contact_number" value="{{ $helths->contact_number }}" placeholder="contact number" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">Blood Group </label>
+                            <label class="col-sm-3 col-form-label">Blood Group</label>
                             <div class="col-sm-9">
-                                <input class="form-control digits" type="string" name="blood_group" value="{{ $healths->blood_group }}" placeholder="Type Your Blood Group " required>
+                                <input class="form-control digits" type="text" name="blood_group" value="{{ $helths->blood_group }}" placeholder="blood group" required>
                             </div>
                         </div>
-                       
                     </div>
                 </div>
             </div>
@@ -107,7 +104,7 @@
                 </div>
             </div>
         </form>
-		</div>	
+		</div>
 	  </div>
 	</div>
   </div>

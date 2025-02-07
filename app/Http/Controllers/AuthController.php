@@ -2,67 +2,79 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function showRegisterForm(){
+    public function showRegisterForm()
+    {
+        return view('authentication.sign-up');
+    }
 
-    return view('authentication.sign-up');
- }
-
-   public function signup(Request $request){
-
+    public function signup(Request $request)
+{
+    // dd($request);
     $request->validate([
-        'firstname'=> 'required|string|max:255',
-        'lastname'=> 'required|string|max:255',
-        'email'=> 'required|string|email|max:255|unique:users',
-        'password'=> 'required|string|min:8',
+        'firstname' => 'required|string|max:255',
+        'lastname' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:admins',
+        'password' => 'required|string|min:8|confirmed',
     ]);
 
     $fullname = $request->firstname . ' ' . $request->lastname;
-    
-    $user = User::create([
+
+
+    $admin = Admin::create([
         'name' => $fullname,
         'email' => $request->email,
         'password' => Hash::make($request->password),
-
     ]);
 
-    Auth::login($user);
-    
-    return redirect()->route("index")->with('success','Registration Successful.');
 
-   }
+    Auth::login($admin);
 
-   public function showLoginForm(){
+    return redirect()->route('login.form')->with('success', 'Registration successful. Welcome!');
+}
 
-    return view('authentication.login');
- }
 
- public function login(Request $request){
-
-    $request->validate([
-        'email'=> 'required|email',
-        'password'=> 'required',
-    ]);
-
-    if (Auth::attempt($request->only('email', 'password'))){
-        return redirect()->route('index');
+    public function showLoginForm()
+    {
+        return view('authentication.login');
     }
-    return back()->withErrors(['email' => 'Invalid credentials.']);
- }
 
- public function logout(Request $request)
- {
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
-    return redirect()->route('login.form')->with('success' , 'You have been logged out.');
+    public function login(Request $request)
+{
+    $credentials = $request->only('email', 'password');
 
- }
+    if (Auth::guard('admin')->attempt($credentials)) {
+        Auth::guard('admin')->user();
+
+        return redirect()->intended(route('dashboard'));
+    }
+
+    return back()->withErrors([
+        'email' => 'The provided credentials do not match our records.',
+    ]);
+}
+
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate(); // Invalidates the session
+        $request->session()->regenerateToken(); // Regenerates the CSRF token
+
+        // Redirect to the login form route
+        return redirect()->route('login.form')->with('success', 'You have been logged out.');
+    }
+
+    public function dashboard()
+    {
+        return view('AdminDashboard.home');
+    }
+
+
 }

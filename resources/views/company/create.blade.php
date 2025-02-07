@@ -1,4 +1,4 @@
-@extends('layouts.simple.master')
+@extends('AdminDashboard.master')
 @section('title', 'Base Inputs')
 
 @section('css')
@@ -42,7 +42,7 @@
 		<div class="card">
 		  <div class="card-header">
 			<h5>Add Details</h5>
-            
+
 		  </div>
           <form action="{{ route('company.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -52,35 +52,52 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="text" name="name" placeholder="Enter The Company Name" required>
+                                <select class="form-select digits" id="exampleFormControlSelect9" name="name">
+                                    <option>Sri Lanka Insurance Corporation - General</option>
+                                    <option>Ceylinco General Insurance</option>
+                                    <option>Orient Insurance</option>
+                                    <option>LOLC General Insurance</option>
+                                    <option>Co-Op General Insurance</option>
+                                    <option>Peoples' Insurance</option>
+                                    <option>Allianz General Insurance</option>
+                                    <option>Fair First Insurance</option>
+                                  </select>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="text" name="email" placeholder="Enter The Company Email" required>
+                                <select class="form-select digits" id="exampleFormControlSelect9" name="email">
+                                    <option> nishanf@slicgeneral.com</option>
+                                    <option>zuharas@slicgeneral.com</option>
+                                    <option>pathumt@slicgeneral.com</option>
+                                    <option>lakshmipr@slicgeneral.com</option>
+                                    <option> indikap@ceyins.lk</option>
+                                    <option>brokerservicing@ceyins.lk</option>
+                                    <option>banca3@ceyins.lk</option>
+                                    <option>banca5@ceyins.lk</option>
+                                  </select>
                             </div>
                         </div>
-                       
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">Contact</label>
+                            <label class="col-sm-3 col-form-label">Contact Number</label>
                             <div class="col-sm-9">
-                                <input class="form-control digits" type="number" name="contact_number" placeholder="Enter The Company Contact Number" required>
+                                <input class="form-control digits" type="text" name="contact_number" placeholder="Type your Contact Number" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Insurance Type</label>
                             <div class="col-sm-9">
-                                <select class="form-select digits" id="exampleFormControlSelect9" name="insurance_type" required>
-                                    <option> </option>
-                                    <option>Vehicle </option>
-                                    <option>Health </option>
-                                    <option>Property </option>
-                                    <option>Other </option>
+                                <select class="form-select digits" id="exampleFormControlSelect9" name="insurance_type">
+                                  <option>Vehicle</option>
+                                  <option>Health</option>
+                                  <option>Property</option>
                                 </select>
-                            </div>
-                        </div>
-                      
+                              </div>
+                          </div>
+                    </div>
+                </div>
+            </div>
             <div class="card-footer text-end">
                 <div class="col-sm-9 offset-sm-3">
                     <button class="btn btn-primary" type="submit">Submit</button>
@@ -88,10 +105,10 @@
                 </div>
             </div>
 
-            
+
         </form>
-        
-		</div>	
+
+		</div>
 	  </div>
 	</div>
   </div>

@@ -1,4 +1,4 @@
-@extends('layouts.authentication.master')
+@extends('AdminDashboard.master')
 @section('title', 'Sign-up')
 
 @section('css')
@@ -14,13 +14,13 @@
       <div class="col-12 p-0">
          <div class="login-card">
             <div>
-               <div><a class="logo" href="{{ route('index') }}"><img class="img-fluid for-light" src="{{asset('assets/images/logo/login.png')}}" alt="looginpage"><img class="img-fluid for-dark" src="{{asset('assets/images/logo/logo_dark.png')}}" alt="looginpage"></a></div>
+               {{-- <div><a class="logo" href="{{ route('index') }}"><img class="img-fluid for-light" src="{{asset('assets/images/logo/login.png')}}" alt="looginpage"><img class="img-fluid for-dark" src="{{asset('assets/images/logo/logo_dark.png')}}" alt="looginpage"></a></div> --}}
                <div class="login-main">
-                  <form action="{{ route('register')}}" method="POST" class="theme-form">
+                  <form action="{{ route('register.store')}}" method="POST" class="theme-form">
                      @csrf
                      <h4>Create your account</h4>
                      <p>Enter your personal details to create account</p>
-                     
+
                      @error('firstname')
                      <div class="alert alert-danger">{{ $message}}</div>
                      @enderror
@@ -58,9 +58,14 @@
                      </div>
                      <div class="form-group">
                         <label class="col-form-label">Password</label>
-                        <input class="form-control" type="password" name="password" placeholder="********" required >
-                        <div class="show-hide"><span class="show"></span></div>
-                     </div>
+                        <input class="form-control" type="password" name="password" placeholder="********" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-form-label">Confirm Password</label>
+                        <input class="form-control" type="password" name="password_confirmation" placeholder="********" required>
+                    </div>
+
                      <div class="form-group mb-0">
                         <div class="checkbox p-0">
                            <input id="checkbox1" type="checkbox">

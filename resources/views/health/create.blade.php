@@ -1,4 +1,5 @@
-@extends('layouts.simple.master')
+@extends('AdminDashboard.master')
+
 @section('title', 'Base Inputs')
 
 @section('css')
@@ -24,33 +25,36 @@
             @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show">{{ session('success') }}</div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        @endif
-
-        @if(session('error'))
+            @endif
+            @if(session('error'))
             <div class="alert alert-danger alert-dismissible fade show">
                 {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+        @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+            @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 
-
-     @if ($errors->any())
-    <div class="alert alert-danger alert-dismissible fade show">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         </div>
 		<div class="card">
 		  <div class="card-header">
 			<h5>Add Details</h5>
-            
+
 		  </div>
           <form action="{{ route('health.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -60,48 +64,48 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="text" name="name" placeholder="Enter Your Name" required>
+                                <input class="form-control" type="text" name="name" placeholder="Type your Name" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Age</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="number" name="age" placeholder="Enter Your Age" required>
+                                <input class="form-control" type="number" name="age" placeholder="Type your Age" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">NIC</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="text" name="nic" placeholder="Enter Your NIC" required>
+                                <input class="form-control" type="text" name="nic" placeholder="Type your NIC" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Address</label>
                             <div class="col-sm-9">
-                                <input class="form-control digits" type="text" name="address" placeholder="Enter Your Address" required>
+                                <input class="form-control digits" type="text" name="address" placeholder="Type your address" required>
                             </div>
                         </div>
-                        
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">Weight (Kg)</label>
+                            <label class="col-sm-3 col-form-label">Weight</label>
                             <div class="col-sm-9">
-                                <input class="form-control digits" id="weight" name="weight" type="number" placeholder="Enter Your Weight (Kg)" required>
+                                <input class="form-control digits" id="weight" name="weight" type="number" placeholder="Type your Weight" required>
                             </div>
                         </div>
-                       
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">Contact</label>
+                            <label class="col-sm-3 col-form-label">Contact Number</label>
                             <div class="col-sm-9">
-                                <input class="form-control digits" type="number" name="contact_number" placeholder="Enter Your Contact Number" required>
+                                <input class="form-control digits" type="text" name="contact_number" placeholder="Type your Contact Number" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Blood Group</label>
                             <div class="col-sm-9">
-                                <input class="form-control digits" type="text" name="blood_group" placeholder="Enter Your Blood Group " required>
+                                <input class="form-control digits" type="text" name="blood_group" placeholder="Type your Blood Group" required>
                             </div>
                         </div>
-                      
+                    </div>
+                </div>
+            </div>
             <div class="card-footer text-end">
                 <div class="col-sm-9 offset-sm-3">
                     <button class="btn btn-primary" type="submit">Submit</button>
@@ -109,10 +113,10 @@
                 </div>
             </div>
 
-            
+
         </form>
-        
-		</div>	
+
+		</div>
 	  </div>
 	</div>
   </div>

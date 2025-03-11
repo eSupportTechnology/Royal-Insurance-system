@@ -116,21 +116,44 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">Name</label>
+                            <label class="col-sm-3 col-form-label">Customer</label>
                             <div class="col-sm-9">
-                                <input class="form-control digits" type="text" name="name" value="{{ $motor->name }}" placeholder="Name" required>
+                                <select name="customer_id" id="customerSelect" class="form-select" required>
+                                    <option value="">Select Customer</option>
+                                    @foreach ($customers as $customer)
+                                        <option value="{{ $customer->id }}" {{ $customer->id == $motor->customer_id ? 'selected' : '' }}>
+                                            {{ $customer->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
+
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">ID Number</label>
+                            <label class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
-                                <input class="form-control digits" type="text" name="id_number" value="{{ $motor->id_number }}" placeholder="ID Number" required>
+                                <input type="email" id="email" name="email" class="form-control" value="{{ old('email', $motor->email) }}" readonly>
                             </div>
                         </div>
+
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label pt-0">Location</label>
+                            <label class="col-sm-3 col-form-label">Phone</label>
                             <div class="col-sm-9">
-                                <textarea class="form-control" name="location" rows="3" placeholder="Location" required>{{ $motor->location }}</textarea>
+                                <input type="text" id="phone" name="phone" class="form-control" value="{{ old('phone', $motor->phone) }}" readonly>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">NIC</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="nic" name="nic" class="form-control" value="{{ old('nic', $motor->nic) }}" readonly>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Location</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="address" name="address" class="form-control" value="{{ old('address', $motor->address) }}" readonly>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -183,4 +206,34 @@
 @endsection
 
 @section('script')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // When customer is selected
+        $('#customerSelect').on('change', function() {
+            var customerId = $(this).val();
+            if (customerId) {
+                // Find the customer data by ID
+                var customer = @json($customers);
+
+                // Loop through customers to find the selected one
+                var selectedCustomer = customer.find(c => c.id == customerId);
+
+                // Populate the fields
+                if (selectedCustomer) {
+                    $('#email').val(selectedCustomer.email);
+                    $('#phone').val(selectedCustomer.phone);
+                    $('#nic').val(selectedCustomer.nic);
+                    $('#address').val(selectedCustomer.address);
+                }
+            } else {
+                // Clear fields if no customer is selected
+                $('#email').val('');
+                $('#phone').val('');
+                $('#nic').val('');
+                $('#address').val('');
+            }
+        });
+    });
+</script>
 @endsection

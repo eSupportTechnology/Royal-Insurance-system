@@ -5,6 +5,10 @@ use App\Http\Controllers\MotorsController;
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DynamicFormController;
+use App\Http\Controllers\FormController;
+use App\Http\Controllers\InsuranceController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 
@@ -41,6 +45,7 @@ Route::put('/update/{id}', [MotorsController::class, 'update'])->name('updatemot
 Route::delete('/delete/{id}', [MotorsController::class, 'destroy'])->name('deletemotors');
 Route::get('/mail/{id}', [MotorsController::class, 'mail'])->name('mailmotors');
 Route::post('/mail/{id}/store', [MotorsController::class, 'storeMail'])->name('storemailmotors');
+Route::get('/viewRequest',[MotorsController::class, 'viewRequest'])->name('viewRequest');
 
 //insurance health//
 
@@ -60,6 +65,66 @@ Route::get('/company/edit/{id}', [CompanyController::class, 'edit'])->name('comp
 Route::put('/company/update/{id}', [CompanyController::class, 'update'])->name('company.update');
 Route::delete('/company/delete/{id}', [CompanyController::class, 'destroy'])->name('company.delete');
 Route::get('/{company_id}/status', [CompanyController::class, 'status'])->name('company.status');
+
+Route::get('/{company_id}/status', [CompanyController::class, 'status'])->name('company.status');
+
+Route::get('/subcategories/private-car', [DynamicFormController::class, 'showPrivateCar'])->name('private.car');
+
+
+//insurance types
+
+Route::get('/insurance_type/index', [InsuranceController::class, 'index'])->name('insuranceType.index');
+Route::get('/insurance_type/create', [InsuranceController::class, 'create'])->name('insuranceType.create');
+Route::post('/insurance_type/store', [InsuranceController::class, 'store'])->name('insuranceType.store');
+Route::get('/insurance_type/edit/{id}', [InsuranceController::class, 'edit'])->name('insuranceType.edit');
+Route::put('/insurance_type/update/{id}', [InsuranceController::class, 'update'])->name('insuranceType.update');
+Route::delete('/insurance_type/delete/{id}', [InsuranceController::class, 'delete'])->name('insuranceType.delete');
+
+
+//categories
+
+Route::get('/categories/index', [InsuranceController::class, 'categoriesindex'])->name('categories.index');
+Route::get('/categories/create', [InsuranceController::class, 'categoriescreate'])->name('categories.create');
+Route::post('/categories/store', [InsuranceController::class,'categoriesstore'])->name('categories.store');
+Route::get('/categories/edit/{id}', [InsuranceController::class, 'categoriesedit'])->name('categories.edit');
+Route::put('/categories/update/{id}', [InsuranceController::class, 'categoriesupdate'])->name('categories.update');
+Route::delete('/categories/delete/{id}', [InsuranceController::class, 'categoriesdelete'])->name('categories.delete');
+
+
+//sub categories
+
+Route::get('/subcategories/index', [InsuranceController::class,'subcategoriesindex'])->name('subcategories.index');
+Route::get('/subcategories/create', [InsuranceController::class,'subcategoriescreate'])->name('subcategories.create');
+Route::post('/subcategories/store', [InsuranceController::class,'subcategoriesstore'])->name('subcategories.store');
+Route::get('/subcategories/edit/{id}', [InsuranceController::class,'subcategoriesedit'])->name('subcategories.edit');
+Route::put('/subcategories/update/{id}', [InsuranceController::class,'subcategoriesupdate'])->name('subcategories.update');
+Route::delete('/subcategories/delete/{id}', [InsuranceController::class,'subcategoriesdelete'])->name('subcategories.delete');
+
+//form field
+
+Route::get('/formField/index', [FormController::class,'index'])->name('formField.index');
+Route::get('/formField/create', [FormController::class,'create'])->name('formField.create');
+Route::post('/formField/store', [FormController::class,'store'])->name('formField.store');
+Route::get('/formField/edit/{id}', [FormController::class,'edit'])->name('formField.edit');
+Route::put('/formField/update/{id}', [FormController::class,'update'])->name('formField.update');
+Route::delete('/formField/delete/{id}', [FormController::class,'destroy'])->name('formField.delete');
+
+//customer resposes
+
+Route::get('/customerResponses', [CustomerController::class, 'index'])->name('customerResponses.index');
+Route::get('/customerResponses/create', [CustomerController::class, 'create'])->name('customerResponses.create');
+Route::post('/customerResponses/store', [CustomerController::class, 'store'])->name('customerResponses.store');
+Route::get('/customerResponses/delete/{id}', [CustomerController::class, 'destroy'])->name('customerResponses.destroy');
+
+// new-customer
+
+Route::get('/new-customer', [CustomerController::class, 'newCustomer'])->name('new-customer');
+Route::get('/new-customer/create', [CustomerController::class, 'createCustomer'])->name('create-customer');
+Route::post('/new-customer/store', [CustomerController::class,'storeCustomer'])->name('store-customer');
+Route::get('/new-customer/edit/{id}', [CustomerController::class,'editCustomer'])->name('edit-customer');
+Route::put('/new-customer/update/{id}', [CustomerController::class,'updateCustomer'])->name('update-customer');
+Route::delete('/new-customer/delete/{id}', [CustomerController::class,'deleteCustomer'])->name('delete-customer');
+
 });
 });
 // Route::prefix('authentication')->group(function () {

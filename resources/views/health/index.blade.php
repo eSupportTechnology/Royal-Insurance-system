@@ -123,4 +123,15 @@
 <script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js')}}"></script>
 <script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.scroller.min.js')}}"></script>
 <script src="{{asset('frontend/assets/js/datatable/datatable-extension/custom.js')}}"></script>
+<script>
+    $(document).ready(function () {
+        if ($.fn.DataTable.isDataTable('#export-button')) {
+            $('#export-button').DataTable().destroy();
+        }
+        $('#export-button').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['csv', 'excel', 'pdf', 'print']
+        });
+    });
+</script>
 @endsection

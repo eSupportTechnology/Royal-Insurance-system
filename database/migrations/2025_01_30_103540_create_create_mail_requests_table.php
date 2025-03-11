@@ -22,8 +22,11 @@ return new class extends Migration
             $table->decimal('vehicle_value', 10, 2);
             $table->string('financial_interest');
             $table->string('fuel_type');
-            $table->string('name');
-            $table->string('id_number');
+            $table->string('customer_id');
+            $table->string('email');
+            $table->string('phone');
+            $table->string('nic');
+            $table->string('address');
             $table->timestamps();
         });
     }

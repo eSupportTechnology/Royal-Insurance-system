@@ -19,11 +19,21 @@ class MailRequest extends Model
         'vehicle_value',
         'financial_interest',
         'fuel_type',
-        'name',
-        'id_number',
+        'customer_id',
+        'email',
+        'phone',
+        'nic',
+        'address',
     ];
 
     protected $casts = [
         'company_email' => 'array',
     ];
+
+
+    public function customer()
+{
+    return $this->belongsTo(Customer::class, 'customer_id');
+}
+
 }

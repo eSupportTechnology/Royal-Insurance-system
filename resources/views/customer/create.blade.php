@@ -39,7 +39,7 @@
 @endif
 
         </div>
-		<div class="card">
+		<div class="card mt-3">
 		  <div class="card-header">
 			<h5>Add Details</h5>
 

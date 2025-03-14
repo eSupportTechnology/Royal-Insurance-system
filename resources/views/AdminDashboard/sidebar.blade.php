@@ -26,96 +26,28 @@
                     <!-- Dashboard -->
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title" href="{{ route('dashboard') }}">
-                            <i class="fa fa-home"></i>
+                            <i class="fa fa-tachometer-alt"></i> <!-- Corrected Icon -->
                             <span>Dashboard</span>
                         </a>
                     </li>
 
-                    <!-- Insurance Management -->
-                    <li class="sidebar-main-title">
-                        <div><h6>Insurance Requests</h6></div>
-                    </li>
+                    <!-- Customer Management -->
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title" href="{{ route('indexxx') }}">
-                            <i class="fa fa-shield"></i>
-                            <span>Customers Request</span>
+                            <i class="fa fa-users"></i> <!-- Corrected Icon -->
+                            <span>Customers Management</span>
                         </a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('indexxx') }}">Vehicle Insurance</a></li>
-                            {{-- <li><a href="{{ route('health.index') }}">Health Insurance</a></li>
-                            <li><a href="{{ route('indexxx') }}">Life Insurance</a></li> --}}
+                            <li><a href="{{ route('new-customer') }}">All Customers</a></li>
+                            <li><a href="{{ route('create-customer') }}">Add Customers</a></li>
                         </ul>
                     </li>
-
-                    {{-- forms --}}
-
-                    <li class="sidebar-main-title">
-                        <div><h6>Forms</h6></div>
-                    </li>
-                    <li class="sidebar-list">
-                        <a class="sidebar-link sidebar-title" href="#">
-                            <i class="fa fa-shield"></i>
-                            <span>Master</span>
-                        </a>
-                        <ul class="sidebar-submenu">
-                            <li><a href="{{ route('customerResponses.index') }}">Customer Response</a></li>
-                            <li><a href="{{ route('insuranceType.index') }}">Insurance Types</a></li>
-                            <li><a href="{{ route('categories.index') }}">Categories</a></li>
-                            <li><a href="{{ route('subcategories.index') }}">Sub Categories</a></li>
-                            <li><a href="{{ route('formField.index') }}">Form Field</a></li>
-                        </ul>
-                    </li>
-
-                    {{-- master --}}
-{{--
-                    <li class="sidebar-main-title">
-                        <div><h6>Master</h6></div>
-                    </li>
-                    <li class="sidebar-list">
-                        <a class="sidebar-link sidebar-title" href="#">
-                            <i class="fa fa-shield"></i>
-                            <span>Insurance Types</span>
-                        </a>
-                        <ul class="sidebar-submenu">
-                            <li>
-                                <a href="{{ route('indexxx') }}">Life Insurance</a>
-                            </li>
-                            <li>
-                                <a class="sidebar-link sidebar-title" href="#">General Insurance</a>
-                                <ul class="sidebar-submenu">
-                                    <li>
-                                        <a class="sidebar-link sidebar-title" href="#">Motor Insurance</a>
-                                        <ul class="sidebar-submenu">
-                                            <li><a href="{{ route('private.car') }}">Private Car</a></li>
-                                            <li><a href="{{ route('indexxx') }}">Private Van</a></li>
-                                            <li><a href="{{ route('indexxx') }}">Motorcycle</a></li>
-                                            <li><a href="{{ route('indexxx') }}">Private Lorry</a></li>
-                                            <li><a href="{{ route('indexxx') }}">Private Business</a></li>
-                                            <li><a href="{{ route('indexxx') }}">Private - Special Purpose Vehicle</a></li>
-                                            <li><a href="{{ route('indexxx') }}">Hiring Car</a></li>
-                                            <li><a href="{{ route('indexxx') }}">Hiring Van</a></li>
-                                            <li><a href="{{ route('indexxx') }}">Hiring Motorcycle</a></li>
-                                            <li><a href="{{ route('indexxx') }}">Hiring Lorry</a></li>
-                                            <li><a href="{{ route('indexxx') }}">Hiring Business</a></li>
-                                            <li><a href="{{ route('indexxx') }}">Hiring - Special Purpose Vehicle</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="{{ route('indexxx') }}">Non Motor Insurance</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li> --}}
-
-
 
                     <!-- Insurance Companies -->
-                    <li class="sidebar-main-title">
-                        <div><h6>Insurance Companies</h6></div>
-                    </li>
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title" href="#">
-                            <i class="fa fa-building"></i>
-                            <span>Manage Companies</span>
+                            <i class="fa fa-building"></i> <!-- Corrected Icon -->
+                            <span>Insurance Companies</span>
                         </a>
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('company.index') }}">View All Companies</a></li>
@@ -123,19 +55,29 @@
                         </ul>
                     </li>
 
-                    <!-- Insurance Management -->
-                    <li class="sidebar-main-title">
-                        <div><h6>Insurance Customers</h6></div>
-                    </li>
+                    <!-- Insurance Requests -->
                     <li class="sidebar-list">
-                        <a class="sidebar-link sidebar-title" href="">
-                            <i class="fa fa-shield"></i>
-                            <span>Manage Customers</span>
+                        <a class="sidebar-link sidebar-title" href="#">
+                        <i class="fa fa-file-text"></i> <!-- Corrected Icon -->
+                            <span>Insurance Requests</span>
                         </a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('new-customer') }}">View All Customers</a></li>
-                            <li><a href="{{ route('viewRequest') }}">View Customer Request</a></li>
-                            {{-- <li><a href="{{ route('indexxx') }}">Life Insurance</a></li> --}}
+                            <li><a href="{{ route('customerResponses.index') }}">All Insurance Requests</a></li>
+                            <li><a href="{{ route('customerResponses.create') }}">Add Insurance Requests</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Master Files -->
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title" href="#">
+                            <i class="fa fa-folder"></i> <!-- Corrected Icon -->
+                            <span>Master Files</span>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('insuranceType.index') }}">Insurance Types</a></li>
+                            <li><a href="{{ route('categories.index') }}">Categories</a></li>
+                            <li><a href="{{ route('subcategories.index') }}">Sub Categories</a></li>
+                            <li><a href="{{ route('formField.index') }}">Form Field</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -145,20 +87,20 @@
     </div>
 </div>
 <!-- Page Sidebar Ends -->
+
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-    var sidebarTitles = document.querySelectorAll(".sidebar-title");
+        var sidebarTitles = document.querySelectorAll(".sidebar-title");
 
-    sidebarTitles.forEach(function (title) {
-        title.addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent default action
+        sidebarTitles.forEach(function (title) {
+            title.addEventListener("click", function (e) {
+                e.preventDefault(); // Prevent default action
 
-            let submenu = this.nextElementSibling; // Get the submenu
-            if (submenu && submenu.classList.contains("sidebar-submenu")) {
-                submenu.classList.toggle("d-block"); // Toggle visibility
-            }
+                let submenu = this.nextElementSibling; // Get the submenu
+                if (submenu && submenu.classList.contains("sidebar-submenu")) {
+                    submenu.classList.toggle("d-block"); // Toggle visibility
+                }
+            });
         });
     });
-});
-
 </script>

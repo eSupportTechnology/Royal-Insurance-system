@@ -33,9 +33,9 @@
             @endif
             </div>
 
-			<div class="card">
+			<div class="card mt-3">
 				<div class="card-header">
-					<h5><a href="{{route('create-customer')}}" class="btn btn-primary mb-3">Add</a></h5>
+					<h5><a href="{{route('create-customer')}}" class="btn btn-primary ">Add</a></h5>
 				</div>
 				<div class="card-body">
 					<div class="dt-ext table-responsive">

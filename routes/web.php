@@ -12,9 +12,9 @@ use App\Http\Controllers\InsuranceController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 
-// Route::get('/', function () {
-//     return view('AdminDashboard.home');
-// });
+ Route::get('/', function () {
+    return view('AdminDashboard.home');
+ });
 
 // Route::get('/test', function () {
     // return view('test');
@@ -25,14 +25,13 @@ use Illuminate\Support\Facades\Session;
 //     Route::view('dashboard-02', 'dashboard.dashboard-02')->name('dashboard-02');
 
 // });
-Route::get('/', [AuthController::class, 'showLoginForm'])->name('login.form');
+Route::get('/logiiiii', [AuthController::class, 'showLoginForm'])->name('login.form');
 
 Route::prefix('authentication')->group(function () {
     Route::post('login/page', [AuthController::class, 'login'])->name('login.store');
     Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register.form');
     Route::post('register/store', [AuthController::class, 'signup'])->name('register.store');
 
-    Route::middleware('auth:admin')->group(function () {
         Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
 Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
@@ -125,7 +124,7 @@ Route::get('/new-customer/edit/{id}', [CustomerController::class,'editCustomer']
 Route::put('/new-customer/update/{id}', [CustomerController::class,'updateCustomer'])->name('update-customer');
 Route::delete('/new-customer/delete/{id}', [CustomerController::class,'deleteCustomer'])->name('delete-customer');
 
-});
+
 });
 // Route::prefix('authentication')->group(function () {
 

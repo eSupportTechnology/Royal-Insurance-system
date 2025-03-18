@@ -34,6 +34,7 @@ class CustomerController extends Controller
     // Store the submitted response
     public function store(Request $request)
     {
+        
         $request->validate([
             'sub_category_id' => 'required|exists:sub_categories,id',
             'customer_id' => 'required|exists:customers,id',

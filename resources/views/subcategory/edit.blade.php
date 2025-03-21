@@ -1,82 +1,100 @@
 @extends('AdminDashboard.master')
-@section('title', 'Edit Insurance Sub Category')
-
-@section('css')
-@endsection
-
-@section('style')
-@endsection
-
-@section('breadcrumb-title')
-<h3>Edit Motor Insurance</h3>
-@endsection
-
-@section('breadcrumb-items')
-<li class="breadcrumb-item">Form Controls</li>
-<li class="breadcrumb-item active">Edit Insurance Sub Categery</li>
-@endsection
+@section('title', 'Edit Insurance Sub-Category')
 
 @section('content')
-<div class="container-fluid">
-	<div class="row">
-	  <div class="col-sm-12">
-		<div class="container">
-            @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
-     @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-</div>
-
-		<div class="card">
-		  <div class="card-header">
-			<h5>Edit Request Details</h5>
-		  </div>
-          <form action="{{ route('subcategories.update', $subcategories->id) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
-            <div class="card-body">
-                <div class="row">
-                    <div class="col">
-                        <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">Insurance Type</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" name="category_id" required>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}" {{ $subcategories->category_id == $category->id?'selected' : '' }}>{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">Insurance Sub Categery</label>
-                            <div class="col-sm-9">
-                                <input class="form-control" type="text" name="name" value="{{ $subcategories->name }}" required>
-                            </div>
-                        </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Edit Insurance Sub-Category</h5>
                     </div>
+                    <form action="{{ route('subcategories.update', $subcategories->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <!-- Insurance Type Dropdown -->
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Insurance Type</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" id="insurance_type" name="insurance_type_id" required>
+                                                <option value="">Select Insurance Type</option>
+                                                @foreach ($insurance_types as $type)
+                                                    <option value="{{ $type->id }}"
+                                                        {{ old('insurance_type_id', $subcategories->insurance_type_id) == $type->id ? 'selected' : '' }}>
+                                                        {{ $type->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Insurance Category Dropdown -->
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Insurance Category</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" id="category" name="category_id" required>
+                                                <option value="">Select Category</option>
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}"
+                                                        {{ old('category_id', $subcategories->category_id) == $category->id ? 'selected' : '' }}>
+                                                        {{ $category->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Insurance Sub-Category Input -->
+                                    <div class="mb-3 row">
+                                        <label class="col-sm-3 col-form-label">Sub-Category Name</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text" name="name" value="{{ $subcategories->name }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer text-end">
+                            <button class="btn btn-primary" type="submit">Update</button>
+                            <a href="{{ route('subcategories.index') }}" class="btn btn-light">Cancel</a>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="card-footer text-end">
-                <div class="col-sm-9 offset-sm-3">
-                    <button class="btn btn-primary" type="submit">Update</button>
-                    <a href="{{ route('subcategories.index') }}" class="btn btn-light">Cancel</a>
-                </div>
-            </div>
-        </form>
-		</div>
-	  </div>
-	</div>
-  </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var categories = @json($categories); // Get all categories
+
+        function updateCategories(insuranceTypeId, selectedCategoryId = null) {
+            $('#category').empty().append('<option value="">Select Category</option>');
+
+            categories.forEach(function (category) {
+                if (category.insurance_type_id == insuranceTypeId) {
+                    let isSelected = selectedCategoryId == category.id ? 'selected' : '';
+                    $('#category').append('<option value="' + category.id + '" ' + isSelected + '>' + category.name + '</option>');
+                }
+            });
+        }
+
+        // When Insurance Type is changed
+        $('#insurance_type').change(function () {
+            updateCategories($(this).val());
+        });
+
+        // On page load, filter categories based on selected insurance type
+        var initialInsuranceType = $('#insurance_type').val();
+        var selectedCategory = "{{ old('category_id', $subcategories->category_id) }}";
+        updateCategories(initialInsuranceType, selectedCategory);
+    });
+</script>
 @endsection

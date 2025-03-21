@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('logo');
+            $table->string('address');
             $table->string('email')->unique();
             $table->integer('contact_number');
-            $table->string('insurance_type');
             $table->integer('status')->default(0);
             $table->timestamps();
         });

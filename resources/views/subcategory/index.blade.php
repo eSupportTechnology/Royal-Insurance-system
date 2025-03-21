@@ -43,6 +43,7 @@
 							<thead>
 								<tr>
                                     <th>SNO</th>
+                                    <th>Insurance Type</th>
                                     <th>Category</th>
                                     <th>Sub Category</th>
                                     <th>Actions</th>
@@ -52,7 +53,9 @@
                                 @foreach($subcategories as $subcategory)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $subcategory->category->insuranceType->name ?? 'N/A' }}</td>
                                     <td>{{ $subcategory->category->name ?? 'N/A' }}</td>
+
                                     <td>{{ $subcategory->name }}</td>
                                     <td>
                                         <a href="{{ route('subcategories.edit', $subcategory->id) }}" class="btn btn-warning btn-sm" title="Edit">

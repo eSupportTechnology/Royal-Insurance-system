@@ -51,14 +51,29 @@
                         @csrf
                         <div class="card-body">
 
-                            <div class="mb-3 col-6">
-                                <select class="form-select" name="sub_category_id" id="sub_category_id" required>
-                                    <option value="">Select Insurance Sub Category</option>
-                                    @foreach ($subcategories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+<!-- Insurance Type Dropdown -->
+<div class="mb-3 col-6">
+    <select class="form-select" name="insurance_type_id" id="insurance_type_id" required>
+        <option value="">Select Insurance Type</option>
+        @foreach ($insurance_types as $insurance_type)
+            <option value="{{ $insurance_type->id }}">{{ $insurance_type->name }}</option>
+        @endforeach
+    </select>
+</div>
+
+<!-- Insurance Category Dropdown -->
+<div class="mb-3 col-6">
+    <select class="form-select" name="category_id" id="category_id" required>
+        <option value="">Select Insurance Category</option>
+    </select>
+</div>
+
+<!-- Insurance Sub-Category Dropdown -->
+<div class="mb-3 col-6">
+    <select class="form-select" name="sub_category_id" id="sub_category_id" required>
+        <option value="">Select Insurance Sub Category</option>
+    </select>
+</div>
 
                             <div class="dt-ext table-responsive">
                                 <table class="table table-responsive-sm">
@@ -130,8 +145,44 @@
 @section('script')
 @endsection
 
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    $(document).ready(function () {
+        var categories = @json($categories);
+        var subcategories = @json($subcategories);
+
+        function updateCategories(insuranceTypeId) {
+            $('#category_id').empty().append('<option value="">Select Insurance Category</option>');
+            $('#sub_category_id').empty().append('<option value="">Select Insurance Sub Category</option>');
+
+            categories.forEach(function (category) {
+                if (category.insurance_type_id == insuranceTypeId) {
+                    $('#category_id').append('<option value="' + category.id + '">' + category.name + '</option>');
+                }
+            });
+        }
+
+        function updateSubCategories(categoryId) {
+            $('#sub_category_id').empty().append('<option value="">Select Insurance Sub Category</option>');
+
+            subcategories.forEach(function (subcategory) {
+                if (subcategory.category_id == categoryId) {
+                    $('#sub_category_id').append('<option value="' + subcategory.id + '">' + subcategory.name + '</option>');
+                }
+            });
+        }
+
+        $('#insurance_type_id').change(function () {
+            var selectedType = $(this).val();
+            updateCategories(selectedType);
+        });
+
+        $('#category_id').change(function () {
+            var selectedCategory = $(this).val();
+            updateSubCategories(selectedCategory);
+        });
+    });
+
     document.addEventListener("DOMContentLoaded", function() {
         const formFields = document.getElementById("formFields");
         const addRowButton = document.getElementById("addRow");

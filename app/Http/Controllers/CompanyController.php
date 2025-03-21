@@ -28,26 +28,34 @@ class CompanyController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        // dd($request);
-        $request -> validate([
-            'name' => 'required',
-            'email' => 'required',
-            'contact_number' => 'required',
-            'insurance_type' => 'required',
-        ]);
+{
+    $request->validate([
+        'name' => 'required',
+        'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'address' => 'required',
+        'email' => 'required|email',
+        'contact_number' => 'required',
+    ]);
 
-        $data = $request->except('_token');
+    $companies = new Company();
+    $companies->name = $request->name;
+    $companies->address = $request->address;
+    $companies->email = $request->email;
+    $companies->contact_number = $request->contact_number;
 
-        $companies = new Company();
-        $companies->name = $data['name'];
-        $companies->email = $data['email'];
-        $companies->contact_number = $data['contact_number'];
-        $companies->insurance_type = $data['insurance_type'];
-        $companies->save();
-
-        return redirect()->route('company.index')->with('success','Successfully Add New Details');
+    // Handle file upload
+    if ($request->hasFile('logo')) {
+        $image = $request->file('logo');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('uploads'), $imageName); // Move file to 'public/uploads/'
+        $companies->logo = 'uploads/' . $imageName; // Save the file path in the database
     }
+
+    $companies->save();
+
+    return redirect()->route('company.index')->with('success', 'Successfully Added New Company');
+}
+
 
     /**
      * Display the specified resource.
@@ -70,23 +78,41 @@ class CompanyController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        $request -> validate([
-            'name' => 'required',
-            'email' => 'required',
-            'contact_number' => 'required',
-            'insurance_type' => 'required',
-        ]);
+{
+    $request->validate([
+        'name' => 'required',
+        'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Allow null for existing logo
+        'address' => 'required',
+        'email' => 'required|email',
+        'contact_number' => 'required',
+    ]);
 
-        $companies = Company::find($id);
-        $companies->name = $request->input('name');
-        $companies->email = $request->input('email');
-        $companies->contact_number = $request->input('contact_number');
-        $companies->insurance_type = $request->input('insurance_type');
-        $companies->save();
+    $companies = Company::findOrFail($id); // Find the company or fail if not found
 
-        return redirect()->route('company.index')->with('success','Successfully Update Details');
+    $companies->name = $request->input('name');
+    $companies->address = $request->input('address');
+    $companies->email = $request->input('email');
+    $companies->contact_number = $request->input('contact_number');
+
+    // Handle logo update
+    if ($request->hasFile('logo')) {
+        // Delete the old logo if it exists
+        if ($companies->logo && file_exists(public_path($companies->logo))) {
+            unlink(public_path($companies->logo));
+        }
+
+        // Upload the new logo
+        $image = $request->file('logo');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('uploads'), $imageName);
+        $companies->logo = 'uploads/' . $imageName;
     }
+
+    $companies->save();
+
+    return redirect()->route('company.index')->with('success', 'Successfully Updated Company Details');
+}
+
 
     /**
      * Remove the specified resource from storage.

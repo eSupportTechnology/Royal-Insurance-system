@@ -48,6 +48,7 @@
                                     <th>Phone</th>
                                     <th>NIC</th>
                                     <th>Location</th>
+                                    <th>Insurance Coverages</th>
                                     <th>Actions</th>
 								</tr>
 							</thead>
@@ -60,7 +61,12 @@
                                     <td>{{ $newcustomer->phone }}</td>
                                     <td>{{ $newcustomer->nic }}</td>
                                     <td>{{ $newcustomer->address }}</td>
+                                    <td>{{ $customerResponses[$newcustomer->id] ?? 0 }}</td>
+
                                     <td>
+                                        <a href="{{ route('view-customer', $newcustomer->id) }}" class="btn btn-primary btn-sm" title="View">
+                                            <i class="icon-eye"></i>
+                                        </a>
                                         <a href="{{ route('edit-customer', $newcustomer->id) }}" class="btn btn-warning btn-sm" title="Edit">
                                             <i class="icon-pencil-alt"></i>
                                         </a>

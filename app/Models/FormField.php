@@ -9,7 +9,7 @@ class FormField extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['sub_category_id', 'field_name', 'field_type', 'required'];
+    protected $fillable = ['insurance_type_id', 'category_id', 'sub_category_id', 'field_name', 'field_type', 'required'];
 
     public function subCategory()
     {
@@ -19,5 +19,13 @@ class FormField extends Model
     public function customerResponses()
     {
         return $this->hasMany(CustomerResponse::class);
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+    public function insuranceType()
+    {
+        return $this->belongsTo(InsuranceType::class);
     }
 }

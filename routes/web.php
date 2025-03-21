@@ -123,7 +123,7 @@ Route::post('/new-customer/store', [CustomerController::class,'storeCustomer'])-
 Route::get('/new-customer/edit/{id}', [CustomerController::class,'editCustomer'])->name('edit-customer');
 Route::put('/new-customer/update/{id}', [CustomerController::class,'updateCustomer'])->name('update-customer');
 Route::delete('/new-customer/delete/{id}', [CustomerController::class,'deleteCustomer'])->name('delete-customer');
-
+Route::get('/new-customer/view/{id}', [CustomerController::class,'viewCustomer'])->name('view-customer');
 
 });
 // Route::prefix('authentication')->group(function () {

@@ -34,7 +34,7 @@ class CustomerController extends Controller
     // Store the submitted response
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'sub_category_id' => 'required|exists:sub_categories,id',
             'customer_id' => 'required|exists:customers,id',
@@ -65,13 +65,18 @@ class CustomerController extends Controller
         return redirect()->route('customerResponses.index')->with('success', 'Response deleted successfully.');
     }
 
-    // create a new customer
 
     public function newCustomer()
     {
         $newcustomers = Customer::all();
-        return view('Customer.index', compact('newcustomers'));
+        $customerResponses = CustomerResponse::select('customer_id')
+        ->selectRaw('COUNT(customer_id) as response_count')
+        ->groupBy('customer_id')
+        ->pluck('response_count', 'customer_id');
+        $newcustomers = Customer::all();
+        return view('Customer.index', compact('newcustomers','customerResponses'));
     }
+
 
     public function createCustomer()
     {
@@ -80,19 +85,23 @@ class CustomerController extends Controller
     }
 
     public function storeCustomer(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'nic' => 'required',
-            'address' => 'required',
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required|email',
+        'phone' => 'required',
+        'nic' => 'required',
+        'address' => 'required',
+    ]);
 
-        ]);
+    $data = $request->all();
+    $data['Insurance_coverages'] = $request->input('Insurance_coverages', 0); // Default to 0
 
-        Customer::create($request->all());
-        return redirect()->route('new-customer')->with('success', 'Customer created successfully.');
-    }
+    Customer::create($data);
+
+    return redirect()->route('new-customer')->with('success', 'Customer created successfully.');
+}
+
 
     public function editCustomer($id)
     {
@@ -118,5 +127,12 @@ class CustomerController extends Controller
     {
         Customer::find($id)->delete();
         return redirect()->route('new-customer')->with('success', 'Customer deleted successfully.');
+    }
+
+    public function viewCustomer($id)
+    {
+        $customer = Customer::find($id);
+        $customerResponses = CustomerResponse::where('customer_id', $id)->get();
+        return view('customer.viewCustomer', compact('customer','customerResponses'));
     }
 }

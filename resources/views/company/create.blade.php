@@ -56,6 +56,18 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Logo</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="file" name="logo" placeholder="choose the logo" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Address</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="address" placeholder="Enter Insurance Company Address" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
                                 <input class="form-control" type="email" name="email" placeholder="Enter Email Address" required>
@@ -67,7 +79,7 @@
                                 <input class="form-control digits" type="text" name="contact_number" placeholder="Type your Contact Number" required>
                             </div>
                         </div>
-                        <div class="mb-3 row">
+                        {{-- <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Insurance Type</label>
                             <div class="col-sm-9">
                                 <select class="form-select digits" id="exampleFormControlSelect9" name="insurance_type">
@@ -76,7 +88,7 @@
                                   <option>Property</option>
                                 </select>
                               </div>
-                          </div>
+                          </div> --}}
                     </div>
                 </div>
             </div>

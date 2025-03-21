@@ -47,21 +47,52 @@
                 @csrf
                 @method('PUT')
                 <div class="card-body">
-                <div class="col-sm-6">
-                    <select class="form-select" name="sub_category_id" id="sub_category_id" required>
-                        <option value="">Select Insurance Sub Category</option>
-                        @foreach($subcategories as $category)
-                            <option value="{{$category->id }}" {{ $formField->sub_category_id == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+                    <div class="mb-3 col-6">
+                        <select class="form-select" name="insurance_type_id" id="insurance_type_id" required>
+                            <option value="">Select Insurance Type</option>
+                            @foreach ($insurance_types as $insurance_type)
+                                <option value="{{ $insurance_type->id }}"
+                                    {{ $insurance_type->id == $formField->insurance_type_id ? 'selected' : '' }}>
+                                    {{ $insurance_type->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3 col-6">
+                        <select class="form-select" name="category_id" id="category_id" required>
+                            <option value="">Select Insurance Category</option>
+                            @foreach ($categories as $category)
+                                @if ($category->insurance_type_id == $formField->insurance_type_id)
+                                    <option value="{{ $category->id }}"
+                                        {{ $category->id == $formField->category_id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+
+
+                    <div class="mb-3 col-6">
+                        <select class="form-select" name="sub_category_id" id="sub_category_id" required>
+                            <option value="">Select Insurance Sub Category</option>
+                            @foreach ($subcategories as $subcategory)
+                                @if ($subcategory->category_id == $formField->category_id)
+                                    <option value="{{ $subcategory->id }}"
+                                        {{ $subcategory->id == $formField->sub_category_id ? 'selected' : '' }}>
+                                        {{ $subcategory->name }}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
 
                 <div class="dt-ext table-responsive">
                     <table class="table table-responsive-sm">
                     <thead>
                         <tr>
+
                             <th>Field Name</th>
                             <th>Field Type</th>
                             <th>Required</th>
@@ -120,9 +151,60 @@
 </div>
 </div>
 @endsection
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @section('script')
     <script>
+       $(document).ready(function () {
+        var categories = @json($categories);
+        var subcategories = @json($subcategories);
+
+        function updateCategories(insuranceTypeId) {
+            $('#category_id').empty().append('<option value="">Select Insurance Category</option>');
+            $('#sub_category_id').empty().append('<option value="">Select Insurance Sub Category</option>');
+
+            categories.forEach(function (category) {
+                if (category.insurance_type_id == insuranceTypeId) {
+                    $('#category_id').append('<option value="' + category.id + '">' + category.name + '</option>');
+                }
+            });
+        }
+
+        function updateSubCategories(categoryId) {
+            $('#sub_category_id').empty().append('<option value="">Select Insurance Sub Category</option>');
+
+            subcategories.forEach(function (subcategory) {
+                if (subcategory.category_id == categoryId) {
+                    $('#sub_category_id').append('<option value="' + subcategory.id + '">' + subcategory.name + '</option>');
+                }
+            });
+        }
+
+        // Set initial values based on selected values
+        var selectedInsuranceType = $('#insurance_type_id').val();
+        if (selectedInsuranceType) {
+            updateCategories(selectedInsuranceType);
+            $('#category_id').val('{{ $formField->category_id }}').change();
+        }
+
+        var selectedCategory = $('#category_id').val();
+        if (selectedCategory) {
+            updateSubCategories(selectedCategory);
+            $('#sub_category_id').val('{{ $formField->sub_category_id }}').change();
+        }
+
+        // Change event for Insurance Type
+        $('#insurance_type_id').change(function () {
+            var selectedType = $(this).val();
+            updateCategories(selectedType);
+        });
+
+        // Change event for Insurance Category
+        $('#category_id').change(function () {
+            var selectedCategory = $(this).val();
+            updateSubCategories(selectedCategory);
+        });
+    });
+
         document.addEventListener("DOMContentLoaded", function() {
             // Remove row functionality
             document.getElementById("formFields").addEventListener("click", function(event) {

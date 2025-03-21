@@ -53,6 +53,25 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Logo</label>
+                            <div class="col-sm-9">
+                                <!-- Old Logo Preview -->
+                                @if($companies->logo)
+                                    <img src="{{ asset($companies->logo) }}" alt="Company Logo" width="100" class="mb-2">
+                                @endif
+
+                                <!-- File Input -->
+                                <input class="form-control" type="file" name="logo" placeholder="Upload Logo">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Address</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="address" value="{{ $companies->address }}" placeholder="Enter Company Address" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
                                 <input class="form-control" type="email" name="email" value="{{ $companies->email }}" placeholder="Enter Email Address" required>
@@ -62,16 +81,6 @@
                             <label class="col-sm-3 col-form-label">Contact</label>
                             <div class="col-sm-9">
                                 <input class="form-control digits" type="text" name="contact_number" value="{{ $companies->contact_number }}" placeholder="Contact Number" required>
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                                <label class="col-sm-3 col-form-label">Insurance Type</label>
-                            <div class="col-sm-9">
-                                <select class="form-select digits" id="exampleFormControlSelect9" name="insurance_type" required>
-                                    <option {{ $companies->insurance_type == 'Vehicle' ? 'selected' : '' }}>Vehicle</option>
-                                    <option {{ $companies->insurance_type == 'Health' ? 'selected' : '' }}>Health</option>
-                                    <option {{ $companies->insurance_type == 'Property' ? 'selected' : '' }}>Property</option>
-                                </select>
                             </div>
                         </div>
                     </div>

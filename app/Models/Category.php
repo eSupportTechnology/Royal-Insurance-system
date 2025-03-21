@@ -20,6 +20,14 @@ class Category extends Model
     {
         return $this->hasMany(SubCategory::class);
     }
+    public function customerResponses()
+    {
+        return $this->hasMany(CustomerResponse::class);
+    }
+    public function formFields()
+    {
+        return $this->hasMany(FormField::class);
+    }
 }
 
 

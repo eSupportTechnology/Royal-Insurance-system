@@ -80,6 +80,20 @@
                             <li><a href="{{ route('formField.index') }}">Form Field</a></li>
                         </ul>
                     </li>
+
+                    <!-- Motors  -->
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title" href="#">
+                            <i class="fa fa-car"></i> <!-- Corrected Icon -->
+                            <span>Motors</span>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('indexxx') }}">Notsend Request</a></li>
+                            <li><a href="">send Request</a></li>
+
+                            <li><a href="{{ route('createmotors') }}">add request</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

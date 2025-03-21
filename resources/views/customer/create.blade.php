@@ -83,6 +83,7 @@
                                 <input type="text" class="form-control" name="address" id="address" placeholder="Enter Customer Location" required>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>

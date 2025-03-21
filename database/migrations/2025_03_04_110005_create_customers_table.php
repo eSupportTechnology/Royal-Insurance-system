@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('phone');
             $table->string('nic');
             $table->string('address');
+            $table->integer('Insurance_coverages')->default(0)->change();
             $table->timestamps();
         });
     }

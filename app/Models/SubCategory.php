@@ -9,11 +9,16 @@ class SubCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'category_id'];
+    protected $fillable = ['name','insurance_type_id','category_id'];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function insuranceType()
+    {
+        return $this->belongsTo(InsuranceType::class);
     }
 
     public function formFields()

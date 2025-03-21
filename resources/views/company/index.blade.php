@@ -49,9 +49,12 @@
 								<tr>
                                     <th>SNO</th>
                                     <th>Name</th>
+                                    <th>Logo</th>
+                                    <th>Address</th>
                                     <th>Email</th>
                                     <th>Contact</th>
-                                    <th>Insurance Type </th>
+                                    <th>Status</th>
+                                    {{-- <th>Insurance Type </th> --}}
                                     <th>Active/Inactive</th>
                                     <th>Actions</th>
 								</tr>
@@ -61,9 +64,11 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $company->name }}</td>
+                                    <td><img src="{{ asset($company->logo) }}" alt="Company Logo" width="100"></td>
+                                    <td>{{ $company->address }}</td>
                                     <td>{{ $company->email }}</td>
                                     <td>{{ $company->contact_number }}</td>
-                                    <td>{{ $company->insurance_type }}</td>
+
                                     <td>
                                         @if ($company->status == 0)
                                             <span class="badge bg-warning">Inactive</span>
@@ -91,7 +96,7 @@
                                                 <i class="icon-trash"></i> Delete
                                             </button>
                                         </form>
-                                        
+
                                     </td>
                                 </tr>
                                 @endforeach

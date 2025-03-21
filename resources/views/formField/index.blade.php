@@ -43,6 +43,8 @@
                                 <thead>
                                     <tr>
                                         <th>SNO</th>
+                                        <th>Insurance Type</th>
+                                        <th>Category</th>
                                         <th>Sub Category</th>
                                         <th>Field Name</th>
                                         <th>Field Type</th>
@@ -60,6 +62,8 @@
                                         @foreach ($fields as $index => $formfield)
                                             <tr class="subcategory-row {{ !$first ? 'd-none' : '' }}" data-subcategory="{{ Str::slug($subcategoryName) }}">
                                                 <td>{{ $loop->parent->iteration }}{{ !$first ? '.' . ($index + 1) : '' }}</td>
+                                                <td>{{ $formfield->insuranceType->name ?? 'N/A' }}</td>
+                                                <td>{{ $formfield->category->name ?? 'N/A' }}</td>
                                                 <td>{{ $formfield->subcategory->name ?? 'N/A' }}</td>
                                                 <td>{{ $formfield->field_name }}</td>
                                                 <td>{{ $formfield->field_type }}</td>
@@ -70,7 +74,7 @@
                                                         +
                                                     </button>
                                                 @endif
-                                                
+
                                                     <a href="{{ route('formField.edit', $formfield->id) }}" class="btn btn-warning btn-sm" title="Edit">
                                                         <i class="icon-pencil-alt"></i>
                                                     </a>

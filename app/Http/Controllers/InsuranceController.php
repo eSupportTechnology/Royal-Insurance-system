@@ -100,31 +100,41 @@ class InsuranceController extends Controller
     }
 
     public function subcategoriescreate(){
-
+        $insurance_types = InsuranceType::all();
         $categories = Category::all();
-        return view('subcategory.create', compact('categories'));
+        return view('subcategory.create', compact('categories','insurance_types'));
     }
 
-    public function subcategoriesstore(Request $request){
-        $request->validate([
-            'name' =>'required|string|max:255',
-            'category_id' => 'required',
-        ]);
+    public function subcategoriesstore(Request $request)
+{
+    // dd($request);
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'insurance_type_id' => 'required|exists:insurance_types,id',
+        'category_id' => 'required|exists:categories,id',
+    ]);
 
-        SubCategory::create($request->all());
+    SubCategory::create([
+        'name' => $request->name,
+        'insurance_type_id' => $request->insurance_type_id,
+        'category_id' => $request->category_id,
+    ]);
 
-        return redirect()->route('subcategories.index')->with('success', 'Subcategory created successfully');
-    }
+    return redirect()->route('subcategories.index')->with('success', 'Subcategory created successfully!');
+}
+
 
     public function subcategoriesedit($id){
         $subcategories = Subcategory::find($id);
         $categories = Category::all();
-        return view('subcategory.edit', compact('subcategories','categories'));
+        $insurance_types = InsuranceType::all();
+        return view('subcategory.edit', compact('subcategories','categories','insurance_types'));
     }
     public function subcategoriesupdate(Request $request, $id){
         $request->validate([
             'name' =>'required|string|max:255',
-            'category_id' => 'required',
+            'category_id' => 'required|integer',
+            'insurance_type_id' => 'required|integer',
         ]);
         SubCategory::find($id)->update($request->all());
         return redirect()->route('subcategories.index')->with('success', 'Subcategory updated successfully');
@@ -133,4 +143,6 @@ class InsuranceController extends Controller
         SubCategory::find($id)->delete();
         return redirect()->route('subcategories.index')->with('success', 'Subcategory deleted successfully');
     }
+
+
 }

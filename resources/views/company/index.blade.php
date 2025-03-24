@@ -54,7 +54,6 @@
                                     <th>Email</th>
                                     <th>Contact</th>
                                     <th>Status</th>
-                                    {{-- <th>Insurance Type </th> --}}
                                     <th>Active/Inactive</th>
                                     <th>Actions</th>
 								</tr>
@@ -64,7 +63,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $company->name }}</td>
-                                    <td><img src="{{ asset($company->logo) }}" alt="Company Logo" width="100"></td>
+                                    <td><img src="{{ asset($company->logo) }}" alt="Company Logo" width="50"></td>
                                     <td>{{ $company->address }}</td>
                                     <td>{{ $company->email }}</td>
                                     <td>{{ $company->contact_number }}</td>
@@ -86,7 +85,10 @@
                                             <i class="icon-pin-alt"></i> Deactivate
                                         </a>
                                         @endif
-                                        <a href="{{ route('company.edit', $company->id) }}" class="btn btn-warning btn-sm" title="Edit">
+
+                                    </td>
+                                    <td>
+                                    <a href="{{ route('company.edit', $company->id) }}" class="btn btn-warning btn-sm" title="Edit">
                                             <i class="icon-pencil-alt"></i> Edit
                                         </a>
                                         <form action="{{ route('company.delete', $company->id) }}" method="POST" style="display:inline;">
@@ -96,7 +98,6 @@
                                                 <i class="icon-trash"></i> Delete
                                             </button>
                                         </form>
-
                                     </td>
                                 </tr>
                                 @endforeach

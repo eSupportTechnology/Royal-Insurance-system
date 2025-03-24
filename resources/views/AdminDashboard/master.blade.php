@@ -96,7 +96,6 @@
     <script src="{{asset('frontend/assets/js/height-equal.js')}}"></script>
     <script src="{{asset('frontend/assets/js/animation/wow/wow.min.js')}}"></script>
     <script src="{{asset('frontend/assets/js/script.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/theme-customizer/customizer.js')}}"></script>
     <script>new WOW().init();</script>
     @yield('script')
 

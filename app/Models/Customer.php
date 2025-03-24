@@ -12,5 +12,7 @@ class Customer extends Model
         'phone',
         'nic',
         'address',
+        'whatsapp_number',
+        'job'
     ];
 }

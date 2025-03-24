@@ -49,9 +49,23 @@
                             </div>
 
                             <div class="mb-3 row">
+                                <label class="col-sm-3 col-form-label">WhatsApp Number</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="{{ $customer->whatsapp_number ?? 'N/A' }}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
                                 <label class="col-sm-3 col-form-label">NIC</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" value="{{ $customer->nic }}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 row">
+                                <label class="col-sm-3 col-form-label">Job</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="{{ $customer->job ?? 'N/A' }}" readonly>
                                 </div>
                             </div>
 

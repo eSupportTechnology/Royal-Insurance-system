@@ -28,4 +28,9 @@ class FormField extends Model
     {
         return $this->belongsTo(InsuranceType::class);
     }
+    public function options()
+    {
+        return $this->hasMany(FormFieldOption::class, 'form_field_id');
+    }
+
 }

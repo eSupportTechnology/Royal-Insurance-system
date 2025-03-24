@@ -23,22 +23,22 @@
 		<div class="container">
             @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
+            @endif
 
-     @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-</div>
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+        </div>
 
 		<div class="card">
 		  <div class="card-header">
-			<h5>Edit Request Details</h5>
+			<h5>Edit Customer Details</h5>
 		  </div>
           <form action="{{ route('update-customer', $newcustomers->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -68,9 +68,23 @@
                         </div>
 
                         <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">WhatsApp Number</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="number" name="whatsapp_number" value="{{ $newcustomers->whatsapp_number }}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">NIC</label>
                             <div class="col-sm-9">
                                 <input class="form-control" type="text" name="nic" value="{{ $newcustomers->nic }}" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Job</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="job" value="{{ $newcustomers->job }}">
                             </div>
                         </div>
 

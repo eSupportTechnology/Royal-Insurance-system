@@ -1,4 +1,3 @@
-
 @extends('AdminDashboard.master')
 @section('title', 'Create Sub Category')
 
@@ -38,42 +37,40 @@
                             </ul>
                         </div>
                     @endif
-
                 </div>
                 <br>
                 <div class="card">
                     <div class="card-header">
                         <h5>Add Details</h5>
-
                     </div>
 
                     <form action="{{ route('formField.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
 
-<!-- Insurance Type Dropdown -->
-<div class="mb-3 col-6">
-    <select class="form-select" name="insurance_type_id" id="insurance_type_id" required>
-        <option value="">Select Insurance Type</option>
-        @foreach ($insurance_types as $insurance_type)
-            <option value="{{ $insurance_type->id }}">{{ $insurance_type->name }}</option>
-        @endforeach
-    </select>
-</div>
+                            <!-- Insurance Type Dropdown -->
+                            <div class="mb-3 col-6">
+                                <select class="form-select" name="insurance_type_id" id="insurance_type_id" required>
+                                    <option value="">Select Insurance Type</option>
+                                    @foreach ($insurance_types as $insurance_type)
+                                        <option value="{{ $insurance_type->id }}">{{ $insurance_type->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-<!-- Insurance Category Dropdown -->
-<div class="mb-3 col-6">
-    <select class="form-select" name="category_id" id="category_id" required>
-        <option value="">Select Insurance Category</option>
-    </select>
-</div>
+                            <!-- Insurance Category Dropdown -->
+                            <div class="mb-3 col-6">
+                                <select class="form-select" name="category_id" id="category_id" required>
+                                    <option value="">Select Insurance Category</option>
+                                </select>
+                            </div>
 
-<!-- Insurance Sub-Category Dropdown -->
-<div class="mb-3 col-6">
-    <select class="form-select" name="sub_category_id" id="sub_category_id" required>
-        <option value="">Select Insurance Sub Category</option>
-    </select>
-</div>
+                            <!-- Insurance Sub-Category Dropdown -->
+                            <div class="mb-3 col-6">
+                                <select class="form-select" name="sub_category_id" id="sub_category_id">
+                                    <option value="">Select Insurance Sub Category (Optional)</option>
+                                </select>
+                            </div>
 
                             <div class="dt-ext table-responsive">
                                 <table class="table table-responsive-sm">
@@ -82,42 +79,30 @@
                                             <th>Field Name</th>
                                             <th>Field Type</th>
                                             <th class="text-center">Required</th>
+                                            <th class="text-center">Options</th>
                                             <th class="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="formFields">
                                         <tr>
                                             <td>
-                                                <input type="text" name="field_name[]" class="form-control"
-                                                    placeholder="Enter field name" required />
+                                                <input type="text" name="field_name[]" class="form-control" placeholder="Enter field name" required />
                                             </td>
                                             <td>
-                                                <select name="field_type[]" class="form-control">
+                                                <select name="field_type[]" class="form-control" required>
                                                     <option value="text">Text</option>
-                                                    <option value="number">Number</option>
-                                                    <option value="password">Password</option>
-                                                    <option value="email">Email</option>
-                                                    <option value="tel">Phone</option>
-                                                    <option value="date">Date</option>
-                                                    <option value="time">Time</option>
-                                                    <option value="datetime-local">Date & Time</option>
-                                                    <option value="month">Month</option>
-                                                    <option value="week">Week</option>
-                                                    <option value="url">URL</option>
-                                                    <option value="hidden">Hidden</option>
                                                     <option value="select">Dropdown</option>
+                                                    <option value="number">Number</option>
                                                     <option value="checkbox">Checkbox</option>
-                                                    <option value="radio">Radio</option>
                                                     <option value="file">File Upload</option>
-                                                    <option value="color">Color Picker</option>
-                                                    <option value="range">Range Slider</option>
-                                                    <option value="search">Search Box</option>
-                                                    <option value="textarea">Textarea</option>
+                                                    <option value="date">Date</option>
                                                 </select>
                                             </td>
                                             <td class="text-center">
-                                                <input type="checkbox" name="required[]" value="1"
-                                                    class="form-check-input" />
+                                                <input type="checkbox" name="required[]" value="1" class="form-check-input" />
+                                            </td>
+                                            <td class="text-center">
+                                                <input type="text" name="field_options[]" class="form-control" placeholder="Enter options (comma-separated)" />
                                             </td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-danger remove-row">X</button>
@@ -126,6 +111,7 @@
                                     </tbody>
                                 </table>
                             </div>
+
                             <div class="card-footer text-end">
                                 <div class="col-sm-9 offset-sm-3">
                                     <button type="button" id="addRow" class="btn btn-success">
@@ -143,147 +129,86 @@
 @endsection
 
 @section('script')
-@endsection
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var categories = @json($categories);
+            var subcategories = @json($subcategories);
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        var categories = @json($categories);
-        var subcategories = @json($subcategories);
+            // Update categories based on selected insurance type
+            function updateCategories(insuranceTypeId) {
+                $('#category_id').empty().append('<option value="">Select Insurance Category</option>');
+                $('#sub_category_id').empty().append('<option value="">Select Insurance Sub Category</option>');
 
-        function updateCategories(insuranceTypeId) {
-            $('#category_id').empty().append('<option value="">Select Insurance Category</option>');
-            $('#sub_category_id').empty().append('<option value="">Select Insurance Sub Category</option>');
-
-            categories.forEach(function (category) {
-                if (category.insurance_type_id == insuranceTypeId) {
-                    $('#category_id').append('<option value="' + category.id + '">' + category.name + '</option>');
-                }
-            });
-        }
-
-        function updateSubCategories(categoryId) {
-            $('#sub_category_id').empty().append('<option value="">Select Insurance Sub Category</option>');
-
-            subcategories.forEach(function (subcategory) {
-                if (subcategory.category_id == categoryId) {
-                    $('#sub_category_id').append('<option value="' + subcategory.id + '">' + subcategory.name + '</option>');
-                }
-            });
-        }
-
-        $('#insurance_type_id').change(function () {
-            var selectedType = $(this).val();
-            updateCategories(selectedType);
-        });
-
-        $('#category_id').change(function () {
-            var selectedCategory = $(this).val();
-            updateSubCategories(selectedCategory);
-        });
-    });
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const formFields = document.getElementById("formFields");
-        const addRowButton = document.getElementById("addRow");
-
-        // Function to add new row
-        addRowButton.addEventListener("click", function() {
-            const newRow = document.createElement("tr");
-            newRow.innerHTML = `
-              <td><input type="text" name="field_name[]" class="form-control" placeholder="Enter field name" required></td>
-              <td>
-                  <select name="field_type[]" class="form-control">
-                    <option value="text">Text</option>
-                    <option value="number">Number</option>
-                    <option value="password">Password</option>
-                    <option value="email">Email</option>
-                    <option value="tel">Phone</option>
-                    <option value="date">Date</option>
-                    <option value="time">Time</option>
-                    <option value="datetime-local">Date & Time</option>
-                    <option value="month">Month</option>
-                    <option value="week">Week</option>
-                    <option value="url">URL</option>
-                    <option value="hidden">Hidden</option>
-                    <option value="select">Dropdown</option>
-                    <option value="checkbox">Checkbox</option>
-                    <option value="radio">Radio</option>
-                    <option value="file">File Upload</option>
-                    <option value="color">Color Picker</option>
-                    <option value="range">Range Slider</option>
-                    <option value="search">Search Box</option>
-                    <option value="textarea">Textarea</option>
-                </select>
-
-              </td>
-              <td class="text-center">
-                  <input type="checkbox" name="required[]" value="1" class="form-check-input">
-              </td>
-              <td class="text-center">
-                  <button type="button" class="btn btn-danger remove-row">X</button>
-              </td>
-          `;
-            formFields.appendChild(newRow);
-        });
-
-        // Remove row when clicking "X" button
-        formFields.addEventListener("click", function(event) {
-            if (event.target.classList.contains("remove-row")) {
-                event.target.closest("tr").remove();
-            }
-        });
-
-        // Form submission (basic validation)
-        document
-            .getElementById("dynamicForm")
-            .addEventListener("submit", function(event) {
-                event.preventDefault();
-
-                let isValid = true;
-                let inputs = document.querySelectorAll(
-                    "#dynamicForm input[name='field_name[]']"
-                );
-
-                inputs.forEach((input) => {
-                    if (input.value.trim() === "") {
-                        isValid = false;
+                categories.forEach(function (category) {
+                    if (category.insurance_type_id == insuranceTypeId) {
+                        $('#category_id').append('<option value="' + category.id + '">' + category.name + '</option>');
                     }
                 });
-
-                if (isValid) {
-                    document
-                        .getElementById("successMessage")
-                        .classList.remove("d-none");
-                    document.getElementById("errorMessage").classList.add("d-none");
-                } else {
-                    document.getElementById("successMessage").classList.add("d-none");
-                    document
-                        .getElementById("errorMessage")
-                        .classList.remove("d-none");
-                }
-            });
-    });
-</script>
-
-@section('script')
-    <script src="{{ asset('frontend/assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/jszip.min.js') }}"></script>
-    <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            if ($.fn.DataTable.isDataTable('#export-button')) {
-                $('#export-button').DataTable().destroy();
             }
-            $('#export-button').DataTable({
-                dom: 'Bfrtip',
-                buttons: ['csv', 'excel', 'pdf', 'print']
+
+            // Update subcategories based on selected category
+            function updateSubCategories(categoryId) {
+                $('#sub_category_id').empty().append('<option value="">Select Insurance Sub Category</option>');
+
+                subcategories.forEach(function (subcategory) {
+                    if (subcategory.category_id == categoryId) {
+                        $('#sub_category_id').append('<option value="' + subcategory.id + '">' + subcategory.name + '</option>');
+                    }
+                });
+            }
+
+            // On change, update category dropdown
+            $('#insurance_type_id').change(function () {
+                var selectedType = $(this).val();
+                updateCategories(selectedType);
+            });
+
+            // On change, update subcategory dropdown
+            $('#category_id').change(function () {
+                var selectedCategory = $(this).val();
+                updateSubCategories(selectedCategory);
+            });
+        });
+
+        // Add new form row dynamically
+        document.addEventListener("DOMContentLoaded", function () {
+            const formFields = document.getElementById("formFields");
+            const addRowButton = document.getElementById("addRow");
+
+            // Function to add new row
+            addRowButton.addEventListener("click", function () {
+                const newRow = document.createElement("tr");
+                newRow.innerHTML = `
+                    <td><input type="text" name="field_name[]" class="form-control" placeholder="Enter field name" required></td>
+                    <td>
+                        <select name="field_type[]" class="form-control" required>
+                            <option value="text">Text</option>
+                            <option value="select">Dropdown</option>
+                            <option value="number">Number</option>
+                            <option value="checkbox">Checkbox</option>
+                            <option value="file">File Upload</option>
+                            <option value="date">Date</option>
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <input type="checkbox" name="required[]" value="1" class="form-check-input">
+                    </td>
+                    <td class="text-center">
+                        <input type="text" name="field_options[]" class="form-control" placeholder="Enter options (comma-separated)">
+                    </td>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-danger remove-row">X</button>
+                    </td>
+                `;
+                formFields.appendChild(newRow);
+            });
+
+            // Remove row on click
+            formFields.addEventListener("click", function (event) {
+                if (event.target.classList.contains("remove-row")) {
+                    event.target.closest("tr").remove();
+                }
             });
         });
     </script>

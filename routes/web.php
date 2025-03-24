@@ -107,6 +107,7 @@ Route::post('/formField/store', [FormController::class,'store'])->name('formFiel
 Route::get('/formField/edit/{id}', [FormController::class,'edit'])->name('formField.edit');
 Route::put('/formField/update/{id}', [FormController::class,'update'])->name('formField.update');
 Route::delete('/formField/delete/{id}', [FormController::class,'destroy'])->name('formField.delete');
+Route::get('/form-fields/{groupKey}', [FormController::class, 'show'])->name('formField.show');
 
 //customer resposes
 

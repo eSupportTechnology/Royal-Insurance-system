@@ -71,9 +71,23 @@
                         </div>
 
                         <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">WhatsApp Number</label>
+                            <div class="col-sm-9">
+                                <input type="number" class="form-control" name="whatsapp_number" id="whatsapp_number" placeholder="Enter Customer WhatsApp Number">
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">NIC</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" name="nic" id="nic" placeholder="Enter Customer NIC" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Job</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="job" id="job" placeholder="Enter Customer Job">
                             </div>
                         </div>
 

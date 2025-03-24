@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('insurance_type_id')->constrained('insurance_types')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            $table->foreignId('sub_category_id')->constrained('sub_categories')->onDelete('cascade');
+            $table->foreignId('sub_category_id')->nullable()->constrained('sub_categories')->onDelete('cascade');
             $table->string('field_name'); // e.g., "Car Model", "Policy Number"
-            $table->string('field_type'); // e.g., text, select, number, checkbox
+            $table->enum('field_type', ['text', 'select', 'number', 'checkbox', 'file', 'date'])->default('text'); // Field types
             $table->boolean('required')->default(false);
             $table->timestamps();
-});
+        });
 
     }
 

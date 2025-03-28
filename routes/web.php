@@ -37,7 +37,10 @@ Route::prefix('authentication')->group(function () {
 
 Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
-Route::get('/indexxx', [MotorsController::class, 'indexxx'])->name('indexxx');
+Route::get('/not-send', [MotorsController::class, 'notsend'])->name('indexxx');
+Route::get('/send', [MotorsController::class, 'send'])->name('sendindex');
+Route::get('/send-quatationreport/{id}', [MotorsController::class, 'quatationreport'])->name('quatationreport');
+Route::post('/quatationreport/{id}', [MotorsController::class, 'quatationreportstore'])->name('quotation.store');
 Route::get('/create', [MotorsController::class, 'create'])->name('createmotors');
 Route::post('/store', [MotorsController::class, 'store'])->name('storemotors');
 Route::get('/edit/{id}', [MotorsController::class, 'edit'])->name('editmotors');

@@ -182,9 +182,9 @@
                             <label class="col-sm-3 col-form-label">Status</label>
                             <div class="col-sm-9">
                                 <select id="status" name="status" class="form-control digits" required>
-                                    <option value="pending" {{ $motor->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="approved" {{ $motor->status == 'approved' ? 'selected' : '' }}>Approved</option>
-                                    <option value="rejected" {{ $motor->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                    <option value="Not send" {{ $motor->status == 'Not send' ? 'selected' : '' }}>Not send</option>
+                                    <option value="sent" {{ $motor->status == 'sent' ? 'selected' : '' }}>sent</option>
+
                                 </select>
                             </div>
                         </div>

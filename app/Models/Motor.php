@@ -12,4 +12,14 @@ class Motor extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = ['make', 'model', 'year', 'vehicle_number', 'class', 'usage', 'vehicle_value', 'financial_interest', 'fuel_type', 'customer_id', 'email', 'phone', 'nic', 'address', 'other_details', 'vehicle_copy', 'id_copy', 'renewal_copy', 'vehical_pic', 'client_letter', 'other_doc','status'];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }
+

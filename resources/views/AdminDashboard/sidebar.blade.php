@@ -62,8 +62,11 @@
                             <span>Insurance Requests</span>
                         </a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('customerResponses.index') }}">All Insurance Requests</a></li>
-                            <li><a href="{{ route('customerResponses.create') }}">Add Insurance Requests</a></li>
+                            <li><a href="{{ route('indexxx') }}">Notsend Request</a></li>
+                            <li><a href="{{ route('sendindex') }}">send Request</a></li>
+                            <li><a href="{{ route('createmotors') }}">add request</a></li>
+
+
                         </ul>
                     </li>
 
@@ -98,14 +101,12 @@
                     <!-- Motors  -->
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title" href="#">
-                            <i class="fa fa-car"></i> <!-- Corrected Icon -->
-                            <span>Motors</span>
+                            <i class="fa fa-address-card"></i> <!-- Corrected Icon -->
+                            <span>Insurance Response</span>
                         </a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('indexxx') }}">Notsend Request</a></li>
-                            <li><a href="">send Request</a></li>
-
-                            <li><a href="{{ route('createmotors') }}">add request</a></li>
+                            <li><a href="{{ route('customerResponses.index') }}">All Insurance Responses</a></li>
+                            <li><a href="{{ route('customerResponses.create') }}">Add Insurance Response</a></li>
                         </ul>
                     </li>
                 </ul>

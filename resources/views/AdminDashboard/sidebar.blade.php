@@ -81,6 +81,20 @@
                         </ul>
                     </li>
 
+
+                    <!-- Agents Section -->
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title" href="#">
+                            <i class="fa fa-user"></i> <!-- Agent Icon -->
+                            <span>Agents</span>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('agents.index') }}">All Agents</a></li>
+                            <li><a href="{{ route('agents.create') }}">Add New Agent</a></li>
+                        </ul>
+                    </li>
+
+
                     <!-- Motors  -->
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title" href="#">

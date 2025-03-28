@@ -9,6 +9,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DynamicFormController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\InsuranceController;
+use App\Http\Controllers\AgentController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 
@@ -108,6 +109,8 @@ Route::get('/formField/edit/{id}', [FormController::class,'edit'])->name('formFi
 Route::put('/formField/update/{id}', [FormController::class,'update'])->name('formField.update');
 Route::delete('/formField/delete/{id}', [FormController::class,'destroy'])->name('formField.delete');
 Route::get('/form-fields/{groupKey}', [FormController::class, 'show'])->name('formField.show');
+Route::get('/formField/addNew', [FormController::class, 'addNew'])->name('formField.addNew');
+Route::post('/formField/storeNew', [FormController::class, 'storeNew'])->name('formField.storeNew');
 
 //customer resposes
 
@@ -125,6 +128,17 @@ Route::get('/new-customer/edit/{id}', [CustomerController::class,'editCustomer']
 Route::put('/new-customer/update/{id}', [CustomerController::class,'updateCustomer'])->name('update-customer');
 Route::delete('/new-customer/delete/{id}', [CustomerController::class,'deleteCustomer'])->name('delete-customer');
 Route::get('/new-customer/view/{id}', [CustomerController::class,'viewCustomer'])->name('view-customer');
+
+
+// Agent Routes
+Route::get('/agents', [AgentController::class, 'index'])->name('agents.index');
+Route::get('/agents/create', [AgentController::class, 'create'])->name('agents.create');
+Route::post('/agents/store', [AgentController::class, 'store'])->name('agents.store');
+Route::get('/agents/edit/{id}', [AgentController::class, 'edit'])->name('agents.edit');
+Route::put('/agents/update/{id}', [AgentController::class, 'update'])->name('agents.update');
+Route::delete('/agents/delete/{id}', [AgentController::class, 'destroy'])->name('agents.destroy');
+Route::get('/agents/view/{id}', [AgentController::class, 'show'])->name('agents.show');
+
 
 });
 // Route::prefix('authentication')->group(function () {

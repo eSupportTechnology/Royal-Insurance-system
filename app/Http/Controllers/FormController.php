@@ -14,46 +14,18 @@ class FormController extends Controller
 {
     public function index()
     {
-        $forms = FormField::with(['insuranceType', 'category', 'subCategory'])
-            ->get()
-            ->groupBy(function ($item) {
-                return $item->insurance_type_id . '-' . $item->category_id . '-' . $item->sub_category_id;
-            });
+        // Fetch all form fields with related categories, insurance types, and subcategories
+        $formFields = FormField::with(['category', 'insuranceType', 'subCategory', 'options'])->get();
 
-        return view('formField.index', compact('forms'));
+        // Group form fields by Insurance Type -> Category -> SubCategory
+        $groupedFormFields = $formFields->groupBy([
+            'insuranceType.name',
+            'category.name',
+            'subCategory.name'
+        ]);
+
+        return view('formField.index', compact('groupedFormFields'));
     }
-
-    
-    public function show($groupKey)
-    {
-        // Parse the group key to get insurance type, category, and sub-category
-        list($insuranceTypeId, $categoryId, $subCategoryId) = explode('-', $groupKey);
-
-        // Fetch the fields for this combination
-        $formFields = FormField::where('insurance_type_id', $insuranceTypeId)
-            ->where('category_id', $categoryId)
-            ->when($subCategoryId !== 'null', function ($query) use ($subCategoryId) {
-                // If subCategoryId is not null, only show fields with that subCategoryId
-                $query->where('sub_category_id', $subCategoryId);
-            }, function ($query) {
-                // If subCategoryId is null, show fields that either have a subCategory or not
-                $query->whereNull('sub_category_id');
-            })
-            ->with('options') // Eager load options for select/checkbox fields
-            ->get();
-
-        // Fetch additional data for display
-        $insuranceType = InsuranceType::find($insuranceTypeId);
-        $category = Category::find($categoryId);
-        $subCategory = $subCategoryId !== 'null' ? SubCategory::find($subCategoryId) : null;
-
-        return view('formField.show', compact('formFields', 'insuranceType', 'category', 'subCategory'));
-    }
-
-    
-
-
-
 
     public function create(){
         $insurance_types = InsuranceType::all();
@@ -110,54 +82,61 @@ class FormController extends Controller
 
     public function edit($id)
     {
-        $formField = FormField::findOrFail($id);
+        $formField = FormField::with('options')->findOrFail($id); // Fetch options with form field
         $subcategories = SubCategory::all();
         $categories = Category::all();
         $insurance_types = InsuranceType::all();
-        $formFieldOptions = $formField->options->pluck('option')->toArray(); // Get options if they exist
+
+        // Retrieve options as a comma-separated string
+        $formFieldOptions = $formField->options->pluck('option_value')->toArray();
+        $formFieldOptions = implode(', ', $formFieldOptions); // Convert array to string
 
         return view('formField.edit', compact('formField', 'formFieldOptions', 'subcategories', 'categories', 'insurance_types'));
     }
 
+
     public function update(Request $request, $id)
     {
-        // Validation for updating fields
+        // Validate the request
         $request->validate([
-            'sub_category_id' => 'nullable|exists:sub_categories,id',
             'field_name' => 'required|string|max:255',
             'field_type' => 'required|string|max:255',
-            'required' => 'nullable|boolean',
-            'field_options' => 'nullable|array', // For select/checkbox options
-            'field_options.*' => 'nullable|string|max:255', // For options
+            'required' => 'nullable', // Allow null value
+            'field_options' => 'nullable|string', // Options will be a comma-separated string
         ]);
-
+    
         // Find the form field to update
         $formField = FormField::findOrFail($id);
         $formField->update([
-            'sub_category_id' => $request->sub_category_id ?? null,
             'field_name' => $request->field_name,
             'field_type' => $request->field_type,
             'required' => $request->has('required') ? 1 : 0,
         ]);
-
-        // If it's a select or checkbox, update options
-        if (in_array($formField->field_type, ['select', 'checkbox']) && isset($request->field_options)) {
-            // First, delete old options
+    
+        // If the field type is 'select', 'checkbox', or 'radio', handle the options
+        if (in_array($request->field_type, ['select', 'checkbox', 'radio'])) {
+            // Delete previous options
             FormFieldOption::where('form_field_id', $formField->id)->delete();
-
-            // Insert new options
-            $options = explode(',', $request->field_options[0]); // Assuming options are comma-separated
-
-            foreach ($options as $option) {
-                FormFieldOption::create([
-                    'form_field_id' => $formField->id,
-                    'option' => trim($option), // Trim to remove extra spaces
-                ]);
+    
+            // Save new options if provided
+            if ($request->filled('field_options')) {
+                $options = explode(',', $request->field_options); // Split by comma
+                foreach ($options as $option) {
+                    FormFieldOption::create([
+                        'form_field_id' => $formField->id,
+                        'option_value' => trim($option), // Remove extra spaces
+                    ]);
+                }
             }
+        } else {
+            // If the field type is not one that requires options, delete any existing options
+            FormFieldOption::where('form_field_id', $formField->id)->delete();
         }
-
+    
         return redirect()->route('formField.index')->with('success', 'Form Field updated successfully.');
     }
+    
+    
 
     public function destroy($id)
     {
@@ -168,4 +147,53 @@ class FormController extends Controller
 
         return redirect()->route('formField.index')->with('success', 'Form Field deleted successfully.');
     }
+
+    // Show the add new field form
+    public function addNew(Request $request)
+    {
+        $insuranceTypeId = $request->insurance_type_id;
+        $categoryId = $request->category_id;
+        $subCategoryId = $request->sub_category_id;
+    
+        return view('formField.addNewField', compact('insuranceTypeId', 'categoryId', 'subCategoryId'));
+    }
+    
+
+// Store the new field
+public function storeNew(Request $request)
+{
+    //dd($request);
+    $request->validate([
+        'insurance_type_id' => 'required|exists:insurance_types,id',
+        'category_id' => 'required|exists:categories,id',
+        'sub_category_id' => 'nullable|exists:sub_categories,id',
+        'field_name' => 'required|string|max:255',
+        'field_type' => 'required|string|max:255',
+        'required' => 'nullable|in:0,1',
+        'field_options' => 'nullable|string',
+    ]);
+
+    $formField = FormField::create([
+        'insurance_type_id' => $request->insurance_type_id,
+        'category_id' => $request->category_id,
+        'sub_category_id' => $request->sub_category_id,
+        'field_name' => $request->field_name,
+        'field_type' => $request->field_type,
+        'required' => $request->has('required') ? 1 : 0,
+    ]);
+
+    if (in_array($request->field_type, ['select', 'checkbox', 'radio']) && $request->filled('field_options')) {
+        $options = explode(',', $request->field_options);
+        foreach ($options as $option) {
+            FormFieldOption::create([
+                'form_field_id' => $formField->id,
+                'option_value' => trim($option),
+            ]);
+        }
+    }
+
+    return redirect()->route('formField.index')->with('success', 'New Form Field added successfully.');
+}
+
+
 }

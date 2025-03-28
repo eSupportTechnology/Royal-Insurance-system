@@ -1,8 +1,8 @@
 @extends('AdminDashboard.master')
-@section('title', 'Form Fields')
+@section('title', 'Edit Form Field')
 
 @section('breadcrumb-title')
-    <h3>Form Fields</h3>
+    <h3>Edit Form Field</h3>
 @endsection
 
 @section('content')
@@ -22,43 +22,56 @@
                             </div>
                         @endif
 
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Insurance Type</th>
-                                        <th>Category</th>
-                                        <th>Subcategory</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse ($forms as $groupKey => $formGroup)
-                                        @php
-                                            $firstField = $formGroup->first();
-                                        @endphp
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $firstField->insuranceType->name ?? 'N/A' }}</td>
-                                            <td>{{ $firstField->category->name ?? 'N/A' }}</td>
-                                            <td>{{ $firstField->subCategory->name ?? 'N/A' }}</td>
-                                            <td>
-                                                <a href="{{ route('formField.show', $groupKey) }}" class="btn btn-info btn-sm">See More</a>
-                                                <form action="{{ route('formField.delete', $groupKey) }}" method="POST" style="display:inline-block;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this form?')">Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="5" class="text-center">No Forms Found</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+                        <div class="accordion" id="accordionForms">
+                            @forelse ($groupedFormFields as $insuranceType => $categories)
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading{{ $loop->index }}">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $loop->index }}" aria-expanded="true">
+                                            {{ $insuranceType }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{ $loop->index }}" class="accordion-collapse collapse show">
+                                        <div class="accordion-body">
+                                            @foreach ($categories as $category => $subCategories)
+                                                <div class="mb-3">
+                                                    <h5>{{ $category }}</h5>
+                                                    @foreach ($subCategories as $subCategory => $formFields)
+                                                        <div class="card mb-3">
+                                                            <div class="card-header d-flex justify-content-between">
+                                                                <strong>{{ $subCategory ?? 'General' }}</strong>
+                                                                <a href="{{ route('formField.addNew', [
+    'insurance_type_id' => $formFields->first()->insurance_type_id ?? null,
+    'category_id' => $formFields->first()->category_id ?? null,
+    'sub_category_id' => $formFields->first()->sub_category_id ?? null
+]) }}" class="btn btn-sm btn-success">Add New Field</a>
+
+
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <ul>
+                                                                    @foreach ($formFields as $formField)
+                                                                        <li class="mb-2">
+                                                                            {{ $formField->field_name }} ({{ $formField->field_type }}) - Required: {{ $formField->required ? 'Yes' : 'No' }}
+                                                                            <a href="{{ route('formField.edit', $formField->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                                                            <form action="{{ route('formField.delete', $formField->id) }}" method="POST" style="display:inline-block;">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                                                            </form>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="alert alert-info">No Form Fields Found.</div>
+                            @endforelse
                         </div>
                     </div>
                 </div>

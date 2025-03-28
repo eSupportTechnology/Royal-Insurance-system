@@ -23,7 +23,7 @@ class FormController extends Controller
         return view('formField.index', compact('forms'));
     }
 
-    
+
     public function show($groupKey)
     {
         // Parse the group key to get insurance type, category, and sub-category
@@ -50,7 +50,7 @@ class FormController extends Controller
         return view('formField.show', compact('formFields', 'insuranceType', 'category', 'subCategory'));
     }
 
-    
+
 
 
 

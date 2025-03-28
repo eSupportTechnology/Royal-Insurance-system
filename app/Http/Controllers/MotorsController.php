@@ -8,7 +8,10 @@ use App\Models\Company;
 use App\Models\Customer;
 use App\Models\MailRequest;
 use App\Models\Motor;
+use App\Models\Quatation;
+use App\Models\QuatationOption;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,11 +20,69 @@ class MotorsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function indexxx()
+    public function notsend()
+{
+    $motors = Motor::where('status', 'Not send')->get();
+
+    return view('motors.index', compact('motors'));
+}
+
+
+    public function send()
     {
-        $motors = Motor::all();
-        return view('motors.index', compact('motors'));
+        $motors = Motor::where('status', 'Send')->get();
+        return view('motors.send', compact('motors'));
     }
+
+    public function quatationreport($id){
+
+        $motor = Motor::findOrFail($id);
+        $companies = Company::all();
+        return view('motors.quatation', compact('motor','companies'));
+    }
+    public function quatationreportstore(Request $request, $id)
+    {
+        $request->validate([
+            'insurance_company_id' => 'required|exists:companies,id',
+            'package_name' => 'required|array',
+            'package_name.*' => 'required|string|max:255',
+            'package_type' => 'required|array',
+            'package_type.*' => 'required|string|max:255',
+            'required' => 'sometimes|array',
+            'required.*' => 'nullable|boolean',
+            'field_options' => 'nullable|array',
+            'field_options.*' => 'nullable|string|max:255',
+        ], [
+            'insurance_company_id.required' => 'Please select a valid insurance company.',
+            'package_name.*.required' => 'Each package name is required.',
+            'package_type.*.required' => 'Each package type is required.',
+        ]);
+
+        // Use transaction for data consistency
+        DB::transaction(function () use ($request) {
+            foreach ($request->package_name as $index => $packageName) {
+                $quotation = Quatation::create([
+                    'insurance_company_id' => $request->insurance_company_id,
+                    'package_name' => trim($packageName),
+                    'package_type' => $request->package_type[$index],
+                    'required' => isset($request->required[$index]) ? 1 : 0,
+                ]);
+
+                if (in_array($quotation->package_type, ['select', 'checkbox']) && isset($request->field_options[$index])) {
+                    $options = explode(',', $request->field_options[$index]);
+                    foreach ($options as $option) {
+                        QuatationOption::create([
+                            'quotation_id' => $quotation->id,
+                            'option_value' => trim($option),
+                        ]);
+                    }
+                }
+            }
+        });
+
+        return redirect()->route('sendindex')->with('success', 'Form Fields created successfully.');
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -103,7 +164,7 @@ public function edit($id)
         'financial_interest' => 'nullable|string',
         'fuel_type' => 'required|string',
         'customer_id' => 'required|exists:customers,id',
-        'status' => 'required|string|in:pending,approved,rejected',
+        'status' => 'required|string|in:Not send,Send',
         'other_details' => 'nullable|string',
 
         // File validation
@@ -175,53 +236,53 @@ public function edit($id)
     }
 
     public function storeMail(Request $request, $id)
-{
-    // dd($request);
-    $request->validate([
-        'company_id'     => 'required|string',
-        'company_email'  => ['required', 'string', function ($attribute, $value, $fail) {
-            $emails = explode(',', $value);
-            foreach ($emails as $email) {
-                if (!filter_var(trim($email), FILTER_VALIDATE_EMAIL)) {
-                    $fail('The ' . $attribute . ' must contain valid email addresses.');
+    {
+        // Validate the input
+        $request->validate([
+            'company_id'     => 'required|string',
+            'company_email'  => ['required', 'string', function ($attribute, $value, $fail) {
+                $emails = explode(',', $value);
+                foreach ($emails as $email) {
+                    if (!filter_var(trim($email), FILTER_VALIDATE_EMAIL)) {
+                        $fail('The ' . $attribute . ' must contain valid email addresses.');
+                    }
                 }
-            }
-        }],
-        'make'           => 'required|string',
-        'year'           => 'required|numeric',
-        'vehicle_number' => 'required|string',
-        'usage'          => 'required|string',
-        'vehicle_value'  => 'required|numeric',
-        'financial_interest' => 'required|string',
-        'fuel_type'      => 'required|string',
-        'customer_id' => 'required|string',
-        'email' => 'required|string',
-        'phone' => 'required|string',
-        'nic' => 'required|string',
-        'address' => 'required|string',
-    ]);
+            }],
+            'make'           => 'required|string',
+            'year'           => 'required|numeric',
+            'vehicle_number' => 'required|string',
+            'usage'          => 'required|string',
+            'vehicle_value'  => 'required|numeric',
+            'financial_interest' => 'required|string',
+            'fuel_type'      => 'required|string',
+            'customer_id'    => 'required|string',
+            'email'          => 'required|string',
+            'phone'          => 'required|string',
+            'nic'            => 'required|string',
+            'address'        => 'required|string',
+        ]);
 
-    $recode = MailRequest::create([
-        'company_id'     => $request->company_id,
-        'company_email'  => $request->company_email,
-        'make'           => $request->make,
-        'year'           => $request->year,
-        'vehicle_number' => $request->vehicle_number,
-        'usage'          => $request->usage,
-        'vehicle_value'  => $request->vehicle_value,
-        'financial_interest' => $request->financial_interest,
-        'fuel_type'      => $request->fuel_type,
-        'customer_id' => $request->customer_id,
-        'email' => $request->email,
-        'phone' => $request->phone,
-        'nic' => $request->nic,
-        'address' => $request->address,
-    ]);
+        // Save the mail request in the database
+        $recode = MailRequest::create([
+            'company_id'     => $request->company_id,
+            'company_email'  => $request->company_email,
+            'make'           => $request->make,
+            'year'           => $request->year,
+            'vehicle_number' => $request->vehicle_number,
+            'usage'          => $request->usage,
+            'vehicle_value'  => $request->vehicle_value,
+            'financial_interest' => $request->financial_interest,
+            'fuel_type'      => $request->fuel_type,
+            'customer_id'    => $request->customer_id,
+            'email'          => $request->email,
+            'phone'          => $request->phone,
+            'nic'            => $request->nic,
+            'address'        => $request->address,
+        ]);
 
-    $customer = Customer::find($request->customer_id);
-    $customer_name = $customer ? $customer->name : 'Unknown Customer';
-
-    if ($recode) {
+        // Prepare email data
+        $customer = Customer::find($request->customer_id);
+        $customer_name = $customer ? $customer->name : 'Unknown Customer';
         $data = [
             'company_id'     => $request->company_id,
             'company_email'  => $request->company_email,
@@ -232,27 +293,38 @@ public function edit($id)
             'vehicle_value'  => $request->vehicle_value,
             'financial_interest' => $request->financial_interest,
             'fuel_type'      => $request->fuel_type,
-            'customer_id' => $customer_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'nic' => $request->nic,
-            'address' => $request->address,
-            'date' => now()->format('Y-m-d'),
+            'customer_id'    => $customer_name,
+            'email'          => $request->email,
+            'phone'          => $request->phone,
+            'nic'            => $request->nic,
+            'address'        => $request->address,
+            'date'           => now()->format('Y-m-d'),
         ];
 
-        $emails = explode(',', $request->company_email);
-        foreach ($emails as $email) {
-            Mail::to(trim($email))->send(new ContactMail($data));
+        // Send the email and update the motor's status
+        try {
+            $emails = explode(',', $request->company_email);
+            foreach ($emails as $email) {
+                Mail::to(trim($email))->send(new ContactMail($data));
+            }
+
+            // Update motor status to "Send"
+            $motor = Motor::findOrFail($id);
+            $motor->update(['status' => 'Send']);
+
+            return redirect()->route('indexxx')->with('success', 'Motor request sent successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('indexxx')->with('error', 'Failed to send motor request. Please try again.');
         }
     }
 
-    return redirect()->route('indexxx')->with('success', 'Motor request sent successfully.');
-}
 
 public function viewRequest(){
 
     $requests = MailRequest::with('customer')->get();
     return view('CustomerRequest.index', compact('requests'));
 }
+
+
 
 }

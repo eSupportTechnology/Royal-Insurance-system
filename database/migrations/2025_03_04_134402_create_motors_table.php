@@ -41,7 +41,7 @@ return new class extends Migration
         $table->json('client_letter')->nullable();
         $table->json('other_doc')->nullable();
 
-        $table->string('status')->default('pending');
+        $table->string('status')->default('Not send');
         $table->timestamps();
     });
 }

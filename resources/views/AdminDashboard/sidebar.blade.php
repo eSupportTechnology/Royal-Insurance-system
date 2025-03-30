@@ -96,17 +96,7 @@
                     </li>
 
 
-                    <!-- Motors  -->
-                    <li class="sidebar-list">
-                        <a class="sidebar-link sidebar-title" href="#">
-                            <i class="fa fa-address-card"></i> <!-- Corrected Icon -->
-                            <span>Insurance Response</span>
-                        </a>
-                        <ul class="sidebar-submenu">
-                            <li><a href="{{ route('customerResponses.index') }}">All Insurance Responses</a></li>
-                            <li><a href="{{ route('customerResponses.create') }}">Add Insurance Response</a></li>
-                        </ul>
-                    </li>
+                    
                 </ul>
             </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

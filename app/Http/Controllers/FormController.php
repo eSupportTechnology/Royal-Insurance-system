@@ -27,38 +27,6 @@ class FormController extends Controller
         return view('formField.index', compact('groupedFormFields'));
     }
 
-
-    public function show($groupKey)
-    {
-        // Parse the group key to get insurance type, category, and sub-category
-        list($insuranceTypeId, $categoryId, $subCategoryId) = explode('-', $groupKey);
-
-        // Fetch the fields for this combination
-        $formFields = FormField::where('insurance_type_id', $insuranceTypeId)
-            ->where('category_id', $categoryId)
-            ->when($subCategoryId !== 'null', function ($query) use ($subCategoryId) {
-                // If subCategoryId is not null, only show fields with that subCategoryId
-                $query->where('sub_category_id', $subCategoryId);
-            }, function ($query) {
-                // If subCategoryId is null, show fields that either have a subCategory or not
-                $query->whereNull('sub_category_id');
-            })
-            ->with('options') // Eager load options for select/checkbox fields
-            ->get();
-
-        // Fetch additional data for display
-        $insuranceType = InsuranceType::find($insuranceTypeId);
-        $category = Category::find($categoryId);
-        $subCategory = $subCategoryId !== 'null' ? SubCategory::find($subCategoryId) : null;
-
-        return view('formField.show', compact('formFields', 'insuranceType', 'category', 'subCategory'));
-    }
-
-
-
-
-
-
     public function create(){
         $insurance_types = InsuranceType::all();
         $subcategories = SubCategory::all();
@@ -191,41 +159,41 @@ class FormController extends Controller
     }
     
 
-// Store the new field
-public function storeNew(Request $request)
-{
-    //dd($request);
-    $request->validate([
-        'insurance_type_id' => 'required|exists:insurance_types,id',
-        'category_id' => 'required|exists:categories,id',
-        'sub_category_id' => 'nullable|exists:sub_categories,id',
-        'field_name' => 'required|string|max:255',
-        'field_type' => 'required|string|max:255',
-        'required' => 'nullable|in:0,1',
-        'field_options' => 'nullable|string',
-    ]);
+    // Store the new field
+    public function storeNew(Request $request)
+    {
+        //dd($request);
+        $request->validate([
+            'insurance_type_id' => 'required|exists:insurance_types,id',
+            'category_id' => 'required|exists:categories,id',
+            'sub_category_id' => 'nullable|exists:sub_categories,id',
+            'field_name' => 'required|string|max:255',
+            'field_type' => 'required|string|max:255',
+            'required' => 'nullable|in:0,1',
+            'field_options' => 'nullable|string',
+        ]);
 
-    $formField = FormField::create([
-        'insurance_type_id' => $request->insurance_type_id,
-        'category_id' => $request->category_id,
-        'sub_category_id' => $request->sub_category_id,
-        'field_name' => $request->field_name,
-        'field_type' => $request->field_type,
-        'required' => $request->has('required') ? 1 : 0,
-    ]);
+        $formField = FormField::create([
+            'insurance_type_id' => $request->insurance_type_id,
+            'category_id' => $request->category_id,
+            'sub_category_id' => $request->sub_category_id,
+            'field_name' => $request->field_name,
+            'field_type' => $request->field_type,
+            'required' => $request->has('required') ? 1 : 0,
+        ]);
 
-    if (in_array($request->field_type, ['select', 'checkbox', 'radio']) && $request->filled('field_options')) {
-        $options = explode(',', $request->field_options);
-        foreach ($options as $option) {
-            FormFieldOption::create([
-                'form_field_id' => $formField->id,
-                'option_value' => trim($option),
-            ]);
+        if (in_array($request->field_type, ['select', 'checkbox', 'radio']) && $request->filled('field_options')) {
+            $options = explode(',', $request->field_options);
+            foreach ($options as $option) {
+                FormFieldOption::create([
+                    'form_field_id' => $formField->id,
+                    'option_value' => trim($option),
+                ]);
+            }
         }
-    }
 
-    return redirect()->route('formField.index')->with('success', 'New Form Field added successfully.');
-}
+        return redirect()->route('formField.index')->with('success', 'New Form Field added successfully.');
+    }
 
 
 }

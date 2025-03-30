@@ -61,7 +61,7 @@
                                     <td>{{ $newcustomer->phone }}</td>
                                     <td>{{ $newcustomer->nic }}</td>
                                     <td>{{ $newcustomer->address }}</td>
-                                    <td>{{ $customerResponses[$newcustomer->id] ?? 0 }}</td>
+                                    
 
                                     <td>
                                         <a href="{{ route('view-customer', $newcustomer->id) }}" class="btn btn-primary btn-sm" title="View">

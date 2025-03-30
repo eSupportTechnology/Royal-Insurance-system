@@ -62,11 +62,9 @@
                             <span>Insurance Requests</span>
                         </a>
                         <ul class="sidebar-submenu">
+                            <li><a href="{{ route('customerResponse.create') }}">Create Customer Request</a></li>
                             <li><a href="{{ route('indexxx') }}">Notsend Request</a></li>
                             <li><a href="{{ route('sendindex') }}">send Request</a></li>
-                            <li><a href="{{ route('createmotors') }}">add request</a></li>
-
-
                         </ul>
                     </li>
 

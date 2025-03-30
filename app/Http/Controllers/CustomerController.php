@@ -68,12 +68,7 @@ class CustomerController extends Controller
     public function newCustomer()
     {
         $newcustomers = Customer::all();
-        $customerResponses = CustomerResponse::select('customer_id')
-        ->selectRaw('COUNT(customer_id) as response_count')
-        ->groupBy('customer_id')
-        ->pluck('response_count', 'customer_id');
-        $newcustomers = Customer::all();
-        return view('Customer.index', compact('newcustomers','customerResponses'));
+        return view('Customer.index', compact('newcustomers'));
     }
 
 
@@ -128,10 +123,14 @@ class CustomerController extends Controller
         return redirect()->route('new-customer')->with('success', 'Customer deleted successfully.');
     }
 
-    public function viewCustomer($id)
+    public function view($id)
     {
-        $customer = Customer::find($id);
-        $customerResponses = CustomerResponse::where('customer_id', $id)->get();
-        return view('customer.viewCustomer', compact('customer','customerResponses'));
+        $customer = Customer::findOrFail($id);
+        $responses = CustomerResponse::with('insuranceType', 'category', 'subCategory')
+            ->where('customer_email', $customer->email)
+            ->get();
+
+        return view('customer.view', compact('customer', 'responses'));
     }
+
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->foreignId('sub_category_id')->nullable()->constrained('sub_categories')->onDelete('cascade');
             $table->string('field_name'); // e.g., "Car Model", "Policy Number"
-            $table->enum('field_type', ['text', 'select', 'number', 'checkbox', 'file', 'date'])->default('text'); // Field types
+            $table->enum('field_type', ['text', 'select', 'number', 'checkbox', 'file', 'date','textarea','radio'])->default('text'); // Field types
             $table->boolean('required')->default(false);
             $table->timestamps();
         });

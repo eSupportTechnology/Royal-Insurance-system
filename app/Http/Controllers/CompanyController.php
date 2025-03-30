@@ -33,7 +33,7 @@ class CompanyController extends Controller
         'name' => 'required',
         'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         'address' => 'required',
-        'email' => 'required|email',
+        'email' => 'required|email|unique:companies,email',
         'contact_number' => 'required',
     ]);
 

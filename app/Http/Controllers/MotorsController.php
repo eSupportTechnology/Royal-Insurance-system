@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\ContactMail;
 use App\Models\Company;
 use App\Models\Customer;
+use App\Models\CustomerResponse;
 use App\Models\MailRequest;
 use App\Models\Motor;
 use App\Models\Quatation;
@@ -21,17 +22,37 @@ class MotorsController extends Controller
      * Display a listing of the resource.
      */
     public function notsend()
-{
-    $motors = Motor::where('status', 'Not send')->get();
+    {
+        $customerResponses = CustomerResponse::with(['insuranceType', 'category'])->where('status', 'Pending')->get();
+        return view('motors.index', compact('customerResponses'));
+    }
 
-    return view('motors.index', compact('motors'));
-}
+    public function show($id)
+    {
+        $response = CustomerResponse::with([
+            'insuranceType',
+            'category',
+            'subCategory',
+            'responseFields.formField' // load responses + the question details
+        ])->findOrFail($id);
+
+        return view('motors.show', compact('response'));
+    }
+
+    public function destroy($id)
+    {
+        $response = CustomerResponse::findOrFail($id);
+        $response->delete();
+
+        return redirect()->route('indexxx')->with('success', 'Customer response deleted successfully.');
+    }
+
 
 
     public function send()
     {
-        $motors = Motor::where('status', 'Send')->get();
-        return view('motors.send', compact('motors'));
+        $customerResponses = CustomerResponse::with(['insuranceType', 'category'])->where('status', 'Sent')->get();
+        return view('motors.send', compact('customerResponses'));
     }
 
     public function quatationreport($id){
@@ -90,7 +111,7 @@ class MotorsController extends Controller
     public function create()
     {
         $customers = Customer::all();
-        return view('motors.create', compact('customers'));
+        
     }
 
     /**
@@ -216,24 +237,17 @@ public function edit($id)
     return redirect()->route('indexxx')->with('success', 'Motor insurance data updated successfully.');
 }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id, Motor $motor)
-    {
-        $motor = Motor::findOrFail($id);
-        $motor->delete();
 
-        return redirect()->route('indexxx')->with('success', 'Motor insurance detail deleted successfully.');
-    }
 
     public function mail($id)
     {
-        $motors = Motor::findOrFail($id);
-        $companies = Company::where('status', 1)->get();
-        $customers = Customer::all();
-        return view('motors.mail', compact('motors','companies','customers'));
+        $customerResponse = CustomerResponse::with(['insuranceType', 'category', 'subCategory'])->findOrFail($id);
+        $companies = Company::where('status', 1)->get(); // Get all active companies
+        $customer = Customer::find($customerResponse->customer_id); // Get customer details
+
+        return view('motors.mail', compact('customerResponse', 'companies', 'customer'));
     }
+
 
     public function storeMail(Request $request, $id)
     {

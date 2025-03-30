@@ -10,6 +10,8 @@ use App\Http\Controllers\DynamicFormController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\CustomerResponseController;
+use App\Http\Controllers\QuotationController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 
@@ -49,6 +51,8 @@ Route::delete('/delete/{id}', [MotorsController::class, 'destroy'])->name('delet
 Route::get('/mail/{id}', [MotorsController::class, 'mail'])->name('mailmotors');
 Route::post('/mail/{id}/store', [MotorsController::class, 'storeMail'])->name('storemailmotors');
 Route::get('/viewRequest',[MotorsController::class, 'viewRequest'])->name('viewRequest');
+Route::get('/customer responce/show/{id}', [MotorsController::class, 'show'])->name('seemore');
+
 
 //insurance health//
 
@@ -121,6 +125,8 @@ Route::get('/customerResponses', [CustomerController::class, 'index'])->name('cu
 Route::get('/customerResponses/create', [CustomerController::class, 'create'])->name('customerResponses.create');
 Route::post('/customerResponses/store', [CustomerController::class, 'store'])->name('customerResponses.store');
 Route::get('/customerResponses/delete/{id}', [CustomerController::class, 'destroy'])->name('customerResponses.destroy');
+Route::get('/customers/{id}/view', [CustomerController::class, 'view'])->name('view-customer');
+
 
 // new-customer
 
@@ -130,7 +136,6 @@ Route::post('/new-customer/store', [CustomerController::class,'storeCustomer'])-
 Route::get('/new-customer/edit/{id}', [CustomerController::class,'editCustomer'])->name('edit-customer');
 Route::put('/new-customer/update/{id}', [CustomerController::class,'updateCustomer'])->name('update-customer');
 Route::delete('/new-customer/delete/{id}', [CustomerController::class,'deleteCustomer'])->name('delete-customer');
-Route::get('/new-customer/view/{id}', [CustomerController::class,'viewCustomer'])->name('view-customer');
 
 
 // Agent Routes
@@ -141,6 +146,23 @@ Route::get('/agents/edit/{id}', [AgentController::class, 'edit'])->name('agents.
 Route::put('/agents/update/{id}', [AgentController::class, 'update'])->name('agents.update');
 Route::delete('/agents/delete/{id}', [AgentController::class, 'destroy'])->name('agents.destroy');
 Route::get('/agents/view/{id}', [AgentController::class, 'show'])->name('agents.show');
+
+
+Route::get('/create-response', [CustomerResponseController::class, 'create'])->name('customerResponse.create');
+Route::post('/agents/store-response', [CustomerResponseController::class, 'store'])->name('customerResponse.store');
+Route::get('/get-form-fields', [CustomerResponseController::class, 'getFormFields'])->name('getFormFields');
+Route::get('/customer-responses/{id}/edit', [CustomerResponseController::class, 'edit'])->name('customerResponse.edit');
+Route::put('/customer-responses/{id}', [CustomerResponseController::class, 'update'])->name('customerResponse.update');
+Route::get('/mailmotors/{id}', [CustomerResponseController::class, 'mailForm'])->name('customerResponse.mail');
+Route::post('/send-quotation-mail', [CustomerResponseController::class, 'sendQuotationMail'])->name('sendQuotationMail');
+
+
+//QuotationController
+Route::get('/quotations/{id}', [QuotationController::class, 'show'])->name('quotation.show');
+Route::post('/quotations/{id}/save', [QuotationController::class, 'save'])->name('quotation.save');
+
+
+
 
 
 });

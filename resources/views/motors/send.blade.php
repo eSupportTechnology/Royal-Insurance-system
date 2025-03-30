@@ -1,6 +1,6 @@
 @extends('AdminDashboard.master')
 
-@section('title', 'Motor Insurance')
+@section('title', 'Pending Insurance Requests')
 
 @section('css')
 @endsection
@@ -12,8 +12,8 @@
 
 @section('content')
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-sm-12">
+    <div class="row">
+        <div class="col-sm-12">
             <div class="container">
             @if(session('error'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -30,50 +30,45 @@
             @endif
             </div>
 
-			<div class="card">
-				<div class="card-header">
-					<h5><a href="{{route('createmotors')}}" class="btn btn-primary mb-3">Add</a></h5>
-				</div>
-				<div class="card-body">
-					<div class="dt-ext table-responsive">
-						<table class="table table-responsive-sm" id="export-button">
-							<thead>
-								<tr>
-                                    <th>SNO</th>
-                                    <th>Make</th>
-                                    <th>Model</th>
-                                    <th>Year</th>
-                                    <th>Vehicle Number</th>
-                                    <th>Class</th>
-                                    <th>Usage</th>
-                                    <th>Vehicle Value</th>
+            <div class="card">
+                <div class="card-header">
+                    <h5>Pending Insurance Requests</h5>
+                </div>
+                <div class="card-body">
+                    <div class="dt-ext table-responsive">
+                        <table class="table table-responsive-sm" id="export-button">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Customer Name</th>
+                                    <th>Customer Email</th>
+                                    <th>Customer Phone</th>
+                                    <th>Insurance Type</th>
+                                    <th>Category</th>
+                                    <th>Sub Category</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
-								</tr>
-							</thead>
-							<tbody>
-                                @foreach($motors as $motor)
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($customerResponses as $response)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $motor->make }}</td>
-                                    <td>{{ $motor->model }}</td>
-                                    <td>{{ $motor->year }}</td>
-                                    <td>{{ $motor->vehicle_number }}</td>
-                                    <td>{{ $motor->class }}</td>
-                                    <td>{{ $motor->usage }}</td>
-                                    <td>{{ $motor->vehicle_value }}</td>
-                                    <td>{{ $motor->status }}</td>
+                                    <td>{{ $response->customer_name }}</td>
+                                    <td>{{ $response->customer_email }}</td>
+                                    <td>{{ $response->customer_phone }}</td>
+                                    <td>{{ $response->insuranceType->name ?? 'N/A' }}</td>
+                                    <td>{{ $response->category->name ?? 'N/A' }}</td>
+                                    <td>{{ $response->subCategory->name ?? 'N/A' }}</td>
+                                    <td>{{ $response->status }}</td>
                                     <td>
-                                        {{-- <a href="{{ route('mailmotors', $motor->id) }}" class="btn btn-primary btn-sm" title="Send Mail">
-                                            <i class="icon-envelope"></i>
-                                        </a> --}}
-                                        <a href="{{ route('indexxx', $motor->id) }}" class="btn btn-info btn-sm" title="View Details">
+                                        <a href="{{ route('quotation.show', $response->id) }}" class="btn btn-secondary btn-sm" title="View Quotations">
+                                            <i class="icon-file-text"></i> Quotations
+                                        </a>
+                                        <a href="{{ route('seemore', $response->id) }}" class="btn btn-info btn-sm" title="View Details">
                                             <i class="icon-eye"></i>
                                         </a>
-                                        <a href="{{ route('quatationreport', $motor->id) }}" class="btn btn-primary btn-sm" title="quatationreport">
-                                            <i class="icon-file"></i>
-                                        </a>
-                                        <form action="{{ route('deletemotors', $motor->id) }}" method="POST" style="display:inline;">
+                                        <form action="{{ route('deletemotors', $response->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm" title="Delete">
@@ -81,15 +76,16 @@
                                             </button>
                                         </form>
                                     </td>
+
                                 </tr>
                                 @endforeach
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 

@@ -28,33 +28,33 @@ class CompanyController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $request->validate([
-        'name' => 'required',
-        'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'address' => 'required',
-        'email' => 'required|email|unique:companies,email',
-        'contact_number' => 'required',
-    ]);
+    {
+        $request->validate([
+            'name' => 'required',
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'address' => 'required',
+            'email' => 'required|email|unique:companies,email',
+            'contact_number' => 'required',
+        ]);
 
-    $companies = new Company();
-    $companies->name = $request->name;
-    $companies->address = $request->address;
-    $companies->email = $request->email;
-    $companies->contact_number = $request->contact_number;
+        $companies = new Company();
+        $companies->name = $request->name;
+        $companies->address = $request->address;
+        $companies->email = $request->email;
+        $companies->contact_number = $request->contact_number;
 
-    // Handle file upload
-    if ($request->hasFile('logo')) {
-        $image = $request->file('logo');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        $image->move(public_path('uploads'), $imageName); // Move file to 'public/uploads/'
-        $companies->logo = 'uploads/' . $imageName; // Save the file path in the database
+        // Handle file upload
+        if ($request->hasFile('logo')) {
+            $image = $request->file('logo');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads'), $imageName); // Move file to 'public/uploads/'
+            $companies->logo = 'uploads/' . $imageName; // Save the file path in the database
+        }
+
+        $companies->save();
+
+        return redirect()->route('company.index')->with('success', 'Successfully Added New Company');
     }
-
-    $companies->save();
-
-    return redirect()->route('company.index')->with('success', 'Successfully Added New Company');
-}
 
 
     /**

@@ -22,7 +22,7 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>Rep_code</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
@@ -33,7 +33,7 @@
                             <tbody>
                                 @foreach ($agents as $agent)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $agent->rep_code }}</td>
                                         <td>{{ $agent->name }}</td>
                                         <td>{{ $agent->email }}</td>
                                         <td>{{ $agent->phone }}</td>

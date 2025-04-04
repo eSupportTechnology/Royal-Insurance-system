@@ -28,10 +28,26 @@ class AgentController extends Controller
             'company_name' => 'nullable|string|max:255',
         ]);
 
-        Agent::create($request->all());
+        // Get the latest agent ID and increment it
+        $lastAgent = Agent::orderBy('id', 'desc')->first();
+        $nextId = $lastAgent ? $lastAgent->id + 1 : 1;
+
+        // Format the rep_code as RIB/001, RIB/002, etc.
+        $repCode = 'RIB/' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
+
+        // Create the agent with rep_code
+        Agent::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'company_name' => $request->company_name,
+            'rep_code' => $repCode,
+        ]);
 
         return redirect()->route('agents.index')->with('success', 'Agent added successfully.');
     }
+
 
     public function edit($id)
     {

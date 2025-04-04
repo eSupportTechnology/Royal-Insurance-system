@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('agents', function (Blueprint $table) {
             $table->id();
+            $table->string('rep_code')->unique();
             $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->string('phone')->nullable();

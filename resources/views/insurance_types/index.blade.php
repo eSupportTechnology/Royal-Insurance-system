@@ -34,9 +34,11 @@
             </div>
 
 			<div class="card">
-				<div class="card-header">
+				<div class="card-header d-flex justify-content-between">
+                    <h5>Insurance Type List</h5>
 					<h5><a href="{{route('insuranceType.create')}}" class="btn btn-primary mb-3">Add</a></h5>
 				</div>
+
 				<div class="card-body">
 					<div class="dt-ext table-responsive">
 						<table class="table table-responsive-sm" id="export-button">

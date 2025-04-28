@@ -12,4 +12,9 @@ class Agent extends Model
     protected $fillable = [
         'rep_code','name', 'email', 'phone', 'address', 'company_name'
     ];
+
+    public function subagents()
+    {
+        return $this->hasMany(SubAgent::class);
+    }
 }

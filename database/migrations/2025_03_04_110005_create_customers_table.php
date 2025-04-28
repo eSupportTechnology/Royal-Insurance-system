@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->integer('phone');
-            $table->string('nic');
-            $table->string('address');
-            $table->integer('Insurance_coverages')->default(0)->change();
+            $table->integer('phone')->nullable();
+            $table->string('nic')->nullable();
+            $table->string('address')->nullable();
+            $table->integer('whatsapp_number')->nullable();
+            // $table->integer('Insurance_coverages')->default(0)->change();
             $table->timestamps();
         });
     }

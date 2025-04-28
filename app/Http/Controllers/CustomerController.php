@@ -83,9 +83,10 @@ class CustomerController extends Controller
     $request->validate([
         'name' => 'required',
         'email' => 'required|email',
-        'phone' => 'required',
-        'nic' => 'required',
-        'address' => 'required',
+        'phone' => 'nullable',
+        'nic' => 'nullable',
+        'address' => 'nullable',
+        'whatsapp_number' => 'nullable'
     ]);
 
     $data = $request->all();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\SubAgent;
 use Illuminate\Http\Request;
 
 class AgentController extends Controller
@@ -77,5 +78,66 @@ class AgentController extends Controller
         $agent->delete();
 
         return redirect()->route('agents.index')->with('success', 'Agent deleted successfully.');
+    }
+
+    public function subagentindex(){
+        $agentsWithSubagents = Agent::with('subagents')->get();
+        $subagents = SubAgent::all();
+        return view('sub_agents.index',compact('subagents','agentsWithSubagents'));
+
+    }
+    public function subagentcreate(){
+        $subagents = Agent::all();
+        return view('sub_agents.create',compact('subagents'));
+    }
+
+    public function subagentstore(Request $request){
+        $request->validate([
+            'agent_id' => 'required|exists:agents,id',
+            'sub_agent_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:agents,email',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string',
+            'company_name' => 'required|string|max:255',
+        ]);
+
+        SubAgent::create([
+            'agent_id' => $request->agent_id,
+            'sub_agent_name' => $request->sub_agent_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'company_name' => $request->company_name,
+        ]);
+
+        return redirect()->route('sub_agents.index')->with('success', 'Sub-agent added successfully.');
+    }
+
+    public function subagentedit($id){
+        $subagent = SubAgent::findOrFail($id);
+        $agents = Agent::all();
+        return view('sub_agents.edit',compact('subagent','agents'));
+    }
+
+    public function subagentupdate(Request $request, $id){
+        $request->validate([
+            'agent_id' => 'required|exists:agents,id',
+            'sub_agent_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:agents,email,'.$id,
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string',
+            'company_name' => 'required|string|max:255',
+        ]);
+
+        $subagent = SubAgent::findOrFail($id);
+        $subagent->update($request->all());
+
+        return redirect()->route('sub_agents.index')->with('success', 'Sub-agent updated successfully.');
+    }
+    public function subagentdestroy($id){
+        $subagent = SubAgent::findOrFail($id);
+        $subagent->delete();
+
+        return redirect()->route('sub_agents.index')->with('success', 'Sub-agent deleted successfully.');
     }
 }

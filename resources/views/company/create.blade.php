@@ -41,7 +41,7 @@
         </div>
 		<div class="card mt-3">
 		  <div class="card-header">
-			<h5>Add Details</h5>
+			<h5>Add Company Details</h5>
 
 		  </div>
           <form action="{{ route('company.store') }}" method="POST" enctype="multipart/form-data">
@@ -64,7 +64,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Address</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="text" name="address" placeholder="Enter Insurance Company Address" required>
+                                <input class="form-control" type="text" name="address" placeholder="Enter Insurance Company Address">
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -76,7 +76,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Contact Number</label>
                             <div class="col-sm-9">
-                                <input class="form-control digits" type="text" name="contact_number" placeholder="Type your Contact Number" required>
+                                <input class="form-control digits" type="text" name="contact_number" placeholder="Type your Contact Number">
                             </div>
                         </div>
                         {{-- <div class="mb-3 row">

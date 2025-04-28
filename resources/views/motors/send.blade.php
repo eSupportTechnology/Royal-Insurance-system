@@ -32,7 +32,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h5>Pending Insurance Requests</h5>
+                    <h5>Sent Insurance Requests</h5>
                 </div>
                 <div class="card-body">
                     <div class="dt-ext table-responsive">
@@ -61,9 +61,9 @@
                                     <td>{{ $response->category->name ?? 'N/A' }}</td>
                                     <td>{{ $response->subCategory->name ?? 'N/A' }}</td>
                                     <td>{{ $response->status }}</td>
-                                    <td>
+                                    <td class="d-flex align-items-center gap-2">
                                         <a href="{{ route('quotation.show', $response->id) }}" class="btn btn-secondary btn-sm" title="View Quotations">
-                                            <i class="icon-file-text"></i> Quotations
+                                            <i class="fa fa-id-badge" aria-hidden="true"></i>
                                         </a>
                                         <a href="{{ route('seemore', $response->id) }}" class="btn btn-info btn-sm" title="View Details">
                                             <i class="icon-eye"></i>

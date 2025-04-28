@@ -2,15 +2,15 @@
 <div class="sidebar-wrapper" sidebar-layout="stroke-svg">
     <div>
         <div class="logo-wrapper">
-            <a href="index.html">
-                <img class="img-fluid for-light" src="frontend/assets/images/logo/logo.png" alt="">
-                <img class="img-fluid for-dark" src="frontend/assets/images/logo/logo_dark.png" alt="">
+            <a href="{{ route('dashboard') }}">
+                <img class="img-fluid for-light" src="{{ asset('frontend/assets/images/logo/logo-img.jpg') }}" style="width: 150px; height:50px;" alt="logo">
+                <img class="img-fluid for-dark"  src="{{ asset('frontend/assets/images/logo/logo-img.jpg') }}" style="width: 150px; height:50px;" alt="logo-dark">
             </a>
             <div class="back-btn"><i class="fa fa-angle-left"></i></div>
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"></i></div>
         </div>
         <div class="logo-icon-wrapper">
-            <a href="index.html"><img class="img-fluid" src="frontend/assets/images/logo/logo-icon.png" alt=""></a>
+            <a href="{{ route('dashboard') }}"><img class="img-fluid" src="frontend/assets/images/logo/logo-icon.png" alt=""></a>
         </div>
         <nav class="sidebar-main">
             <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
@@ -25,8 +25,8 @@
 
                     <!-- Dashboard -->
                     <li class="sidebar-list">
-                        <a class="sidebar-link sidebar-title" href="{{ route('dashboard') }}">
-                            <i class="fa fa-tachometer-alt"></i> <!-- Corrected Icon -->
+                        <a class="sidebar-link" href="{{ route('dashboard') }}">
+                            <i class="fa fa-home"></i> <!-- Corrected Icon -->
                             <span>Dashboard</span>
                         </a>
                     </li>
@@ -40,6 +40,7 @@
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('new-customer') }}">All Customers</a></li>
                             <li><a href="{{ route('create-customer') }}">Add Customers</a></li>
+                            <li><a href="{{ route('customerinsurance.index') }}">Customer Insurance</a></li>
                         </ul>
                     </li>
 
@@ -92,11 +93,12 @@
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('agents.index') }}">All Agents</a></li>
                             <li><a href="{{ route('agents.create') }}">Add New Agent</a></li>
+                            <li><a href="{{ route('sub_agents.index') }}">Sub Agents</a></li>
                         </ul>
                     </li>
 
 
-                    
+
                 </ul>
             </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>

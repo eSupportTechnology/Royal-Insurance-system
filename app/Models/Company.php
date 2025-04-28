@@ -16,7 +16,8 @@ class Company extends Model
         'email',
         'contact_number',
         'insurance_type',
-        'status'
+        'status',
+        'pinned',
     ];
 
     public function allActive(){

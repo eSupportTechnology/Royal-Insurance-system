@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('sub_agents', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('logo');
+            $table->unsignedBigInteger('agent_id');
+            $table->string('sub_agent_name')->unique();
+            $table->string('email');
+            $table->string('phone');
             $table->string('address');
-            $table->string('email')->unique();
-            $table->integer('contact_number');
-            $table->integer('status')->default(0);
-            $table->boolean('pinned')->default(false);
+            $table->string('company_name');
+            $table->foreign('agent_id')->references('id')->on('agents')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('company');
+        Schema::dropIfExists('sub_agents');
     }
 };

@@ -12,7 +12,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::all();
+        $companies = Company::orderByDesc('pinned')->get();
         return view('company.index', compact('companies'));
     }
 
@@ -32,9 +32,9 @@ class CompanyController extends Controller
         $request->validate([
             'name' => 'required',
             'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'address' => 'required',
+            'address' => 'nullable',
             'email' => 'required|email|unique:companies,email',
-            'contact_number' => 'required',
+            'contact_number' => 'nullable',
         ]);
 
         $companies = new Company();
@@ -136,5 +136,20 @@ class CompanyController extends Controller
 
         return redirect()->back();
     }
+
+    public function pin($id)
+    {
+        $company = Company::findOrFail($id);
+
+        // Toggle pin status
+        $company->pinned = !$company->pinned;
+        $company->save();
+
+        $message = $company->pinned ? 'Company pinned successfully.' : 'Company unpinned successfully.';
+
+        return redirect()->route('company.index')->with('success', $message);
+    }
+
+
 
 }

@@ -111,7 +111,7 @@ class MotorsController extends Controller
     public function create()
     {
         $customers = Customer::all();
-        
+
     }
 
     /**
@@ -339,6 +339,11 @@ public function viewRequest(){
     return view('CustomerRequest.index', compact('requests'));
 }
 
+// public function show()
+// {
+//     $quotations = Quatation::with(['company', 'quotationOptions'])->get();
+//     return view('motors.show', compact('quotations'));
+// }
 
 
 }

@@ -34,9 +34,10 @@
             </div>
 
 			<div class="card mt-3">
-				<div class="card-header">
-					<h5><a href="{{route('create-customer')}}" class="btn btn-primary ">Add</a></h5>
-				</div>
+				<div class="card-header d-flex justify-content-between">
+                    <h5>Customer List</h5>
+                    <a href="{{ route('create-customer') }}" class="btn btn-primary">Add New Customer</a>
+                </div>
 				<div class="card-body">
 					<div class="dt-ext table-responsive">
 						<table class="table table-responsive-sm" id="export-button">
@@ -48,7 +49,6 @@
                                     <th>Phone</th>
                                     <th>NIC</th>
                                     <th>Location</th>
-                                    <th>Insurance Coverages</th>
                                     <th>Actions</th>
 								</tr>
 							</thead>
@@ -61,9 +61,9 @@
                                     <td>{{ $newcustomer->phone }}</td>
                                     <td>{{ $newcustomer->nic }}</td>
                                     <td>{{ $newcustomer->address }}</td>
-                                    
 
-                                    <td>
+
+                                    <td class="d-flex align-items-center gap-2">
                                         <a href="{{ route('view-customer', $newcustomer->id) }}" class="btn btn-primary btn-sm" title="View">
                                             <i class="icon-eye"></i>
                                         </a>

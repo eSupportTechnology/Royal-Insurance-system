@@ -34,9 +34,9 @@ class AuthController extends Controller
     ]);
 
 
-    Auth::login($admin);
+    Auth::guard('admin')->login($admin);
 
-    return redirect()->route('login.form')->with('success', 'Registration successful. Welcome!');
+    return redirect()->route('dashboard')->with('success', 'Registration successful. Welcome!');
 }
 
 
@@ -50,9 +50,7 @@ class AuthController extends Controller
     $credentials = $request->only('email', 'password');
 
     if (Auth::guard('admin')->attempt($credentials)) {
-        Auth::guard('admin')->user();
-
-        return redirect()->intended(route('dashboard'));
+        return redirect()->route('dashboard');
     }
 
     return back()->withErrors([
@@ -61,20 +59,49 @@ class AuthController extends Controller
 }
 
 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate(); // Invalidates the session
-        $request->session()->regenerateToken(); // Regenerates the CSRF token
+public function logout(Request $request)
+{
+    Auth::guard('admin')->logout(); // <- logout from admin guard
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
 
-        // Redirect to the login form route
-        return redirect()->route('login.form')->with('success', 'You have been logged out.');
-    }
+    return redirect()->route('login.form')->with('success', 'You have been logged out.');
+}
+
 
     public function dashboard()
     {
         return view('AdminDashboard.home');
     }
 
+    public function account(){
+        return view('profile.account');
+    }
 
+    public function accountUpdate(Request $request)
+{
+    $admin = Auth::guard('admin')->user();
+
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:admins,email,' . $admin->id,
+        'current_password' => 'nullable|string',
+        'password' => 'nullable|string|min:8|confirmed',
+    ]);
+
+    if ($request->filled('current_password') && !Hash::check($request->current_password, $admin->password)) {
+        return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+    }
+
+    $admin->name = $request->name;
+    $admin->email = $request->email;
+
+    if ($request->filled('password')) {
+        $admin->password = Hash::make($request->password);
+    }
+
+    $admin->save();
+
+    return back()->with('success', 'Account updated successfully!');
+}
 }

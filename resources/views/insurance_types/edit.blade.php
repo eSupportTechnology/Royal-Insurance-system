@@ -38,7 +38,7 @@
 
 		<div class="card">
 		  <div class="card-header">
-			<h5>Edit Request Details</h5>
+			<h5>Edit Insurance Type</h5>
 		  </div>
           <form action="{{ route('insuranceType.update', $insurance_type->id) }}" method="POST" enctype="multipart/form-data">
             @csrf

@@ -11,7 +11,7 @@
     <meta name="author" content="pixelstrap">
     <link rel="icon" href="{{ asset('frontend/assets/images/favicon.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('frontend/assets/images/favicon.png') }}" type="image/x-icon">
-    <title>Cuba - Premium Admin Template</title>
+    <title>Royal Insuarance</title>
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
@@ -36,7 +36,7 @@
    <!-- login page start-->
    <div class="container-fluid p-0">
       <div class="row m-0">
-        <div class="col-12 p-0">    
+        <div class="col-12 p-0">
         <div class="login-card">
             <div>
                {{-- <div><a class="logo" href="{{ route('index') }}"><img class="img-fluid for-light" src="{{asset('frontend/assets/images/logo/login.png')}}" alt="loginpage"><img class="img-fluid for-dark" src="{{asset('frontend/assets/images/logo/logo_dark.png')}}" alt="loginpage"></a></div> --}}
@@ -71,10 +71,10 @@
                         {{-- <a class="link" href="{{ route('forget-password') }}">Forgot password?</a> --}}
                         <button class="btn btn-primary btn-block" type="submit">Sign in</button>
                      </div>
-                     <h6 class="text-muted mt-4 or">Or Sign in with</h6>
+                     {{-- <h6 class="text-muted mt-4 or">Or Sign in with</h6>
                      <div class="social mt-4">
                         <div class="btn-showcase"><a class="btn btn-light" href="https://www.linkedin.com/login" target="_blank"><i class="txt-linkedin" data-feather="linkedin"></i> LinkedIn </a><a class="btn btn-light" href="https://twitter.com/login?lang=en" target="_blank"><i class="txt-twitter" data-feather="twitter"></i>twitter</a><a class="btn btn-light" href="https://www.facebook.com/" target="_blank"><i class="txt-fb" data-feather="facebook"></i>facebook</a></div>
-                     </div>
+                     </div> --}}
                      <p class="mt-4 mb-0">Don't have an account?<a class="ms-2" href="{{  route('register.form') }}">Create Account</a></p>
                   </form>
                </div>

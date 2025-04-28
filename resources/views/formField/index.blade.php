@@ -26,7 +26,8 @@
                             @forelse ($groupedFormFields as $insuranceType => $categories)
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="heading{{ $loop->index }}">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $loop->index }}" aria-expanded="true">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse{{ $loop->index }}" aria-expanded="true">
                                             {{ $insuranceType }}
                                         </button>
                                     </h2>
@@ -40,27 +41,41 @@
                                                             <div class="card-header d-flex justify-content-between">
                                                                 <strong>{{ $subCategory ?? 'General' }}</strong>
                                                                 <a href="{{ route('formField.addNew', [
-    'insurance_type_id' => $formFields->first()->insurance_type_id ?? null,
-    'category_id' => $formFields->first()->category_id ?? null,
-    'sub_category_id' => $formFields->first()->sub_category_id ?? null
-]) }}" class="btn btn-sm btn-success">Add New Field</a>
-
-
+                                                                    'insurance_type_id' => $formFields->first()->insurance_type_id ?? null,
+                                                                    'category_id' => $formFields->first()->category_id ?? null,
+                                                                    'sub_category_id' => $formFields->first()->sub_category_id ?? null
+                                                                ]) }}" class="btn btn-sm btn-success">Add New Field</a>
                                                             </div>
-                                                            <div class="card-body">
-                                                                <ul>
-                                                                    @foreach ($formFields as $formField)
-                                                                        <li class="mb-2">
-                                                                            {{ $formField->field_name }} ({{ $formField->field_type }}) - Required: {{ $formField->required ? 'Yes' : 'No' }}
-                                                                            <a href="{{ route('formField.edit', $formField->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                                                                            <form action="{{ route('formField.delete', $formField->id) }}" method="POST" style="display:inline-block;">
-                                                                                @csrf
-                                                                                @method('DELETE')
-                                                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                                                                            </form>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
+                                                            <div class="card-body table-responsive">
+                                                                <table class="table table-bordered">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Field Name</th>
+                                                                            <th>Field Type</th>
+                                                                            <th>Required</th>
+                                                                            <th>Options</th>
+                                                                            <th>Actions</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach ($formFields as $formField)
+                                                                            <tr>
+                                                                                <td>{{ $formField->field_name }}</td>
+                                                                                <td>{{ ucfirst($formField->field_type) }}</td>
+                                                                                <td>{{ $formField->required ? 'Yes' : 'No' }}</td>
+                                                                                <td>{{ $formField->field_options }}</td>
+                                                                                <td>
+                                                                                    <a href="{{ route('formField.edit', $formField->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                                                                    <form action="{{ route('formField.delete', $formField->id) }}" method="POST" style="display:inline-block;">
+                                                                                        @csrf
+                                                                                        @method('DELETE')
+                                                                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                                                                    </form>
+                                                                                </td>
+                                                                            </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
                                                             </div>
                                                         </div>
                                                     @endforeach

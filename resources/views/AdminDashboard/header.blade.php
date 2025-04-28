@@ -29,24 +29,22 @@
           </li>
 
           <li class="profile-nav onhover-dropdown pe-0 py-0">
-            <div class="media profile-media"><img class="b-r-10" src="{{ asset('frontend/assets/images/dashboard/profile.png') }}" alt="">
-                <div class="media-body">
+            <div class="media profile-media align-items-center">
+                <img class="b-r-10" src="{{ asset('frontend/assets/images/dashboard/profile.png') }}" alt="" style="width: 40px; height: 40px; object-fit: cover;">
+                <div class="media-body ms-2 d-flex align-items-center">
                     @if(Auth::check())
-                        <span>{{ Auth::user()->name }}</span>
-                        <p class="mb-0 font-roboto">
-                            Admin
-                            <i class="middle fa fa-angle-down"></i>
-                        </p>
+                        <span class="me-1">{{ Auth::user()->name }}</span>
+                        <small class="text-muted">(Admin)</small>
+                        <i class="middle fa fa-angle-down ms-1"></i>
                     @else
                         <span>Guest</span>
                     @endif
                 </div>
             </div>
+
             <ul class="profile-dropdown onhover-show-div">
-              <li><a href="#"><i data-feather="user"></i><span>Account </span></a></li>
-              <li><a href="#"><i data-feather="mail"></i><span>Inbox</span></a></li>
-              <li><a href="#"><i data-feather="file-text"></i><span>Taskboard</span></a></li>
-              <li><a href="#"><i data-feather="settings"></i><span>Settings</span></a></li>
+              <li><a href="{{ route('account') }}"><i data-feather="user"></i><span>Account </span></a></li>
+
               <li>
                 <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
                     @csrf

@@ -61,7 +61,7 @@
                                     <td>{{ $response->category->name ?? 'N/A' }}</td>
                                     <td>{{ $response->subCategory->name ?? 'N/A' }}</td>
                                     <td>{{ $response->status }}</td>
-                                    <td>
+                                    <td class="d-flex align-items-center gap-2">
                                         <a href="{{ route('customerResponse.mail', $response->id) }}" class="btn btn-primary btn-sm" title="Send Mail">
                                             <i class="icon-envelope"></i>
                                         </a>

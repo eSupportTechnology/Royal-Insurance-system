@@ -34,7 +34,8 @@
             </div>
 
 			<div class="card">
-				<div class="card-header">
+				<div class="card-header d-flex justify-content-between">
+                    <h5>Sub Categories List</h5>
 					<h5><a href="{{route('subcategories.create')}}" class="btn btn-primary mb-3">Add</a></h5>
 				</div>
 				<div class="card-body">
@@ -57,7 +58,7 @@
                                     <td>{{ $subcategory->category->name ?? 'N/A' }}</td>
 
                                     <td>{{ $subcategory->name }}</td>
-                                    <td>
+                                    <td class="d-flex align-items-center gap-2">
                                         <a href="{{ route('subcategories.edit', $subcategory->id) }}" class="btn btn-warning btn-sm" title="Edit">
                                             <i class="icon-pencil-alt"></i>
                                         </a>

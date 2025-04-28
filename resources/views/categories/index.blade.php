@@ -34,7 +34,8 @@
             </div>
 
 			<div class="card">
-				<div class="card-header">
+				<div class="card-header d-flex justify-content-between">
+                    <h5>Insurance Categories List</h5>
 					<h5><a href="{{route('categories.create')}}" class="btn btn-primary mb-3">Add</a></h5>
 				</div>
 				<div class="card-body">
@@ -54,7 +55,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $category->insuranceType->name ?? 'N/A' }}</td>
                                     <td>{{ $category->name }}</td>
-                                    <td>
+                                    <td class="d-flex align-items-center gap-2">
                                         <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-warning btn-sm" title="Edit">
                                             <i class="icon-pencil-alt"></i>
                                         </a>

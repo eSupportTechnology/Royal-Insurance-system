@@ -36,7 +36,7 @@
                               </div>
                               <button class="btn btn-primary btn-block" type="submit">Unlock</button>
                            </div>
-                           <p class="mt-4 mb-0">Already Have an account?<a class="ms-2" href="{{ route('login') }}">Sign in</a></p>
+                           {{-- <p class="mt-4 mb-0">Already Have an account?<a class="ms-2" href="{{ route('login') }}">Sign in</a></p> --}}
                         </form>
                      </div>
                   </div>

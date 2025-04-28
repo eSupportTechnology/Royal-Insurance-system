@@ -28,56 +28,84 @@
                         @csrf
 
                             <!-- Select Agent -->
-                        <div class="mb-3">
-                            <label for="agent_id" class="form-label">Select Agent</label>
-                            <select name="agent_id" class="form-control" required>
-                                <option value="">Select Agent</option>
-                                @foreach($agents as $agent)
-                                    <option value="{{ $agent->id }}">{{ $agent->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                            <div class="mb-3">
+                                <label for="agent_id" class="form-label">Select Agent</label>
+                                <div class="position-relative">
+                                    <select name="agent_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
+                                        <option value="">Select Agent</option>
+                                        @foreach($agents as $agent)
+                                            <option value="{{ $agent->id }}">{{ $agent->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <!-- Dropdown Icon -->
+                                    <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                        ▼
+                                    </span>
+                                </div>
+                            </div>
+
 
                         <!-- Select Customer -->
                         <div class="mb-3">
                             <label for="customer_id" class="form-label">Select Customer</label>
-                            <select name="customer_id" class="form-control mb-5" required>
+                            <div class="position-relative">
+                            <select name="customer_id" class="form-control mb-5" required style="appearance: none; padding-right: 2.5rem;">
                                 <option value="">Select Customer</option>
                                 @foreach($customers as $customer)
                                     <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                                 @endforeach
                             </select>
+                            <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                ▼
+                            </span>
                         </div>
-                        
+                        </div>
 
-                        
+
+
 
                         <!-- Select Insurance Type -->
                         <div class="mb-3">
                             <label for="insurance_type_id" class="form-label">Select Insurance Type</label>
-                            <select name="insurance_type_id" id="insurance_type_id" class="form-control" required>
+                            <div class="position-relative">
+                            <select name="insurance_type_id" id="insurance_type_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
                                 <option value="">Select Insurance Type</option>
                                 @foreach($insurance_types as $insuranceType)
                                     <option value="{{ $insuranceType->id }}">{{ $insuranceType->name }}</option>
                                 @endforeach
                             </select>
+                            <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                ▼
+                            </span>
+                        </div>
                         </div>
 
                         <!-- Select Category -->
                         <div class="mb-3">
                             <label for="category_id" class="form-label">Select Category</label>
-                            <select name="category_id" id="category_id" class="form-control" required>
+                            <div class="position-relative">
+                            <select name="category_id" id="category_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
                                 <option value="">Select Category</option>
                             </select>
+                            <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                ▼
+                            </span>
+                        </div>
                         </div>
 
                         <!-- Select Subcategory -->
                         <div class="mb-3">
                             <label for="sub_category_id" class="form-label">Select Sub Category</label>
-                            <select name="sub_category_id" id="sub_category_id" class="form-control">
+                            <div class="position-relative">
+                            <select name="sub_category_id" id="sub_category_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
                                 <option value="">Select Sub Category</option>
                             </select>
+                            <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                ▼
+                            </span>
                         </div>
+                        </div>
+
 
                         <!-- Form Fields Area -->
                         <div id="formFieldsArea" class="mt-4 p-4 border rounded bg-light shadow-sm text-black"></div>
@@ -85,11 +113,16 @@
                         <!-- Status -->
                         <div class="mb-3 mt-5">
                             <label for="status" class="form-label">Status</label>
-                            <select name="status" class="form-control">
+                            <div class="position-relative">
+                            <select name="status" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
                                 <option value="Pending">Pending</option>
                                 <option value="Approved">Approved</option>
                                 <option value="Rejected">Rejected</option>
                             </select>
+                            <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                ▼
+                            </span>
+                        </div>
                         </div>
 
                         <!-- Submission Date -->
@@ -131,10 +164,10 @@
 
                 } else if (field.field_type === 'file') {
                     fieldHtml += `<input type="file" name="responses[${field.id}]" class="form-control">`;
-                    
+
                 } else if (field.field_type === 'number') {
                     fieldHtml += `<input type="number" name="responses[${field.id}]" class="form-control">`;
-                
+
                 } else if (field.field_type === 'select') {
                     fieldHtml += `<select name="responses[${field.id}]" class="form-control"><option value="">Select an option</option>`;
                     field.options.forEach(option => {

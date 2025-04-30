@@ -62,10 +62,10 @@
                                     <td>{{ $response->subCategory->name ?? 'N/A' }}</td>
                                     <td>{{ $response->status }}</td>
                                     <td class="d-flex align-items-center gap-2">
-                                        <a href="{{ route('quotation.show', $response->id) }}" class="btn btn-secondary btn-sm" title="View Quotations">
+                                        <a href="{{ route('quotation.show', $response->id) }}" class="btn btn-info btn-sm" title="View Quotations">
                                             <i class="fa fa-id-badge" aria-hidden="true"></i>
                                         </a>
-                                        <a href="{{ route('seemore', $response->id) }}" class="btn btn-info btn-sm" title="View Details">
+                                        <a href="{{ route('seemore', $response->id) }}" class="btn btn-primary btn-sm" title="View Details">
                                             <i class="icon-eye"></i>
                                         </a>
                                         <form action="{{ route('deletemotors', $response->id) }}" method="POST" style="display:inline;">

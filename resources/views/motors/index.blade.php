@@ -62,10 +62,10 @@
                                     <td>{{ $response->subCategory->name ?? 'N/A' }}</td>
                                     <td>{{ $response->status }}</td>
                                     <td class="d-flex align-items-center gap-2">
-                                        <a href="{{ route('customerResponse.mail', $response->id) }}" class="btn btn-primary btn-sm" title="Send Mail">
+                                        <a href="{{ route('customerResponse.mail', $response->id) }}" class="btn btn-info btn-sm" title="Send Mail">
                                             <i class="icon-envelope"></i>
                                         </a>
-                                        <a href="{{ route('seemore', $response->id) }}" class="btn btn-info btn-sm" title="View Details">
+                                        <a href="{{ route('seemore', $response->id) }}" class="btn btn-primary btn-sm" title="View Details">
                                             <i class="icon-eye"></i>
                                         </a>
                                         <a href="{{ route('customerResponse.edit', $response->id) }}" class="btn btn-warning btn-sm" title="Edit">

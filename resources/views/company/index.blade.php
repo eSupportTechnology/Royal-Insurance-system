@@ -80,7 +80,7 @@
                                             <td>
                                                 @if ($company->status == 0)
                                                     <a href="{{ route('company.status', $company->id) }}"
-                                                        class="btn btn-danger btn-sm" title="Activate">
+                                                        class="btn btn-success btn-sm" title="Activate">
                                                         <i class="fa fa-bell-slash-o"></i>
                                                     </a>
                                                 @else

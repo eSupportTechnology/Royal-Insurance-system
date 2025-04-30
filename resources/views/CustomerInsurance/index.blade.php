@@ -92,13 +92,19 @@
                                     <td>{{ $insurance->address }}</td>
                                     <td>{{ $insurance->introducer_code }}</td>
                                     <td class="d-flex align-items-center gap-2">
-                                        <a href="{{ route('customerinsurance.show', $insurance->id) }}" class="btn btn-sm btn-success">Show</a>
-                                        <a href="{{ route('customerinsurance.edit', $insurance->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="{{ route('customerinsurance.show', $insurance->id) }}" class="btn btn-sm btn-primary">
+                                            <i class="icon-eye"></i>
+                                        </a>
+                                        <a href="{{ route('customerinsurance.edit', $insurance->id) }}" class="btn btn-sm btn-warning">
+                                            <i class="icon-pencil-alt"></i>
+                                        </a>
 
                                         <form action="{{ route('customerinsurance.destroy', $insurance->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                                            <button class="btn btn-sm btn-danger" type="submit">
+                                                <i class="icon-trash"></i>
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>

@@ -83,7 +83,7 @@
 
         <div class="mt-3">
             <button type="button" class="btn btn-outline-primary" id="addRowBtn"><i class="bi bi-plus-circle"></i> Add Row</button>
-            <button type="submit" class="btn btn-success float-end">Save Quotations</button>
+            <button type="submit" class="btn btn-primary float-end">Save Quotations</button>
         </div>
     </form>
 </div>

@@ -17,9 +17,9 @@ use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 
-
+Route::get('/', [AuthController::class, 'showLoginForm'])->name('login.form');
 Route::prefix('authentication')->group(function () {
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
+    
     Route::post('login/page', [AuthController::class, 'login'])->name('login.store');
     Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register.form');
     Route::post('register/store', [AuthController::class, 'signup'])->name('register.store');

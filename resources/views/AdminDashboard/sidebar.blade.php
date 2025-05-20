@@ -3,8 +3,8 @@
     <div>
         <div class="logo-wrapper">
             <a href="{{ route('dashboard') }}">
-                <img class="img-fluid for-light" src="{{ asset('frontend/assets/images/logo/logo-img.jpg') }}" style="width: 150px; height:50px;" alt="logo">
-                <img class="img-fluid for-dark"  src="{{ asset('frontend/assets/images/logo/logo-img.jpg') }}" style="width: 150px; height:50px;" alt="logo-dark">
+                <img class="img-fluid for-light" src="{{ asset('frontend/assets/images/logo/logo-img.jpg') }}" style="width: 100px; height:50px; margin-left:30px;" alt="logo">
+                <img class="img-fluid for-dark"  src="{{ asset('frontend/assets/images/logo/logo-img.jpg') }}" style="width: 100px; height:50px; margin-left:30px;" alt="logo-dark">
             </a>
             <div class="back-btn"><i class="fa fa-angle-left"></i></div>
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"></i></div>
@@ -92,7 +92,6 @@
                         </a>
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('agents.index') }}">All Agents</a></li>
-                            <li><a href="{{ route('agents.create') }}">Add New Agent</a></li>
                             <li><a href="{{ route('sub_agents.index') }}">Sub Agents</a></li>
                         </ul>
                     </li>

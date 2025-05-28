@@ -68,14 +68,14 @@ class CustomerController extends Controller
     public function newCustomer()
     {
         $newcustomers = Customer::all();
-        return view('Customer.index', compact('newcustomers'));
+        return view('customer.index', compact('newcustomers'));
     }
 
 
     public function createCustomer()
     {
 
-        return view('Customer.create')->with('success', 'Customer created successfully.');
+        return view('customer.create')->with('success', 'Customer created successfully.');
     }
 
     public function storeCustomer(Request $request)

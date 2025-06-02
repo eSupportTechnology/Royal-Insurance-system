@@ -14,6 +14,7 @@ use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\QuotationRequestMail;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerResponseController extends Controller
 {
@@ -25,7 +26,7 @@ class CustomerResponseController extends Controller
         $categories = Category::all();
         $subcategories = SubCategory::all();
         $formFields = FormField::with('options')->get(); // Load options with each form field
-    
+
         return view('customerResponse.create', compact('agents', 'customers', 'insurance_types', 'categories', 'subcategories', 'formFields'));
     }
 
@@ -53,7 +54,7 @@ class CustomerResponseController extends Controller
         return response()->json($formFields);
     }
 
-    
+
 
     public function store(Request $request)
     {
@@ -87,7 +88,7 @@ class CustomerResponseController extends Controller
         // Save individual form field responses
         foreach ($request->responses as $fieldId => $response) {
             $field = FormField::find($fieldId);
-        
+
             if ($field && $field->field_type === 'file' && $request->hasFile("responses.$fieldId")) {
                 $file = $request->file("responses.$fieldId");
                 $path = $file->store('uploads/files', 'public'); // Save in storage/app/public/uploads/files
@@ -95,14 +96,14 @@ class CustomerResponseController extends Controller
             } else {
                 $finalValue = is_array($response) ? implode(', ', $response) : $response;
             }
-        
+
             CustomerResponseField::create([
                 'customer_response_id' => $customerResponse->id,
                 'form_field_id' => $fieldId,
                 'response' => $finalValue,
             ]);
         }
-        
+
 
         return redirect()->route('indexxx')->with('success', 'Customer response saved successfully.');
     }
@@ -167,8 +168,8 @@ class CustomerResponseController extends Controller
             // Handle file upload
             if ($formField->field_type === 'file' && $request->hasFile("responses.$fieldId")) {
                 // Delete old file if exists
-                if ($responseField && $responseField->response && \Storage::disk('public')->exists($responseField->response)) {
-                    \Storage::disk('public')->delete($responseField->response);
+                if ($responseField && $responseField->response && Storage::disk('public')->exists($responseField->response)) {
+                    Storage::disk('public')->delete($responseField->response);
                 }
 
                 $file = $request->file("responses.$fieldId");

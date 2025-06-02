@@ -11,7 +11,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Add New Agent</h5>
+                        <h5>Add New Supervisor</h5>
                     </div>
                     <div class="card-body">
                         @if ($errors->any())
@@ -52,7 +52,7 @@
                                 <textarea name="address" class="form-control"></textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Add Agent</button>
+                            <button type="submit" class="btn btn-primary">Add Supervisor</button>
                         </form>
                     </div>
                 </div>

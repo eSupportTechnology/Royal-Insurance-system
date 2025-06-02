@@ -11,7 +11,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Add Sub Agent</h5>
+                        <h5>Add Representative</h5>
                     </div>
                     <div class="card-body">
                         @if ($errors->any())
@@ -28,7 +28,7 @@
                             @csrf
 
                             <div class="mb-3">
-                                <label for="agent_id" class="form-label">Agent</label>
+                                <label for="agent_id" class="form-label">Sales Supervisor</label>
                                 <select name="agent_id" class="form-control">
                                     @foreach ($subagents as $subagent)
                                         <option value="{{ $subagent->id }}">{{ $subagent->name }}</option>
@@ -36,7 +36,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="sub_agent_name" class="form-label">Sub Agent Name</label>
+                                <label for="sub_agent_name" class="form-label">Sales Representative</label>
                                 <input type="text" name="sub_agent_name" class="form-control" required>
                             </div>
 
@@ -60,7 +60,7 @@
                                 <textarea name="address" class="form-control"></textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Add Sub Agent</button>
+                            <button type="submit" class="btn btn-primary">Add Representative</button>
                         </form>
                     </div>
                 </div>

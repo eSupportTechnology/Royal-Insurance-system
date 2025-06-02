@@ -29,10 +29,10 @@
 
                             <!-- Select Agent -->
                             <div class="mb-3">
-                                <label for="agent_id" class="form-label">Select Agent</label>
+                                <label for="agent_id" class="form-label">Select Supervisor</label>
                                 <div class="position-relative">
                                     <select name="agent_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
-                                        <option value="">Select Agent</option>
+                                        <option value="">Select Supervisor</option>
                                         @foreach($agents as $agent)
                                             <option value="{{ $agent->id }}">{{ $agent->name }}</option>
                                         @endforeach

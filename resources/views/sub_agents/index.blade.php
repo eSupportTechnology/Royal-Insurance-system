@@ -11,8 +11,8 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
-                        <h5>Sub Agents List</h5>
-                        <a href="{{ route('sub_agents.create') }}" class="btn btn-primary">Add Sub Agent</a>
+                        <h5>Representatives List</h5>
+                        <a href="{{ route('sub_agents.create') }}" class="btn btn-primary">Add New Representative</a>
                     </div>
                     <div class="card-body">
                         @if (session('success'))
@@ -23,7 +23,7 @@
                             <thead>
                                 <tr>
                                     <th>Rep_code</th>
-                                    <th>Sub Agent</th>
+                                    <th>Representative_Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
                                     <th>Company Name</th>

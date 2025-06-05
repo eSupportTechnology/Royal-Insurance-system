@@ -88,11 +88,11 @@
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title" href="#">
                             <i class="fa fa-user"></i> <!-- Agent Icon -->
-                            <span>Sales Supervisors</span>
+                            <span>Agents</span>
                         </a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('agents.index') }}">All Sales Supervisors</a></li>
-                            <li><a href="{{ route('sub_agents.index') }}">sales Representatives</a></li>
+                            <li><a href="{{ route('agents.index') }}">All Agents</a></li>
+                            <li><a href="{{ route('sub_agents.index') }}">Sub Agents</a></li>
                         </ul>
                     </li>
 

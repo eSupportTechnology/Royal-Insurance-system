@@ -51,7 +51,7 @@
                                     <th>D/N</th>
                                     <th>Vehicle</th>
                                     <th>Class</th>
-                                    <th>Ins./Comp</th>
+                                    <th>Company</th>
                                     <th>Rep</th>
                                     <th>Basic</th>
                                     <th>SRCC</th>

@@ -11,7 +11,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Edit Sale Representative</h5>
+                        <h5>Edit Sub Agent</h5>
                     </div>
                     <div class="card-body">
                         @if ($errors->any())
@@ -29,7 +29,7 @@
                             @method('PUT')
 
                             <div class="mb-3">
-                                <label for="agent_id" class="form-label">Sales Supervisor</label>
+                                <label for="agent_id" class="form-label">Agent</label>
                                 <select name="agent_id" class="form-control">
                                     @foreach ($agents as $agent)
                                         <option value="{{ $agent->id }}">{{ $agent->name }}</option>
@@ -37,7 +37,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="sub_agent_name" class="form-label">Sales Representative Name</label>
+                                <label for="sub_agent_name" class="form-label">Sub Agent Name</label>
                                 <input type="text" name="sub_agent_name" class="form-control" value="{{ $subagent->sub_agent_name }}" required>
                             </div>
 
@@ -61,7 +61,7 @@
                                 <textarea name="address" class="form-control">{{ $subagent->address }}</textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Update Representative</button>
+                            <button type="submit" class="btn btn-primary">Update Sub Agent</button>
                         </form>
                     </div>
                 </div>

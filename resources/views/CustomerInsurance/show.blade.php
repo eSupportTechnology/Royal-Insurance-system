@@ -94,7 +94,7 @@
                                     </div>
 
                                     <div class="mb-3 row">
-                                        <label for="insurance_company" class="col-sm-3 col-form-label">Ins./Comp</label>
+                                        <label for="insurance_company" class="col-sm-3 col-form-label">Company</label>
                                         <input type="text" name="insurance_company" id="insurance_company"
                                             class="form-control"
                                             value="{{ old('insurance_company', $customerinsurance->insurance_company) }}" readonly>

@@ -59,9 +59,19 @@
                                         <input type="date" name="date" id="date" class="form-control" required>
                                     </div>
 
-                                    <div class="mb-3 row">
-                                        <label for="name" class="col-sm-3 col-form-label">Name</label>
-                                        <input type="text" name="name" id="name" class="form-control" required>
+                                    <div class="mb-3">
+                                        <label for="customer_id" class="form-label">Select Customer</label>
+                                        <div class="position-relative" >
+                                            <select name="customer_id" class="form-control mb-5" required style="appearance: none; padding-right: 2.5rem;">
+                                                <option value="">Select Customer</option>
+                                                @foreach($customers as $customer)
+                                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                              ▼
+                                            </span>
+                                        </div>
                                     </div>
 
                                     <!-- Include similar form fields for the remaining columns -->
@@ -85,7 +95,7 @@
                                         </div>
 
                                         <div class="mb-3 row">
-                                            <label for="insurance_company" class="col-sm-3 col-form-label">Ins./Comp</label>
+                                            <label for="insurance_company" class="col-sm-3 col-form-label">Company</label>
                                             <input type="text" name="insurance_company" id="insurance_company"
                                                 class="form-control">
                                         </div>

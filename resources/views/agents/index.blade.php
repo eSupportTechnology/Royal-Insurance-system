@@ -11,8 +11,8 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
-                        <h5>All Supervisors List</h5>
-                        <a href="{{ route('agents.create') }}" class="btn btn-primary">Add New Supervisor</a>
+                        <h5>All Agents List</h5>
+                        <a href="{{ route('agents.create') }}" class="btn btn-primary">Add New Agent</a>
                     </div>
                     <div class="card-body">
                         @if (session('success'))

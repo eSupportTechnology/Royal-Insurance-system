@@ -22,7 +22,8 @@ class CustomerInsuranceController extends Controller
      */
     public function create()
     {
-        return view('CustomerInsurance.create');
+        $customers = Customer::all();
+        return view('CustomerInsurance.create',compact('customers'));
     }
 
     /**

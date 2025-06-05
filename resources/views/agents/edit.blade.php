@@ -11,7 +11,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Edit Supervisor</h5>
+                        <h5>Edit Agent</h5>
                     </div>
                     <div class="card-body">
                         @if ($errors->any())
@@ -53,7 +53,7 @@
                                 <textarea name="address" class="form-control">{{ $agent->address }}</textarea>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Update Supervisor</button>
+                            <button type="submit" class="btn btn-primary">Update Agent</button>
                         </form>
                     </div>
                 </div>

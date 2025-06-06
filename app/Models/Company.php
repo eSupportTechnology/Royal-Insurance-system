@@ -23,4 +23,10 @@ class Company extends Model
     public function allActive(){
         return $this->where('status', 1)->get(); //filter active records
     }
+
+    public function profitMargine(){
+        return $this->belongsTo(ProfitMargin::class);
+    }
+
+
 }

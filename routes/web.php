@@ -12,14 +12,16 @@ use App\Http\Controllers\InsuranceController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\CustomerInsuranceController;
 use App\Http\Controllers\CustomerResponseController;
+use App\Http\Controllers\ProfitMarginController;
 use App\Http\Controllers\QuotationController;
+use App\Models\ProfitMargin;
 use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Session;
 
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login.form');
 Route::prefix('authentication')->group(function () {
-    
+
     Route::post('login/page', [AuthController::class, 'login'])->name('login.store');
     Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register.form');
     Route::post('register/store', [AuthController::class, 'signup'])->name('register.store');
@@ -172,6 +174,17 @@ Route::prefix('authentication')->group(function () {
         Route::get('/customer-insurance/{id}/edit', [CustomerInsuranceController::class, 'edit'])->name('customerinsurance.edit');
         Route::put('/customer-insurance/{id}', [CustomerInsuranceController::class, 'update'])->name('customerinsurance.update');
         Route::delete('/customer-insurance/{id}/delete', [CustomerInsuranceController::class, 'destroy'])->name('customerinsurance.destroy');
+
+        //profit margin
+
+        Route::get('/profitMargin', [ProfitMarginController::class, 'index'])->name('profitMargin.index');
+        Route::get('/profitMargin/create', [ProfitMarginController::class, 'create'])->name('profitMargin.create');
+        Route::post('/profitMargin/store', [ProfitMarginController::class, 'store'])->name('profitMargin.store');
+        Route::get('/profitMargin/edit/{id}', [ProfitMarginController::class, 'edit'])->name('profitMargin.edit');
+        Route::put('/profitMargin/update/{id}', [ProfitMarginController::class, 'update'])->name('profitMargin.update');
+        Route::delete('/profitMargin/delete/{id}', [ProfitMarginController::class, 'destroy'])->name('profitMargin.destroy');
+
+
     });
 });
 

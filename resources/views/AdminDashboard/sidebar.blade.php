@@ -96,6 +96,17 @@
                         </ul>
                     </li>
 
+                    <!-- Profit Magin Section -->
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title" href="#">
+                            <i class="fa fa-money"></i> <!-- Profit Icon -->
+                            <span>Profit Margins</span>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('profitMargin.create')  }}">Add Profit Margin</a></li>
+                            <li><a href="{{ route('profitMargin.index') }}">All Profit Margin</a></li>
+                        </ul>
+                    </li>
 
 
                 </ul>

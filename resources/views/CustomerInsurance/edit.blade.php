@@ -62,10 +62,22 @@
                                             value="{{ old('date', $customerinsurance->date) }}" required>
                                     </div>
 
-                                    <div class="mb-3 row">
-                                        <label for="name" class="col-sm-3 col-form-label">Name</label>
-                                        <input type="text" name="name" id="name" class="form-control"
-                                            value="{{ old('name', $customerinsurance->name) }}" required>
+                                    <div class="mb-3">
+                                        <label for="company_id" class="form-label">Select Customer</label>
+                                        <div class="position-relative">
+                                            <select name="customer_id" class="form-control" required>
+                                                <option value="">Select Customer</option>
+                                                @foreach ($customers as $customer)
+                                                    <option value="{{ $customer->id }}"
+                                                        {{ $customer->id == $customerinsurance->customer_id ? 'selected' : '' }}>
+                                                        {{ $customer->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                                ▼
+                                            </span>
+                                        </div>
                                     </div>
 
                                     <!-- Include similar form fields for the remaining columns -->
@@ -87,17 +99,95 @@
                                             value="{{ old('vehicle', $customerinsurance->vehicle) }}">
                                     </div>
 
-                                    <div class="mb-3 row">
-                                        <label for="class" class="col-sm-3 col-form-label">Class</label>
-                                        <input type="text" name="class" id="class" class="form-control"
-                                            value="{{ old('class', $customerinsurance->class) }}">
+                                    <div class="mb-3">
+                                        <label for="company_id" class="form-label">Select Company</label>
+                                        <div class="position-relative">
+                                            <select name="company_id" class="form-control" required>
+                                                <option value="">Select Company</option>
+                                                @foreach ($companies as $company)
+                                                    <option value="{{ $company->id }}"
+                                                        {{ $company->id == $customerinsurance->company_id ? 'selected' : '' }}>
+                                                        {{ $company->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                                ▼
+                                            </span>
+                                        </div>
                                     </div>
 
-                                    <div class="mb-3 row">
-                                        <label for="insurance_company" class="col-sm-3 col-form-label">Company</label>
-                                        <input type="text" name="insurance_company" id="insurance_company"
-                                            class="form-control"
-                                            value="{{ old('insurance_company', $customerinsurance->insurance_company) }}">
+                                    <div class="mb-3">
+                                        <label for="insurance_type_id" class="form-label">Select Insurance Type</label>
+                                        <div class="position-relative">
+                                            <select name="insurance_type_id" id="insurance_type_id" class="form-control"
+                                                required>
+                                                <option value="">Select Insurance Type</option>
+                                                @foreach ($insurance_types as $insuranceType)
+                                                    <option value="{{ $insuranceType->id }}"
+                                                        {{ $insuranceType->id == $customerinsurance->insurance_type_id ? 'selected' : '' }}>
+                                                        {{ $insuranceType->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                                ▼
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="category_id" class="form-label">Select Category</label>
+                                        <div class="position-relative">
+                                            <select name="category_id" id="category_id" class="form-control">
+                                                <option value="">Select Category</option>
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}"
+                                                        {{ $category->id == $customerinsurance->category_id ? 'selected' : '' }}>
+                                                        {{ $category->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                                ▼
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="sub_category_id" class="form-label">Select Sub Category</label>
+                                        <div class="position-relative">
+                                            <select name="sub_category_id" id="sub_category_id" class="form-control">
+                                                <option value="">Select Sub Category</option>
+                                                @foreach ($sub_categories as $sub_category)
+                                                    <option value="{{ $sub_category->id }}"
+                                                        {{ $sub_category->id == $customerinsurance->sub_category_id ? 'selected' : '' }}>
+                                                        {{ $sub_category->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                                ▼
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="form_field_id" class="form-label">Select Form Field</label>
+                                        <div class="position-relative">
+                                            <select name="form_field_id" id="form_field_id" class="form-control">
+                                                <option value="">Select Form Field</option>
+                                                @foreach ($form_fields as $form_field)
+                                                    <option value="{{ $form_field->id }}"
+                                                        {{ $form_field->id == $customerinsurance->form_field_id ? 'selected' : '' }}>
+                                                        {{ $form_field->field_name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                                ▼
+                                            </span>
+                                        </div>
                                     </div>
 
                                     <div class="mb-3 row">
@@ -168,11 +258,63 @@
                                     </div>
 
                                     <div class="mb-3 row">
-                                        <label for="introducer_code" class="col-sm-3 col-form-label">Introducer
+                                        <label for="agent_code" class="col-sm-3 col-form-label">Agent Code</label>
+                                        <div class="position-relative">
+                                            <select name="agent_code" id="agent_code" class="form-control" required
+                                                style="appearance: none; padding-right: 2.5rem;">
+                                                <option value="">Select Agent Rep_code</option>
+                                                @foreach ($agents as $agent)
+                                                    <option value="{{ $agent->id }}">{{ $agent->rep_code }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <span
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                                ▼
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {{-- subagents --}}
+                                    <div class="mb-3 row">
+                                        <label for="subagent_code" class="col-sm-3 col-form-label">Sub Agent
                                             Code</label>
-                                        <input type="text" name="introducer_code" id="introducer_code"
-                                            class="form-control"
-                                            value="{{ old('introducer_code', $customerinsurance->introducer_code) }}">
+                                        <div class="position-relative">
+                                            <select name="subagent_code" id="subagent_code" class="form-control" nullable
+                                                style="appearance: none; padding-right: 2.5rem;">
+                                                <option value="">Select SubAgent Rep_code</option>
+                                                @foreach ($agentsWithSubagents as $agent)
+                                                    @foreach ($agent->subagents as $index => $subagent)
+                                                        <option
+                                                            value="{{ $agent->rep_code }}/{{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}">
+                                                            {{ $agent->rep_code }}/{{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}
+                                                        </option>
+                                                    @endforeach
+                                                @endforeach
+                                            </select>
+                                            <span
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                                ▼
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="status" class="col-sm-3 col-form-label">Status</label>
+                                        <div class="position-relative">
+                                            <select name="status" id="status" class="form-control" required
+                                                style="appearance: none; padding-right: 2.5rem;">
+                                                <option value="">Select Type</option>
+                                                <option value="Cash">Cash</option>
+                                                <option value="Debit">Debit</option>
+
+                                            </select>
+                                            <span
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                                ▼
+                                            </span>
+                                        </div>
+
                                     </div>
 
                                     <div class="card-footer text-end">

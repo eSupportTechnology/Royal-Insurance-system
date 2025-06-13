@@ -9,12 +9,15 @@ class CustomerInsurance extends Model
     protected $fillable = [
         'inv',
         'date',
-        'name',
+        'customer_id',
         'policy',
         'dn',
         'vehicle',
-        'class',
         'insurance_company',
+        'insurance_type',
+        'category',
+        'sub_category',
+        'form_field',
         'rep',
         'basic',
         'srcc',
@@ -26,7 +29,10 @@ class CustomerInsurance extends Model
         'to_date',
         'contact',
         'address',
-        'introducer_code'
+        'agent_code',
+        'sub_agent_code',
+        'status'
+
     ];
 
 }

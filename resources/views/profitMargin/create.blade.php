@@ -88,7 +88,7 @@
                                     </div>
 
                                     <!-- Select Category -->
-                                    <div class="mb-3">
+                                    <div class="mb-3" id="category_wrapper">
                                         <label for="category_id" class="form-label">Select Category</label>
                                         <div class="position-relative">
                                             <select name="category_id" id="category_id" class="form-control"
@@ -103,11 +103,11 @@
                                     </div>
 
                                     <!-- Select Subcategory -->
-                                    <div class="mb-3">
+                                    <div class="mb-3" id="subcategory_wrapper">
                                         <label for="sub_category_id" class="form-label">Select Sub Category</label>
                                         <div class="position-relative">
                                             <select name="sub_category_id" id="sub_category_id" class="form-control"
-                                                 style="appearance: none; padding-right: 2.5rem;">
+                                                style="appearance: none; padding-right: 2.5rem;">
                                                 <option value="">Select Sub Category</option>
                                             </select>
                                             <span
@@ -117,8 +117,8 @@
                                         </div>
                                     </div>
 
-                                    {{-- form field --}}
-                                    <div class="mb-3">
+                                    <!-- Select Form Field -->
+                                    <div class="mb-3" id="formfield_wrapper">
                                         <label for="form_field_id" class="form-label">Select Form Field</label>
                                         <div class="position-relative">
                                             <select name="form_field_id" id="form_field_id" class="form-control"
@@ -132,6 +132,7 @@
                                         </div>
                                     </div>
 
+
                                     {{-- select item --}}
                                     <div class="mb-3">
                                         <label for="profit_type" class="form-label">Select Profit Type</label>
@@ -139,7 +140,7 @@
                                             <select name="profit_type" id="profit_type" class="form-control" required
                                                 style="appearance: none; padding-right: 2.5rem;">
                                                 <option value="">Select Type</option>
-                                                <option value="RCC">RCC</option>
+                                                <option value="RCC">SRCC</option>
                                                 <option value="TC">TC</option>
                                                 <option value="Net Premium">Net Premium</option>
                                             </select>
@@ -210,35 +211,57 @@
             const subcategorySelect = document.getElementById('sub_category_id');
             const formfieldSelect = document.getElementById('form_field_id');
 
+            const categoryWrapper = document.getElementById('category_wrapper');
+            const subcategoryWrapper = document.getElementById('subcategory_wrapper');
+            const formfieldWrapper = document.getElementById('formfield_wrapper');
+
+            // Initially hide dependent sections
+            categoryWrapper.style.display = 'none';
+            subcategoryWrapper.style.display = 'none';
+            formfieldWrapper.style.display = 'none';
+
             insuranceSelect.addEventListener('change', function() {
                 const selectedInsuranceId = parseInt(this.value);
+
                 categorySelect.innerHTML = '<option value="">Select Category</option>';
                 subcategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
                 formfieldSelect.innerHTML = '<option value="">Select Form Field</option>';
 
+                categoryWrapper.style.display = 'none';
+                subcategoryWrapper.style.display = 'none';
+                formfieldWrapper.style.display = 'none';
+
                 const selectedInsurance = insuranceData.find(ins => ins.id === selectedInsuranceId);
-                if (selectedInsurance) {
+
+                if (selectedInsurance && selectedInsurance.categories.length > 0) {
                     selectedInsurance.categories.forEach(cat => {
                         categorySelect.innerHTML +=
-                            `<option value="${cat.id}">${cat.name}</option>`;
+                        `<option value="${cat.id}">${cat.name}</option>`;
                     });
+                    categoryWrapper.style.display = 'block';
                 }
             });
 
             categorySelect.addEventListener('change', function() {
                 const selectedInsuranceId = parseInt(insuranceSelect.value);
                 const selectedCategoryId = parseInt(this.value);
+
                 subcategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
+                formfieldSelect.innerHTML = '<option value="">Select Form Field</option>';
+
+                subcategoryWrapper.style.display = 'none';
+                formfieldWrapper.style.display = 'none';
 
                 const selectedInsurance = insuranceData.find(ins => ins.id === selectedInsuranceId);
                 const selectedCategory = selectedInsurance?.categories.find(cat => cat.id ===
                     selectedCategoryId);
 
-                if (selectedCategory) {
+                if (selectedCategory && selectedCategory.subcategories.length > 0) {
                     selectedCategory.subcategories.forEach(sub => {
                         subcategorySelect.innerHTML +=
                             `<option value="${sub.id}">${sub.name}</option>`;
                     });
+                    subcategoryWrapper.style.display = 'block';
                 }
             });
 
@@ -246,7 +269,9 @@
                 const selectedInsuranceId = parseInt(insuranceSelect.value);
                 const selectedCategoryId = parseInt(categorySelect.value);
                 const selectedSubCategoryId = parseInt(subcategorySelect.value);
+
                 formfieldSelect.innerHTML = '<option value="">Select Form Field</option>';
+                formfieldWrapper.style.display = 'none';
 
                 const selectedInsurance = insuranceData.find(ins => ins.id === selectedInsuranceId);
                 const selectedCategory = selectedInsurance?.categories.find(cat => cat.id ===
@@ -254,16 +279,19 @@
                 const selectedSubCategory = selectedCategory?.subcategories.find(sub => sub.id ===
                     selectedSubCategoryId);
 
-                if (selectedSubCategory && selectedSubCategory.form_fields) {
+                if (selectedSubCategory && selectedSubCategory.form_fields.length > 0) {
                     selectedSubCategory.form_fields.forEach(field => {
                         formfieldSelect.innerHTML +=
                             `<option value="${field.id}">${field.field_name}</option>`;
                     });
+                    formfieldWrapper.style.display = 'block';
                 }
             });
-
         });
     </script>
+
+
+
 
 
 @endsection

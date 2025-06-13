@@ -46,12 +46,15 @@
                                     <th>ID</th>
                                     <th>INV</th>
                                     <th>Date</th>
-                                    <th>Name</th>
+                                    <th>Customer</th>
                                     <th>Policy</th>
                                     <th>D/N</th>
                                     <th>Vehicle</th>
-                                    <th>Class</th>
                                     <th>Company</th>
+                                    <th>Insurance Type</th>
+                                    <th>Category</th>
+                                    <th>Sub Category</th>
+                                    <th>Form field</th>
                                     <th>Rep</th>
                                     <th>Basic</th>
                                     <th>SRCC</th>
@@ -63,7 +66,9 @@
                                     <th>To Date</th>
                                     <th>Contact</th>
                                     <th>Address</th>
-                                    <th>Introducer Code</th>
+                                    <th>Agent Code</th>
+                                    <th>SubAgent Code</th>
+                                    <th>Status</th>
                                     <th>Action</th>
 								</tr>
 							</thead>
@@ -77,8 +82,11 @@
                                     <td>{{ $insurance->policy }}</td>
                                     <td>{{ $insurance->dn }}</td>
                                     <td>{{ $insurance->vehicle }}</td>
-                                    <td>{{ $insurance->class }}</td>
                                     <td>{{ $insurance->insurance_company }}</td>
+                                    <td>{{ $insurance->insuranceType->name ?? 'N/A' }}</td>
+                                    <td>{{ $insurance->category->name ?? 'N/A' }}</td>
+                                    <td>{{ $insurance->subCategory->name ?? 'N/A' }}</td>
+                                    <td>{{ $insurance->form_field }}</td>
                                     <td>{{ $insurance->rep }}</td>
                                     <td>{{ $insurance->basic }}</td>
                                     <td>{{ $insurance->srcc }}</td>
@@ -90,7 +98,9 @@
                                     <td>{{ $insurance->to_date }}</td>
                                     <td>{{ $insurance->contact }}</td>
                                     <td>{{ $insurance->address }}</td>
-                                    <td>{{ $insurance->introducer_code }}</td>
+                                    <td>{{ $insurance->agent_code }}</td>
+                                    <td>{{ $insurance->sub_agent_code }}</td>
+                                    <td>{{ $insurance->status }}</td>
                                     <td class="d-flex align-items-center gap-2">
                                         <a href="{{ route('customerinsurance.show', $insurance->id) }}" class="btn btn-sm btn-primary">
                                             <i class="icon-eye"></i>

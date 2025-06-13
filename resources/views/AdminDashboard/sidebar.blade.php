@@ -108,6 +108,19 @@
                         </ul>
                     </li>
 
+                    <!-- Commission Section -->
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title" href="#">
+                            <i class="fa fa-credit-card-alt"></i> <!-- commission Icon -->
+                            <span>Commissions</span>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="">RIB Commissions</a></li>
+                            <li><a href="">Agent Commissions</a></li>
+                            <li><a href="">Sub Agent Commissions</a></li>
+                        </ul>
+                    </li>
+
 
                 </ul>
             </div>

@@ -184,6 +184,7 @@ Route::prefix('authentication')->group(function () {
         Route::put('/profitMargin/update/{id}', [ProfitMarginController::class, 'update'])->name('profitMargin.update');
         Route::delete('/profitMargin/delete/{id}', [ProfitMarginController::class, 'destroy'])->name('profitMargin.destroy');
 
+       
 
     });
 });

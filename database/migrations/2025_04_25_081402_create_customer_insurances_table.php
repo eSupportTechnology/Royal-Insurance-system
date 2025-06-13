@@ -15,12 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('inv');
             $table->date('date');
-            $table->string('name');
+            $table->string('customer_id');
             $table->string('policy')->nullable();
             $table->string('dn')->nullable();
             $table->string('vehicle')->nullable();
-            $table->string('class')->nullable();
             $table->string('insurance_company')->nullable();
+            $table->foreignId('insurance_type_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('sub_category_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('form_field_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('rep')->nullable();
             $table->decimal('basic', 10, 2)->nullable();
             $table->decimal('srcc', 10, 2)->nullable()->default(0);
@@ -32,7 +35,9 @@ return new class extends Migration
             $table->date('to_date')->nullable();
             $table->string('contact')->nullable();
             $table->text('address')->nullable();
-            $table->string('introducer_code')->nullable();
+            $table->string('agent_code');
+            $table->string('subagent_code')->nullable();
+            $table->string('status')->default('Pending');
             $table->timestamps();
         });
     }

@@ -8,12 +8,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Edit Customer</h3>
+    <h3>Customer Insurance</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Form Controls</li>
-    <li class="breadcrumb-item active">Edit Customer</li>
+    <li class="breadcrumb-item active">Customer Insurance</li>
 @endsection
 
 @section('content')
@@ -41,7 +41,7 @@
                 </div>
                 <div class="card mt-3">
                     <div class="card-header">
-                        <h5>Show Details</h5>
+                        <h5>Show Customer Insurance Details</h5>
 
                     </div>
                     <form action="{{ route('customerinsurance.update', $customerinsurance->id) }}" method="POST">
@@ -88,16 +88,34 @@
                                     </div>
 
                                     <div class="mb-3 row">
-                                        <label for="class" class="col-sm-3 col-form-label">Class</label>
-                                        <input type="text" name="class" id="class" class="form-control"
-                                            value="{{ old('class', $customerinsurance->class) }}" readonly>
-                                    </div>
-
-                                    <div class="mb-3 row">
                                         <label for="insurance_company" class="col-sm-3 col-form-label">Company</label>
                                         <input type="text" name="insurance_company" id="insurance_company"
                                             class="form-control"
                                             value="{{ old('insurance_company', $customerinsurance->insurance_company) }}" readonly>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="insurance_type" class="col-sm-3 col-form-label">Insurance Type</label>
+                                        <input type="text" name="insurance_type" id="insurance_type" class="form-control"
+                                            value="{{ old('insurance_type', $customerinsurance->insurance_type) }}" readonly>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="category" class="col-sm-3 col-form-label">Category</label>
+                                        <input type="text" name="category" id="category" class="form-control"
+                                            value="{{ old('category', $customerinsurance->category) }}" readonly>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="sub_category" class="col-sm-3 col-form-label">Sub-Category</label>
+                                        <input type="text" name="sub_category" id="sub_category" class="form-control"
+                                            value="{{ old('sub_category', $customerinsurance->sub_category) }}" readonly>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="form_field" class="col-sm-3 col-form-label">Form Field</label>
+                                        <input type="text" name="form_field" id="form_field" class="form-control"
+                                            value="{{ old('form_field', $customerinsurance->form_field) }}" readonly>
                                     </div>
 
                                     <div class="mb-3 row">
@@ -168,11 +186,25 @@
                                     </div>
 
                                     <div class="mb-3 row">
-                                        <label for="introducer_code" class="col-sm-3 col-form-label">Introducer
+                                        <label for="agent_code" class="col-sm-3 col-form-label">Agent
                                             Code</label>
-                                        <input type="text" name="introducer_code" id="introducer_code"
+                                        <input type="text" name="agent_code" id="agent_code"
                                             class="form-control"
-                                            value="{{ old('introducer_code', $customerinsurance->introducer_code) }}" readonly>
+                                            value="{{ old('Agent_code', $customerinsurance->agent_code) }}" readonly>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="subagent_code" class="col-sm-3 col-form-label">Sub Agent
+                                            Code</label>
+                                        <input type="text" name="subagent_code" id="subagent_code"
+                                            class="form-control"
+                                            value="{{ old('subagent_code', $customerinsurance->subagent_code) }}" readonly>
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="status" class="col-sm-3 col-form-label">Status</label>
+                                        <input type="text" name="status" id="status" class="form-control"
+                                            value="{{ old('status', $customerinsurance->status) }}" readonly>
                                     </div>
                                 </div>
                             </div>

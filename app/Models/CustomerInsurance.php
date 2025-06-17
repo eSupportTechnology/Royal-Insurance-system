@@ -9,16 +9,15 @@ class CustomerInsurance extends Model
     protected $fillable = [
         'inv',
         'date',
-        'customer_id',
+        'name',
         'policy',
         'dn',
         'vehicle',
         'insurance_company',
         'insurance_type',
         'category',
-        'sub_category',
-        'form_field',
-        'rep',
+        'subcategory',
+        'varietyfields',
         'basic',
         'srcc',
         'tc',
@@ -28,11 +27,47 @@ class CustomerInsurance extends Model
         'from_date',
         'to_date',
         'contact',
+        'whatsapp',
         'address',
-        'agent_code',
-        'sub_agent_code',
-        'status'
+        'introducer_code',
+        'subagent_code',
+        'premium_type',
 
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'name', 'id');
+    }
+
+    public function insuranceType()
+    {
+        return $this->belongsTo(InsuranceType::class, 'insurance_type', 'id');
+    }
+    public function categories()
+{
+    return $this->belongsTo(Category::class, 'category', 'id');
+}
+
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class, 'subcategory', 'id');
+    }
+    public function formField()
+    {
+        return $this->belongsTo(FormField::class, 'varietyfields', 'id');
+    }
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'insurance_company', 'id');
+    }
+    public function subagent()
+    {
+        return $this->belongsTo(SubAgent::class, 'subagent_code', 'id');
+    }
+    public function agent()
+{
+    return $this->belongsTo(Agent::class, 'introducer_code', 'id');
+}
 
 }

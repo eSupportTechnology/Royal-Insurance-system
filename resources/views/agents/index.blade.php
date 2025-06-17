@@ -26,7 +26,6 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
-                                    <th>Company Name</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -37,7 +36,7 @@
                                         <td>{{ $agent->name }}</td>
                                         <td>{{ $agent->email }}</td>
                                         <td>{{ $agent->phone }}</td>
-                                        <td>{{ $agent->company_name }}</td>
+                                        
                                         <td class="d-flex align-items-center gap-2">
                                             <a href="{{ route('agents.edit', $agent->id) }}" class="btn btn-sm btn-warning">Edit</a>
                                             <form action="{{ route('agents.destroy', $agent->id) }}" method="POST" style="display:inline-block;">

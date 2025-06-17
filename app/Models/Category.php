@@ -28,6 +28,10 @@ class Category extends Model
     {
         return $this->hasMany(FormField::class);
     }
+    public function customer_insurances()
+    {
+        return $this->hasMany(CustomerInsurance::class);
+    }
 }
 
 

@@ -95,10 +95,10 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="form_field_id" class="form-label">Select Form Field</label>
+                                        <label for="form_field_id" class="form-label">Select Variety Fields</label>
                                         <div class="position-relative">
                                             <select name="form_field_id" id="form_field_id" class="form-control">
-                                                <option value="">Select Form Field</option>
+                                                <option value="">Select Variety Fields</option>
                                                 @foreach ($form_fields as $form_field)
                                                     <option value="{{ $form_field->id }}" {{ $form_field->id == $profitMargin->form_field_id ? 'selected' : '' }}>{{ $form_field->field_name }}</option>
                                                 @endforeach
@@ -115,8 +115,8 @@
                                         <div class="position-relative">
                                             <select name="profit_type" id="profit_type" class="form-control" required>
                                                 <option value="">Select Type</option>
-                                                <option value="RCC" {{ $profitMargin->profit_type == 'RCC' ? 'selected' : '' }}>RCC</option>
-                                                <option value="TC" {{ $profitMargin->profit_type == 'TC' ? 'selected' : '' }}>TC</option>
+                                                <option value="RCC" {{ $profitMargin->profit_type == 'RCC' ? 'selected' : '' }}>SRCC Premium</option>
+                                                <option value="TC" {{ $profitMargin->profit_type == 'TC' ? 'selected' : '' }}>TC Premium</option>
                                                 <option value="Net Premium" {{ $profitMargin->profit_type == 'Net Premium' ? 'selected' : '' }}>Net Premium</option>
                                             </select>
                                             <span

@@ -53,6 +53,12 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Representator</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="representator" value="{{ $companies->representator }}" placeholder="Enter Representator Name" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Logo</label>
                             <div class="col-sm-9">
                                 <!-- Old Logo Preview -->
@@ -68,19 +74,19 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Address</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="text" name="address" value="{{ $companies->address }}" placeholder="Enter Company Address" required>
+                                <input class="form-control" type="text" name="address" value="{{ $companies->address }}" placeholder="Enter Company Address" >
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="email" name="email" value="{{ $companies->email }}" placeholder="Enter Email Address" required>
+                                <input class="form-control" type="email" name="email" value="{{ $companies->email }}" placeholder="Enter Email Address" >
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Contact</label>
                             <div class="col-sm-9">
-                                <input class="form-control digits" type="text" name="contact_number" value="{{ $companies->contact_number }}" placeholder="Contact Number" required>
+                                <input class="form-control digits" type="text" name="contact_number" value="{{ $companies->contact_number }}" placeholder="Contact Number" >
                             </div>
                         </div>
                     </div>

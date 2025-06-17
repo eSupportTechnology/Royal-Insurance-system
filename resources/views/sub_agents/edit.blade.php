@@ -32,7 +32,7 @@
                                 <label for="agent_id" class="form-label">Agent</label>
                                 <select name="agent_id" class="form-control">
                                     @foreach ($agents as $agent)
-                                        <option value="{{ $agent->id }}">{{ $agent->name }}</option>
+                                        <option value="{{ $agent->id }}" {{ $subagent->agent_id == $agent->id ? 'selected' : '' }}>{{ $agent->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -49,11 +49,6 @@
                             <div class="mb-3">
                                 <label for="phone" class="form-label">Phone</label>
                                 <input type="text" name="phone" class="form-control" value="{{ $subagent->phone }}">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="company_name" class="form-label">Company Name</label>
-                                <input type="text" name="company_name" class="form-control" value="{{ $subagent->company_name }}">
                             </div>
 
                             <div class="mb-3">

@@ -10,7 +10,7 @@ class Agent extends Model
     use HasFactory;
 
     protected $fillable = [
-        'rep_code','name', 'email', 'phone', 'address', 'company_name'
+        'rep_code','name', 'email', 'phone', 'address'
     ];
 
     public function subagents()

@@ -46,7 +46,6 @@
                                         <th>Sub_Agent</th>
                                         <th>Email</th>
                                         <th>Phone</th>
-                                        <th>Company Name</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -60,7 +59,6 @@
                                                 <td>{{ $subagent->sub_agent_name }}</td>
                                                 <td>{{ $subagent->email }}</td>
                                                 <td>{{ $subagent->phone }}</td>
-                                                <td>{{ $subagent->company_name }}</td>
                                                 <td class="d-flex align-items-center gap-2">
                                                     <a href="{{ route('sub_agents.edit', $subagent->id) }}"
                                                         class="btn btn-warning btn-sm">Edit</a>

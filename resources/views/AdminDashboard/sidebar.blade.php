@@ -79,7 +79,7 @@
                             <li><a href="{{ route('insuranceType.index') }}">Insurance Types</a></li>
                             <li><a href="{{ route('categories.index') }}">Categories</a></li>
                             <li><a href="{{ route('subcategories.index') }}">Sub Categories</a></li>
-                            <li><a href="{{ route('formField.index') }}">Form Field</a></li>
+                            <li><a href="{{ route('formField.index') }}">Variety Fields</a></li>
                         </ul>
                     </li>
 

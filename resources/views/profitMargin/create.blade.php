@@ -119,11 +119,11 @@
 
                                     <!-- Select Form Field -->
                                     <div class="mb-3" id="formfield_wrapper">
-                                        <label for="form_field_id" class="form-label">Select Form Field</label>
+                                        <label for="form_field_id" class="form-label">Select Variety Fields</label>
                                         <div class="position-relative">
                                             <select name="form_field_id" id="form_field_id" class="form-control"
                                                 style="appearance: none; padding-right: 2.5rem;">
-                                                <option value="">Select Form Field</option>
+                                                <option value="">Select Variety Fields</option>
                                             </select>
                                             <span
                                                 style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
@@ -140,8 +140,8 @@
                                             <select name="profit_type" id="profit_type" class="form-control" required
                                                 style="appearance: none; padding-right: 2.5rem;">
                                                 <option value="">Select Type</option>
-                                                <option value="RCC">SRCC</option>
-                                                <option value="TC">TC</option>
+                                                <option value="RCC">SRCC Premium</option>
+                                                <option value="TC">TC Premium</option>
                                                 <option value="Net Premium">Net Premium</option>
                                             </select>
                                             <span

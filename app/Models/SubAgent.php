@@ -12,7 +12,7 @@ class SubAgent extends Model
         'email',
         'phone',
         'address',
-        'company_name',
+        
     ];
 
     public function agent()

@@ -50,7 +50,7 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3 row">
-                                        <label for="inv" class="col-sm-3 col-form-label">INV</label>
+                                        <label for="inv" class="col-sm-3 col-form-label">RIB INV Number</label>
                                         <input type="text" name="inv" id="inv" class="form-control" required>
                                     </div>
 
@@ -59,11 +59,23 @@
                                         <input type="date" name="date" id="date" class="form-control" required>
                                     </div>
 
+                                    @php
+                                        $customerData = $customers->mapWithKeys(function ($customer) {
+                                            return [
+                                                $customer->id => [
+                                                    'contact' => $customer->phone,
+                                                    'whatsapp' => $customer->whatsapp_number,
+                                                    'address' => $customer->address,
+                                                ],
+                                            ];
+                                        });
+                                    @endphp
+
                                     <div class="mb-3">
-                                        <label for="customer_id" class="form-label">Select Customer</label>
+                                        <label for="name" class="form-label">Select Customer</label>
                                         <div class="position-relative">
-                                            <select name="customer_id" class="form-control mb-5" required
-                                                style="appearance: none; padding-right: 2.5rem;">
+                                            <select name="name" id="customerSelect" class="form-control mb-5"
+                                                required style="appearance: none; padding-right: 2.5rem;">
                                                 <option value="">Select Customer</option>
                                                 @foreach ($customers as $customer)
                                                     <option value="{{ $customer->id }}">{{ $customer->name }}</option>
@@ -76,6 +88,21 @@
                                         </div>
                                     </div>
 
+                                    <div class="mb-3 row">
+                                        <label for="contact" class="col-sm-3 col-form-label">Contact Number</label>
+                                        <input type="text" name="contact" id="contact" class="form-control">
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="whatsapp" class="col-sm-3 col-form-label">Whatsapp Number</label>
+                                        <input type="text" name="whatsapp" id="whatsapp"
+                                            class="form-control">
+                                    </div>
+
+                                    <div class="mb-3 row">
+                                        <label for="address" class="col-sm-3 col-form-label">Address</label>
+                                        <textarea name="address" id="address" rows="3" class="form-control"></textarea>
+                                    </div>
                                     <!-- Include similar form fields for the remaining columns -->
                                     <div class="mb-3 row">
                                         <label for="policy" class="col-sm-3 col-form-label">Policy</label>
@@ -83,20 +110,20 @@
                                     </div>
 
                                     <div class="mb-3 row">
-                                        <label for="dn" class="col-sm-3 col-form-label">D/N</label>
+                                        <label for="dn" class="col-sm-3 col-form-label">D/N/INV Number</label>
                                         <input type="text" name="dn" id="dn" class="form-control">
                                     </div>
 
                                     <div class="mb-3 row">
-                                        <label for="vehicle" class="col-sm-3 col-form-label">Vehicle</label>
+                                        <label for="vehicle" class="col-sm-3 col-form-label">Vehicle/ChassiNo</label>
                                         <input type="text" name="vehicle" id="vehicle" class="form-control">
 
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="customer_id" class="form-label">Select Company</label>
+                                        <label for="insurance_company" class="form-label">Select Company</label>
                                         <div class="position-relative">
-                                            <select name="company_id" class="form-control mb-5" required
+                                            <select name="insurance_company" class="form-control mb-5" required
                                                 style="appearance: none; padding-right: 2.5rem;">
                                                 <option value="">Select Company</option>
                                                 @foreach ($companies as $company)
@@ -113,9 +140,9 @@
 
                                     <!-- Select Insurance Type -->
                                     <div class="mb-3">
-                                        <label for="insurance_type_id" class="form-label">Select Insurance Type</label>
+                                        <label for="insurance_type" class="form-label">Select Insurance Type</label>
                                         <div class="position-relative">
-                                            <select name="insurance_type_id" id="insurance_type_id" class="form-control"
+                                            <select name="insurance_type" id="insurance_type" class="form-control"
                                                 required style="appearance: none; padding-right: 2.5rem;">
                                                 <option value="">Select Insurance Type</option>
                                                 @foreach ($insurance_types as $insuranceType)
@@ -132,9 +159,9 @@
 
                                     <!-- Select Category -->
                                     <div class="mb-3" id="category_wrapper">
-                                        <label for="category_id" class="form-label">Select Category</label>
+                                        <label for="category" class="form-label">Select Category</label>
                                         <div class="position-relative">
-                                            <select name="category_id" id="category_id" class="form-control"
+                                            <select name="category" id="category" class="form-control"
                                                 style="appearance: none; padding-right: 2.5rem;">
                                                 <option value="">Select Category</option>
                                             </select>
@@ -147,9 +174,9 @@
 
                                     <!-- Select Subcategory -->
                                     <div class="mb-3" id="subcategory_wrapper">
-                                        <label for="sub_category_id" class="form-label">Select Sub Category</label>
+                                        <label for="subcategory" class="form-label">Select Sub Category</label>
                                         <div class="position-relative">
-                                            <select name="sub_category_id" id="sub_category_id" class="form-control"
+                                            <select name="subcategory" id="subcategory" class="form-control"
                                                 style="appearance: none; padding-right: 2.5rem;">
                                                 <option value="">Select Sub Category</option>
                                             </select>
@@ -162,11 +189,11 @@
 
                                     <!-- Select Form Field -->
                                     <div class="mb-3" id="formfield_wrapper">
-                                        <label for="form_field_id" class="form-label">Select Form Field</label>
+                                        <label for="varietyfields" class="form-label">Select Variety Fields</label>
                                         <div class="position-relative">
-                                            <select name="form_field_id" id="form_field_id" class="form-control"
+                                            <select name="varietyfields" id="varietyfields" class="form-control"
                                                 style="appearance: none; padding-right: 2.5rem;">
-                                                <option value="">Select Form Field</option>
+                                                <option value="">Select Variety Fields</option>
                                             </select>
                                             <span
                                                 style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
@@ -176,24 +203,19 @@
                                     </div>
 
                                     <div class="mb-3 row">
-                                        <label for="rep" class="col-sm-3 col-form-label">Rep</label>
-                                        <input type="text" name="rep" id="rep" class="form-control">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="basic" class="col-sm-3 col-form-label">Basic</label>
+                                        <label for="basic" class="col-sm-3 col-form-label">Net Premium</label>
                                         <input type="number" name="basic" id="basic" step="0.01"
                                             class="form-control">
                                     </div>
 
                                     <div class="mb-3 row">
-                                        <label for="srcc" class="col-sm-3 col-form-label">SRCC</label>
+                                        <label for="srcc" class="col-sm-3 col-form-label">SRCC Premium</label>
                                         <input type="number" name="srcc" id="srcc" step="0.01"
                                             class="form-control">
                                     </div>
 
                                     <div class="mb-3 row">
-                                        <label for="tc" class="col-sm-3 col-form-label">TC</label>
+                                        <label for="tc" class="col-sm-3 col-form-label">TC Premium</label>
                                         <input type="number" name="tc" id="tc" step="0.01"
                                             class="form-control">
                                     </div>
@@ -216,30 +238,24 @@
                                         </div>
 
                                         <div class="mb-3 row">
-                                            <label for="from_date" class="col-sm-3 col-form-label">From Date</label>
+                                            <label for="from_date" class="col-sm-3 col-form-label">Commencement
+                                                Date</label>
                                             <input type="date" name="from_date" id="from_date" class="form-control">
                                         </div>
 
                                         <div class="mb-3 row">
-                                            <label for="to_date" class="col-sm-3 col-form-label">To Date</label>
+                                            <label for="to_date" class="col-sm-3 col-form-label">Expiry Date</label>
                                             <input type="date" name="to_date" id="to_date" class="form-control">
                                         </div>
 
-                                        <div class="mb-3 row">
-                                            <label for="contact" class="col-sm-3 col-form-label">Contact</label>
-                                            <input type="text" name="contact" id="contact" class="form-control">
-                                        </div>
+
 
                                         <div class="mb-3 row">
-                                            <label for="address" class="col-sm-3 col-form-label">Address</label>
-                                            <textarea name="address" id="address" rows="3" class="form-control"></textarea>
-                                        </div>
-
-                                        <div class="mb-3 row">
-                                            <label for="agent_code" class="col-sm-3 col-form-label">Agent Code</label>
+                                            <label for="introducer_code" class="col-sm-3 col-form-label">Agent
+                                                Code</label>
                                             <div class="position-relative">
-                                                <select name="agent_code" id="agent_code" class="form-control" required
-                                                    style="appearance: none; padding-right: 2.5rem;">
+                                                <select name="introducer_code" id="introducer_code" class="form-control"
+                                                    required style="appearance: none; padding-right: 2.5rem;">
                                                     <option value="">Select Agent Rep_code</option>
                                                     @foreach ($agents as $agent)
                                                         <option value="{{ $agent->id }}">{{ $agent->rep_code }}
@@ -278,11 +294,11 @@
                                         </div>
 
                                         <div class="mb-3 row">
-                                            <label for="status" class="col-sm-3 col-form-label">Status</label>
+                                            <label for="premium_type" class="col-sm-3 col-form-label">Premium Type</label>
                                             <div class="position-relative">
-                                                <select name="status" id="status" class="form-control" required
-                                                    style="appearance: none; padding-right: 2.5rem;">
-                                                    <option value="">Select Type</option>
+                                                <select name="premium_type" id="premium_type" class="form-control"
+                                                    required style="appearance: none; padding-right: 2.5rem;">
+                                                    <option value="">Select Premium Type</option>
                                                     <option value="Cash">Cash</option>
                                                     <option value="Debit">Debit</option>
 
@@ -311,13 +327,29 @@
     </div>
 
     <script>
+        const customerData = @json($customerData);
+
+        document.getElementById('customerSelect').addEventListener('change', function() {
+            const selectedId = this.value;
+
+            if (customerData[selectedId]) {
+                document.getElementById('contact').value = customerData[selectedId].contact ?? '';
+                document.getElementById('whatsapp').value = customerData[selectedId].whatsapp ?? '';
+                document.getElementById('address').value = customerData[selectedId].address ?? '';
+            } else {
+                document.getElementById('contact').value = '';
+                document.getElementById('whatsapp').value = '';
+                document.getElementById('address').value = '';
+            }
+        });
+
         const insuranceData = @json($insurance_types);
 
         document.addEventListener('DOMContentLoaded', function() {
-            const insuranceSelect = document.getElementById('insurance_type_id');
-            const categorySelect = document.getElementById('category_id');
-            const subcategorySelect = document.getElementById('sub_category_id');
-            const formfieldSelect = document.getElementById('form_field_id');
+            const insuranceSelect = document.getElementById('insurance_type');
+            const categorySelect = document.getElementById('category');
+            const subcategorySelect = document.getElementById('subcategory');
+            const formfieldSelect = document.getElementById('varietyfields');
 
             const categoryWrapper = document.getElementById('category_wrapper');
             const subcategoryWrapper = document.getElementById('subcategory_wrapper');
@@ -398,29 +430,29 @@
         });
 
         // Make the subagents accessible in JS
-    const agentsWithSubagents = @json($agentsWithSubagents);
+        const agentsWithSubagents = @json($agentsWithSubagents);
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const agentSelect = document.getElementById('agent_code');
-        const subagentSelect = document.getElementById('subagent_code');
+        document.addEventListener('DOMContentLoaded', () => {
+            const agentSelect = document.getElementById('introducer_code');
+            const subagentSelect = document.getElementById('subagent_code');
 
-        agentSelect.addEventListener('change', function () {
-            const agentId = parseInt(this.value);
-            subagentSelect.innerHTML = '<option value="">Select SubAgent Rep_code</option>';
+            agentSelect.addEventListener('change', function() {
+                const agentId = parseInt(this.value);
+                subagentSelect.innerHTML = '<option value="">Select SubAgent Rep_code</option>';
 
-            const selectedAgent = agentsWithSubagents.find(agent => agent.id === agentId);
-            if (selectedAgent && selectedAgent.subagents.length) {
-                selectedAgent.subagents.forEach((subagent, index) => {
-                    const code = `${selectedAgent.rep_code}/${String(index + 1).padStart(3, '0')}`;
-                    const option = document.createElement('option');
-                    option.value = code;
-                    option.textContent = code;
-                    subagentSelect.appendChild(option);
-                });
-            }
+                const selectedAgent = agentsWithSubagents.find(agent => agent.id === agentId);
+                if (selectedAgent && selectedAgent.subagents.length) {
+                    selectedAgent.subagents.forEach((subagent, index) => {
+                        const code =
+                            `${selectedAgent.rep_code}/${String(index + 1).padStart(3, '0')}`;
+                        const option = document.createElement('option');
+                        option.value = code;
+                        option.textContent = code;
+                        subagentSelect.appendChild(option);
+                    });
+                }
+            });
         });
-    });
-
     </script>
 
 @endsection

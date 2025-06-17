@@ -43,6 +43,7 @@
                         <tr class="text-center">
                             <th>SNO</th>
                             <th>Name</th>
+                            <th>Representator</th>
                             <th>Logo</th>
                             <th>Address</th>
                             <th>Email</th>
@@ -57,6 +58,7 @@
                             <tr class="text-center">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $company->name }}</td>
+                                <td>{{ $company->representator }}</td>
                                 <td>
                                     <img src="{{ asset($company->logo) }}" alt="Logo" style="width: 50px; height: 50px; object-fit: cover;">
                                 </td>

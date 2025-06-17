@@ -44,31 +44,31 @@
 							<thead>
 								<tr>
                                     <th>ID</th>
-                                    <th>INV</th>
+                                    <th>RIB INV Number</th>
                                     <th>Date</th>
                                     <th>Customer</th>
+                                    <th>Contact Number</th>
+                                    <th>Whatsapp Number</th>
+                                    <th>Address</th>
                                     <th>Policy</th>
-                                    <th>D/N</th>
-                                    <th>Vehicle</th>
+                                    <th>D/N/INV Number</th>
+                                    <th>Vehicle/ChassiNo</th>
                                     <th>Company</th>
                                     <th>Insurance Type</th>
                                     <th>Category</th>
                                     <th>Sub Category</th>
-                                    <th>Form field</th>
-                                    <th>Rep</th>
-                                    <th>Basic</th>
-                                    <th>SRCC</th>
-                                    <th>TC</th>
+                                    <th>Variety Field</th>
+                                    <th>Net Premium</th>
+                                    <th>SRCC Premium</th>
+                                    <th>TC Premium</th>
                                     <th>Others</th>
                                     <th>Total</th>
                                     <th>Sum Insured</th>
-                                    <th>From Date</th>
-                                    <th>To Date</th>
-                                    <th>Contact</th>
-                                    <th>Address</th>
+                                    <th>Commencement Date</th>
+                                    <th>Expiry Date</th>
                                     <th>Agent Code</th>
                                     <th>SubAgent Code</th>
-                                    <th>Status</th>
+                                    <th>Premium Type</th>
                                     <th>Action</th>
 								</tr>
 							</thead>
@@ -78,16 +78,18 @@
                                     <td>{{ $insurance->id }}</td>
                                     <td>{{ $insurance->inv }}</td>
                                     <td>{{ $insurance->date }}</td>
-                                    <td>{{ $insurance->name }}</td>
+                                    <td>{{ $insurance->customer->name ?? 'N/A' }}</td>
+                                    <td>{{ $insurance->contact }}</td>
+                                    <td>{{ $insurance->whatsapp }}</td>
+                                    <td>{{ $insurance->address }}</td>
                                     <td>{{ $insurance->policy }}</td>
                                     <td>{{ $insurance->dn }}</td>
                                     <td>{{ $insurance->vehicle }}</td>
-                                    <td>{{ $insurance->insurance_company }}</td>
+                                    <td>{{ $insurance->company->name ?? 'N/A' }}</td>
                                     <td>{{ $insurance->insuranceType->name ?? 'N/A' }}</td>
-                                    <td>{{ $insurance->category->name ?? 'N/A' }}</td>
-                                    <td>{{ $insurance->subCategory->name ?? 'N/A' }}</td>
-                                    <td>{{ $insurance->form_field }}</td>
-                                    <td>{{ $insurance->rep }}</td>
+                                    <td>{{ $insurance->categories?->name ?? 'N/A' }}</td>
+                                    <td>{{ $insurance->subCategory?->name ?? 'N/A' }}</td>
+                                    <td>{{ $insurance->formField?->field_name ?? 'N/A' }}</td>
                                     <td>{{ $insurance->basic }}</td>
                                     <td>{{ $insurance->srcc }}</td>
                                     <td>{{ $insurance->tc }}</td>
@@ -96,11 +98,9 @@
                                     <td>{{ $insurance->sum_insured }}</td>
                                     <td>{{ $insurance->from_date }}</td>
                                     <td>{{ $insurance->to_date }}</td>
-                                    <td>{{ $insurance->contact }}</td>
-                                    <td>{{ $insurance->address }}</td>
-                                    <td>{{ $insurance->agent_code }}</td>
-                                    <td>{{ $insurance->sub_agent_code }}</td>
-                                    <td>{{ $insurance->status }}</td>
+                                    <td>{{ $insurance->agent?->rep_code ?? 'N/A' }}</td>
+                                    <td>{{ $insurance->subagent_code }}</td>
+                                    <td>{{ $insurance->premium_type }}</td>
                                     <td class="d-flex align-items-center gap-2">
                                         <a href="{{ route('customerinsurance.show', $insurance->id) }}" class="btn btn-sm btn-primary">
                                             <i class="icon-eye"></i>

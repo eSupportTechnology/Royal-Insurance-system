@@ -14,6 +14,7 @@ use App\Http\Controllers\CustomerInsuranceController;
 use App\Http\Controllers\CustomerResponseController;
 use App\Http\Controllers\ProfitMarginController;
 use App\Http\Controllers\QuotationController;
+use App\Http\Controllers\CommissionController;
 use App\Models\ProfitMargin;
 use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Artisan;
@@ -184,7 +185,13 @@ Route::prefix('authentication')->group(function () {
         Route::put('/profitMargin/update/{id}', [ProfitMarginController::class, 'update'])->name('profitMargin.update');
         Route::delete('/profitMargin/delete/{id}', [ProfitMarginController::class, 'destroy'])->name('profitMargin.destroy');
 
-       
+        //commission
+
+Route::get('/rib-commissions', [CommissionController::class, 'ribIndex'])->name('commissions.rib');
+Route::get('/agent-commissions', [CommissionController::class, 'agentIndex'])->name('commissions.agent');
+Route::get('/subagent-commissions', [CommissionController::class, 'subagentIndex'])->name('commissions.subagent');
+
+
 
     });
 });

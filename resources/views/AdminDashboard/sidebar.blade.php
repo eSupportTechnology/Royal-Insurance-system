@@ -115,9 +115,9 @@
                             <span>Commissions</span>
                         </a>
                         <ul class="sidebar-submenu">
-                            <li><a href="">RIB Commissions</a></li>
-                            <li><a href="">Agent Commissions</a></li>
-                            <li><a href="">Sub Agent Commissions</a></li>
+                            <li><a href="{{ route('commissions.rib') }}">RIB Commissions</a></li>
+                            <li><a href="{{ route('commissions.agent') }}">Agent Commissions</a></li>
+                            <li><a href="{{ route('commissions.subagent') }}">Sub Agent Commissions</a></li>
                         </ul>
                     </li>
 

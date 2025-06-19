@@ -13,6 +13,9 @@ return new class extends Migration
     {
          Schema::table('companies', function (Blueprint $table) {
             $table->string('logo')->nullable()->change();
+            $table->string('address')->nullable()->change();
+            $table->string('email')->nullable()->change();
+            $table->string('contact_number')->nullable()->change();
         });
     }
 
@@ -23,6 +26,9 @@ return new class extends Migration
     {
         Schema::table('companies', function (Blueprint $table) {
             $table->string('logo')->nullable(false)->change();
+            $table->string('address')->nullable(false)->change();
+            $table->string('email')->nullable(false)->change();
+            $table->string('contact_number')->nullable(false)->change();
         });
     }
 };

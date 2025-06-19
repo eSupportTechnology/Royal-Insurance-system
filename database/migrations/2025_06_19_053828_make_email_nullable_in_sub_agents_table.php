@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('sub_agents', function (Blueprint $table) {
             $table->string('email')->nullable()->change();
+            $table->string('phone')->nullable()->change();
+            $table->string('address')->nullable()->change();
         });
     }
 
@@ -23,6 +25,8 @@ return new class extends Migration
     {
          Schema::table('sub_agents', function (Blueprint $table) {
             $table->string('email')->nullable(false)->change();
+            $table->string('phone')->nullable(false)->change();
+            $table->string('address')->nullable(false)->change();
         });
     }
 };

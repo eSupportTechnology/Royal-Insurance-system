@@ -49,33 +49,26 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <div class="mb-3 row">
-                                        <label for="inv" class="col-sm-3 col-form-label">RIB INV Number</label>
-                                        <input type="text" name="inv" id="inv" class="form-control" required>
+                                    {{-- INV & Date --}}
+                                    <div class="row">
+                                        <div class="mb-3 col-md-6">
+                                            <label for="inv" class="form-label">RIB INV Number</label>
+                                            <input type="text" name="inv" id="inv" class="form-control"
+                                                required>
+                                        </div>
+                                        <div class="mb-3 col-md-6">
+                                            <label for="date" class="form-label">Date</label>
+                                            <input type="date" name="date" id="date" class="form-control"
+                                                required>
+                                        </div>
                                     </div>
 
-                                    <div class="mb-3 row">
-                                        <label for="date" class="col-sm-3 col-form-label">Date</label>
-                                        <input type="date" name="date" id="date" class="form-control" required>
-                                    </div>
-
-                                    @php
-                                        $customerData = $customers->mapWithKeys(function ($customer) {
-                                            return [
-                                                $customer->id => [
-                                                    'contact' => $customer->phone,
-                                                    'whatsapp' => $customer->whatsapp_number,
-                                                    'address' => $customer->address,
-                                                ],
-                                            ];
-                                        });
-                                    @endphp
-
+                                    {{-- Customer Dropdown --}}
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Select Customer</label>
                                         <div class="position-relative">
-                                            <select name="name" id="customerSelect" class="form-control mb-5"
-                                                required style="appearance: none; padding-right: 2.5rem;">
+                                            <select name="name" id="customerSelect" class="form-control mb-5" required
+                                                style="appearance: none; padding-right: 2.5rem;">
                                                 <option value="">Select Customer</option>
                                                 @foreach ($customers as $customer)
                                                     <option value="{{ $customer->id }}">{{ $customer->name }}</option>
@@ -88,38 +81,39 @@
                                         </div>
                                     </div>
 
-                                    <div class="mb-3 row">
-                                        <label for="contact" class="col-sm-3 col-form-label">Contact Number</label>
-                                        <input type="text" name="contact" id="contact" class="form-control">
+                                    {{-- Contact, WhatsApp, Address --}}
+                                    <div class="row">
+                                        <div class="mb-3 col-md-4">
+                                            <label for="contact" class="form-label">Contact Number</label>
+                                            <input type="text" name="contact" id="contact" class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="whatsapp" class="form-label">Whatsapp Number</label>
+                                            <input type="text" name="whatsapp" id="whatsapp" class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="address" class="form-label">Address</label>
+                                            <textarea name="address" id="address" rows="1" class="form-control"></textarea>
+                                        </div>
                                     </div>
 
-                                    <div class="mb-3 row">
-                                        <label for="whatsapp" class="col-sm-3 col-form-label">Whatsapp Number</label>
-                                        <input type="text" name="whatsapp" id="whatsapp"
-                                            class="form-control">
+                                    {{-- Policy, DN, Vehicle --}}
+                                    <div class="row">
+                                        <div class="mb-3 col-md-4">
+                                            <label for="policy" class="form-label">Policy Number</label>
+                                            <input type="text" name="policy" id="policy" class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="dn" class="form-label">D/N/INV Number</label>
+                                            <input type="text" name="dn" id="dn" class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="vehicle" class="form-label">Vehicle/Chassi No</label>
+                                            <input type="text" name="vehicle" id="vehicle" class="form-control">
+                                        </div>
                                     </div>
 
-                                    <div class="mb-3 row">
-                                        <label for="address" class="col-sm-3 col-form-label">Address</label>
-                                        <textarea name="address" id="address" rows="3" class="form-control"></textarea>
-                                    </div>
-                                    <!-- Include similar form fields for the remaining columns -->
-                                    <div class="mb-3 row">
-                                        <label for="policy" class="col-sm-3 col-form-label">Policy</label>
-                                        <input type="text" name="policy" id="policy" class="form-control">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="dn" class="col-sm-3 col-form-label">D/N/INV Number</label>
-                                        <input type="text" name="dn" id="dn" class="form-control">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="vehicle" class="col-sm-3 col-form-label">Vehicle/ChassiNo</label>
-                                        <input type="text" name="vehicle" id="vehicle" class="form-control">
-
-                                    </div>
-
+                                    {{-- Company Dropdown --}}
                                     <div class="mb-3">
                                         <label for="insurance_company" class="form-label">Select Company</label>
                                         <div class="position-relative">
@@ -137,8 +131,7 @@
                                         </div>
                                     </div>
 
-
-                                    <!-- Select Insurance Type -->
+                                    {{-- Insurance Type Dropdown --}}
                                     <div class="mb-3">
                                         <label for="insurance_type" class="form-label">Select Insurance Type</label>
                                         <div class="position-relative">
@@ -157,7 +150,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- Select Category -->
+                                    {{-- Category Dropdown --}}
                                     <div class="mb-3" id="category_wrapper">
                                         <label for="category" class="form-label">Select Category</label>
                                         <div class="position-relative">
@@ -172,7 +165,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- Select Subcategory -->
+                                    {{-- Subcategory Dropdown --}}
                                     <div class="mb-3" id="subcategory_wrapper">
                                         <label for="subcategory" class="form-label">Select Sub Category</label>
                                         <div class="position-relative">
@@ -187,7 +180,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- Select Form Field -->
+                                    {{-- Variety Fields Dropdown --}}
                                     <div class="mb-3" id="formfield_wrapper">
                                         <label for="varietyfields" class="form-label">Select Variety Fields</label>
                                         <div class="position-relative">
@@ -202,129 +195,140 @@
                                         </div>
                                     </div>
 
-                                    <div class="mb-3 row">
-                                        <label for="basic" class="col-sm-3 col-form-label">Net Premium</label>
-                                        <input type="number" name="basic" id="basic" step="0.01"
-                                            class="form-control">
+                                    {{-- Premium Fields: Basic, SRCC, TC --}}
+                                    <div class="row">
+                                        <div class="mb-3 col-md-4">
+                                            <label for="basic" class="form-label">Net Premium</label>
+                                            <input type="number" name="basic" id="basic" step="0.01"
+                                                class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="srcc" class="form-label">SRCC Premium</label>
+                                            <input type="number" name="srcc" id="srcc" step="0.01"
+                                                class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="tc" class="form-label">TC Premium</label>
+                                            <input type="number" name="tc" id="tc" step="0.01"
+                                                class="form-control">
+                                        </div>
                                     </div>
 
-                                    <div class="mb-3 row">
-                                        <label for="srcc" class="col-sm-3 col-form-label">SRCC Premium</label>
-                                        <input type="number" name="srcc" id="srcc" step="0.01"
-                                            class="form-control">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="tc" class="col-sm-3 col-form-label">TC Premium</label>
-                                        <input type="number" name="tc" id="tc" step="0.01"
-                                            class="form-control">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="others" class="col-sm-3 col-form-label">Others</label>
-                                        <input type="number" name="others" id="others" step="0.01"
-                                            class="form-control">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="total" class="col-sm-3 col-form-label">Total</label>
-                                        <input type="number" name="total" id="total" step="0.01"
-                                            class="form-control">
-
-                                        <div class="mb-3 row">
-                                            <label for="sum_insured" class="col-sm-3 col-form-label">Sum Insured</label>
+                                    {{-- Others, Total, Sum Insured --}}
+                                    <div class="row">
+                                        <div class="mb-3 col-md-4">
+                                            <label for="others" class="form-label">Others</label>
+                                            <input type="number" name="others" id="others" step="0.01"
+                                                class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="total" class="form-label">Total</label>
+                                            <input type="number" name="total" id="total" step="0.01"
+                                                class="form-control">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="sum_insured" class="form-label">Sum Insured</label>
                                             <input type="number" name="sum_insured" id="sum_insured" step="0.01"
                                                 class="form-control">
                                         </div>
+                                    </div>
 
-                                        <div class="mb-3 row">
-                                            <label for="from_date" class="col-sm-3 col-form-label">Commencement
-                                                Date</label>
+                                    {{-- Dates: From and To --}}
+                                    <div class="row">
+                                        <div class="mb-3 col-md-6">
+                                            <label for="from_date" class="form-label">Commencement Date</label>
                                             <input type="date" name="from_date" id="from_date" class="form-control">
                                         </div>
-
-                                        <div class="mb-3 row">
-                                            <label for="to_date" class="col-sm-3 col-form-label">Expiry Date</label>
+                                        <div class="mb-3 col-md-6">
+                                            <label for="to_date" class="form-label">Expiry Date</label>
                                             <input type="date" name="to_date" id="to_date" class="form-control">
                                         </div>
+                                    </div>
 
+                                    {{-- Agent Code --}}
+                                    <div class="mb-3">
+                                        <label for="introducer_code" class="form-label">Agent Code</label>
+                                        <div class="position-relative">
+                                            <select name="introducer_code" id="introducer_code" class="form-control"
+                                                required style="appearance: none; padding-right: 2.5rem;">
+                                                <option value="">Select Agent Rep_code</option>
+                                                @foreach ($agents as $agent)
+                                                    <option value="{{ $agent->id }}">{{ $agent->rep_code }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                                ▼
+                                            </span>
+                                        </div>
+                                    </div>
 
-
-                                        <div class="mb-3 row">
-                                            <label for="introducer_code" class="col-sm-3 col-form-label">Agent
-                                                Code</label>
-                                            <div class="position-relative">
-                                                <select name="introducer_code" id="introducer_code" class="form-control"
-                                                    required style="appearance: none; padding-right: 2.5rem;">
-                                                    <option value="">Select Agent Rep_code</option>
-                                                    @foreach ($agents as $agent)
-                                                        <option value="{{ $agent->id }}">{{ $agent->rep_code }}
+                                    {{-- Sub Agent Code --}}
+                                    <div class="mb-3">
+                                        <label for="subagent_code" class="form-label">Sub Agent Code</label>
+                                        <div class="position-relative">
+                                            <select name="subagent_code" id="subagent_code" class="form-control"
+                                                style="appearance: none; padding-right: 2.5rem;">
+                                                <option value="">Select SubAgent Rep_code</option>
+                                                @foreach ($agentsWithSubagents as $agent)
+                                                    @foreach ($agent->subagents as $index => $subagent)
+                                                        <option
+                                                            value="{{ $agent->rep_code }}/{{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}">
+                                                            {{ $agent->rep_code }}/{{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}
                                                         </option>
                                                     @endforeach
-                                                </select>
-                                                <span
-                                                    style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                                    ▼
-                                                </span>
-                                            </div>
+                                                @endforeach
+                                            </select>
+                                            <span
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                                ▼
+                                            </span>
                                         </div>
+                                    </div>
 
-                                        {{-- subagents --}}
-                                        <div class="mb-3 row">
-                                            <label for="subagent_code" class="col-sm-3 col-form-label">Sub Agent
-                                                Code</label>
-                                            <div class="position-relative">
-                                                <select name="subagent_code" id="subagent_code" class="form-control"
-                                                    nullable style="appearance: none; padding-right: 2.5rem;">
-                                                    <option value="">Select SubAgent Rep_code</option>
-                                                    @foreach ($agentsWithSubagents as $agent)
-                                                        @foreach ($agent->subagents as $index => $subagent)
-                                                            <option
-                                                                value="{{ $agent->rep_code }}/{{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}">
-                                                                {{ $agent->rep_code }}/{{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endforeach
-                                                </select>
-                                                <span
-                                                    style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                                    ▼
-                                                </span>
-                                            </div>
+                                    {{-- Premium Type --}}
+                                    <div class="mb-3">
+                                        <label for="premium_type" class="form-label">Premium Type</label>
+                                        <div class="position-relative">
+                                            <select name="premium_type" id="premium_type" class="form-control" required
+                                                style="appearance: none; padding-right: 2.5rem;">
+                                                <option value="">Select Premium Type</option>
+                                                <option value="Cash">Cash</option>
+                                                <option value="Debit">Debit</option>
+                                            </select>
+                                            <span
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                                ▼
+                                            </span>
                                         </div>
+                                    </div>
 
-                                        <div class="mb-3 row">
-                                            <label for="premium_type" class="col-sm-3 col-form-label">Premium Type</label>
-                                            <div class="position-relative">
-                                                <select name="premium_type" id="premium_type" class="form-control"
-                                                    required style="appearance: none; padding-right: 2.5rem;">
-                                                    <option value="">Select Premium Type</option>
-                                                    <option value="Cash">Cash</option>
-                                                    <option value="Debit">Debit</option>
-
-                                                </select>
-                                                <span
-                                                    style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                                    ▼
-                                                </span>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="card-footer text-end">
-                                            <div class="col-sm-9 offset-sm-3">
-                                                <button class="btn btn-primary" type="submit">Submit</button>
-                                            </div>
-                                        </div>
+                                    {{-- Submit --}}
+                                    <div class="card-footer text-end">
+                                        <button class="btn btn-primary" type="submit">Submit</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
     </div>
+
+    @php
+        $customerData = $customers->mapWithKeys(function ($customer) {
+            return [
+                $customer->id => [
+                    'contact' => $customer->phone,
+                    'whatsapp' => $customer->whatsapp_number,
+                    'address' => $customer->address,
+                ],
+            ];
+        });
+    @endphp
+
 
     <script>
         const customerData = @json($customerData);

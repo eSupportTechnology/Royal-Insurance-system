@@ -50,7 +50,7 @@
                                     <th>Contact Number</th>
                                     <th>Whatsapp Number</th>
                                     <th>Address</th>
-                                    <th>Policy</th>
+                                    <th>Policy Number</th>
                                     <th>D/N/INV Number</th>
                                     <th>Vehicle/ChassiNo</th>
                                     <th>Company</th>

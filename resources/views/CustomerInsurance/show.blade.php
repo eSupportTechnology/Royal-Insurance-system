@@ -87,7 +87,7 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">Policy</label>
+                                        <label class="form-label">Policy Number</label>
                                         <input type="text" class="form-control" value="{{ $customerinsurance->policy }}"
                                             readonly>
                                     </div>

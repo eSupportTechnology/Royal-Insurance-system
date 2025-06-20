@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('dn')->nullable();
             $table->string('vehicle')->nullable();
             $table->string('class')->nullable();
-            $table->string('insurance_company')->nullable();
+            $table->string('insurance_company')->required();
             $table->string('rep')->nullable();
             $table->decimal('basic', 10, 2)->nullable();
             $table->decimal('srcc', 10, 2)->nullable()->default(0);
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->date('to_date')->nullable();
             $table->string('contact')->nullable();
             $table->text('address')->nullable();
-            $table->string('introducer_code')->nullable();
+            $table->string('introducer_code')->required();
             $table->timestamps();
         });
     }

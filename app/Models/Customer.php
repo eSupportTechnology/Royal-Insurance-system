@@ -15,4 +15,8 @@ class Customer extends Model
         'whatsapp_number',
         'job'
     ];
+    public function customer_insurances()
+    {
+        return $this->hasMany(CustomerInsurance::class);
+    }
 }

@@ -44,11 +44,6 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="company_name" class="form-label">Company Name</label>
-                                <input type="text" name="company_name" class="form-control" value="{{ $agent->company_name }}">
-                            </div>
-
-                            <div class="mb-3">
                                 <label for="address" class="form-label">Address</label>
                                 <textarea name="address" class="form-control">{{ $agent->address }}</textarea>
                             </div>

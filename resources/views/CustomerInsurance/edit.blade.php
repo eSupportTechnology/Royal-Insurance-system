@@ -8,12 +8,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Edit Customer</h3>
+    <h3>Edit Customer Insurance</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Form Controls</li>
-    <li class="breadcrumb-item active">Edit Customer</li>
+    <li class="breadcrumb-item active">Edit Customer Insurance</li>
 @endsection
 
 @section('content')
@@ -29,7 +29,6 @@
                     @if ($errors->any())
                         <div class="alert alert-danger alert-dismissible fade show">
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-
                             <ul>
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
@@ -37,152 +36,435 @@
                             </ul>
                         </div>
                     @endif
-
                 </div>
+
                 <div class="card mt-3">
                     <div class="card-header">
                         <h5>Edit Details</h5>
-
                     </div>
                     <form action="{{ route('customerinsurance.update', $customerinsurance->id) }}" method="POST">
                         @csrf
                         @method('PUT')
+                        @php
+                            $customerData = $customers->mapWithKeys(function ($customer) {
+                                return [
+                                    $customer->id => [
+                                        'contact' => $customer->phone,
+                                        'whatsapp' => $customer->whatsapp_number,
+                                        'address' => $customer->address,
+                                    ],
+                                ];
+                            });
+                        @endphp
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <div class="mb-3 row">
-                                        <label for="inv" class="col-sm-3 col-form-label">INV</label>
-                                        <input type="text" name="inv" id="inv" class="form-control"
-                                            value="{{ old('inv', $customerinsurance->inv) }}" required>
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="date" class="col-sm-3 col-form-label">Date</label>
-                                        <input type="date" name="date" id="date" class="form-control"
-                                            value="{{ old('date', $customerinsurance->date) }}" required>
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="name" class="col-sm-3 col-form-label">Name</label>
-                                        <input type="text" name="name" id="name" class="form-control"
-                                            value="{{ old('name', $customerinsurance->name) }}" required>
-                                    </div>
-
-                                    <!-- Include similar form fields for the remaining columns -->
-                                    <div class="mb-3 row">
-                                        <label for="policy" class="col-sm-3 col-form-label">Policy</label>
-                                        <input type="text" name="policy" id="policy" class="form-control"
-                                            value="{{ old('policy', $customerinsurance->policy) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="dn" class="col-sm-3 col-form-label">D/N</label>
-                                        <input type="text" name="dn" id="dn" class="form-control"
-                                            value="{{ old('dn', $customerinsurance->dn) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="vehicle" class="col-sm-3 col-form-label">Vehicle</label>
-                                        <input type="text" name="vehicle" id="vehicle" class="form-control"
-                                            value="{{ old('vehicle', $customerinsurance->vehicle) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="class" class="col-sm-3 col-form-label">Class</label>
-                                        <input type="text" name="class" id="class" class="form-control"
-                                            value="{{ old('class', $customerinsurance->class) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="insurance_company" class="col-sm-3 col-form-label">Company</label>
-                                        <input type="text" name="insurance_company" id="insurance_company"
-                                            class="form-control"
-                                            value="{{ old('insurance_company', $customerinsurance->insurance_company) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="rep" class="col-sm-3 col-form-label">Rep</label>
-                                        <input type="text" name="rep" id="rep" class="form-control"
-                                            value="{{ old('rep', $customerinsurance->rep) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="basic" class="col-sm-3 col-form-label">Basic</label>
-                                        <input type="number" name="basic" id="basic" step="0.01"
-                                            class="form-control" value="{{ old('basic', $customerinsurance->basic) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="srcc" class="col-sm-3 col-form-label">SRCC</label>
-                                        <input type="number" name="srcc" id="srcc" step="0.01"
-                                            class="form-control" value="{{ old('srcc', $customerinsurance->srcc) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="tc" class="col-sm-3 col-form-label">TC</label>
-                                        <input type="number" name="tc" id="tc" step="0.01"
-                                            class="form-control" value="{{ old('tc', $customerinsurance->tc) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="others" class="col-sm-3 col-form-label">Others</label>
-                                        <input type="number" name="others" id="others" step="0.01"
-                                            class="form-control" value="{{ old('others', $customerinsurance->others) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="total" class="col-sm-3 col-form-label">Total</label>
-                                        <input type="number" name="total" id="total" step="0.01"
-                                            class="form-control" value="{{ old('total', $customerinsurance->total) }}"
-                                            required>
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="sum_insured" class="col-sm-3 col-form-label">Sum Insured</label>
-                                        <input type="number" name="sum_insured" id="sum_insured" step="0.01"
-                                            class="form-control"
-                                            value="{{ old('sum_insured', $customerinsurance->sum_insured) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="from_date" class="col-sm-3 col-form-label">From Date</label>
-                                        <input type="date" name="from_date" id="from_date" class="form-control"
-                                            value="{{ old('from_date', $customerinsurance->from_date) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="to_date" class="col-sm-3 col-form-label">To Date</label>
-                                        <input type="date" name="to_date" id="to_date" class="form-control"
-                                            value="{{ old('to_date', $customerinsurance->to_date) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="contact" class="col-sm-3 col-form-label">Contact</label>
-                                        <input type="text" name="contact" id="contact" class="form-control"
-                                            value="{{ old('contact', $customerinsurance->contact) }}">
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="address" class="col-sm-3 col-form-label">Address</label>
-                                        <textarea name="address" id="address" rows="3" class="form-control">{{ old('address', $customerinsurance->address) }}</textarea>
-                                    </div>
-
-                                    <div class="mb-3 row">
-                                        <label for="introducer_code" class="col-sm-3 col-form-label">Introducer
-                                            Code</label>
-                                        <input type="text" name="introducer_code" id="introducer_code"
-                                            class="form-control"
-                                            value="{{ old('introducer_code', $customerinsurance->introducer_code) }}">
-                                    </div>
-
-                                    <div class="card-footer text-end">
-                                        <div class="col-sm-9 offset-sm-3">
-                                            <button class="btn btn-primary" type="submit">Update</button>
+                                    {{-- INV & Date --}}
+                                    <div class="row">
+                                        <div class="mb-3 col-md-6">
+                                            <label for="inv" class="form-label">RIB INV Number</label>
+                                            <input type="text" name="inv" id="inv"
+                                                value="{{ $customerinsurance->inv }}" class="form-control" required>
                                         </div>
+                                        <div class="mb-3 col-md-6">
+                                            <label for="date" class="form-label">Date</label>
+                                            <input type="date" name="date" id="date"
+                                                value="{{ $customerinsurance->date }}" class="form-control" required>
+                                        </div>
+                                    </div>
+
+                                    {{-- Customer Dropdown --}}
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Select Customer</label>
+                                        <div class="position-relative">
+                                            <select name="name" id="customerSelect" class="form-control mb-5" required>
+                                                <option value="">Select Customer</option>
+                                                @foreach ($customers as $customer)
+                                                    <option value="{{ $customer->id }}"
+                                                        {{ $customer->id == $customerinsurance->name ? 'selected' : '' }}>
+                                                        {{ $customer->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <span class="position-absolute top-50 end-0 translate-middle-y pe-3">▼</span>
+                                        </div>
+                                    </div>
+
+                                    {{-- Contact, WhatsApp, Address --}}
+                                    <div class="row">
+                                        <div class="mb-3 col-md-4">
+                                            <label for="contact" class="form-label">Contact Number</label>
+                                            <input type="text" name="contact" id="contact" class="form-control"
+                                                value="{{ $customerinsurance->contact }}">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="whatsapp" class="form-label">Whatsapp Number</label>
+                                            <input type="text" name="whatsapp" id="whatsapp" class="form-control"
+                                                value="{{ $customerinsurance->whatsapp }}">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="address" class="form-label">Address</label>
+                                            <textarea name="address" id="address" rows="1" class="form-control">{{ $customerinsurance->address }}</textarea>
+                                        </div>
+                                    </div>
+
+                                    {{-- Policy, DN, Vehicle --}}
+                                    <div class="row">
+                                        <div class="mb-3 col-md-4">
+                                            <label for="policy" class="form-label">Policy Number</label>
+                                            <input type="text" name="policy" id="policy" class="form-control"
+                                                value="{{ $customerinsurance->policy }}">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="dn" class="form-label">D/N/INV Number</label>
+                                            <input type="text" name="dn" id="dn" class="form-control"
+                                                value="{{ $customerinsurance->dn }}">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="vehicle" class="form-label">Vehicle/Chassi No</label>
+                                            <input type="text" name="vehicle" id="vehicle" class="form-control"
+                                                value="{{ $customerinsurance->vehicle }}">
+                                        </div>
+                                    </div>
+
+                                    {{-- Company Dropdown --}}
+                                    <div class="mb-3">
+                                        <label for="insurance_company" class="form-label">Select Company</label>
+                                        <select name="insurance_company" class="form-control" required>
+                                            <option value="">Select Company</option>
+                                            @foreach ($companies as $company)
+                                                <option value="{{ $company->id }}"
+                                                    {{ $customerinsurance->insurance_company == $company->id ? 'selected' : '' }}>
+                                                    {{ $company->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    {{-- Insurance Type Dropdown --}}
+                                    <div class="mb-3">
+                                        <label for="insurance_type" class="form-label">Select Insurance Type</label>
+                                        <select name="insurance_type" id="insurance_type" class="form-control" required>
+                                            <option value="">Select Insurance Type</option>
+                                            @foreach ($insurance_types as $insuranceType)
+                                                <option value="{{ $insuranceType->id }}"
+                                                    {{ $customerinsurance->insurance_type == $insuranceType->id ? 'selected' : '' }}>
+                                                    {{ $insuranceType->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    {{-- Category, Subcategory, Variety Field (empty - JS loaded) --}}
+                                    <div class="mb-3" id="category_wrapper">
+                                        <label for="category" class="form-label">Select Category</label>
+                                        <select name="category" id="category" class="form-control">
+                                            <option value="">Select Category</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3" id="subcategory_wrapper">
+                                        <label for="subcategory" class="form-label">Select Sub Category</label>
+                                        <select name="subcategory" id="subcategory" class="form-control">
+                                            <option value="">Select Sub Category</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3" id="formfield_wrapper">
+                                        <label for="varietyfields" class="form-label">Select Variety Fields</label>
+                                        <select name="varietyfields" id="varietyfields" class="form-control">
+                                            <option value="">Select Variety Fields</option>
+                                        </select>
+                                    </div>
+
+                                    {{-- Basic, SRCC, TC --}}
+                                    <div class="row">
+                                        <div class="mb-3 col-md-4">
+                                            <label for="basic" class="form-label">Net Premium</label>
+                                            <input type="number" step="0.01" name="basic" id="basic"
+                                                class="form-control" value="{{ $customerinsurance->basic }}">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="srcc" class="form-label">SRCC Premium</label>
+                                            <input type="number" step="0.01" name="srcc" id="srcc"
+                                                class="form-control" value="{{ $customerinsurance->srcc }}">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="tc" class="form-label">TC Premium</label>
+                                            <input type="number" step="0.01" name="tc" id="tc"
+                                                class="form-control" value="{{ $customerinsurance->tc }}">
+                                        </div>
+                                    </div>
+
+                                    {{-- Others, Total, Sum Insured --}}
+                                    <div class="row">
+                                        <div class="mb-3 col-md-4">
+                                            <label for="others" class="form-label">Others</label>
+                                            <input type="number" step="0.01" name="others" id="others"
+                                                class="form-control" value="{{ $customerinsurance->others }}">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="total" class="form-label">Total</label>
+                                            <input type="number" step="0.01" name="total" id="total"
+                                                class="form-control" value="{{ $customerinsurance->total }}">
+                                        </div>
+                                        <div class="mb-3 col-md-4">
+                                            <label for="sum_insured" class="form-label">Sum Insured</label>
+                                            <input type="number" step="0.01" name="sum_insured" id="sum_insured"
+                                                class="form-control" value="{{ $customerinsurance->sum_insured }}">
+                                        </div>
+                                    </div>
+
+                                    {{-- From & To Dates --}}
+                                    <div class="row">
+                                        <div class="mb-3 col-md-6">
+                                            <label for="from_date" class="form-label">Commencement Date</label>
+                                            <input type="date" name="from_date" id="from_date" class="form-control"
+                                                value="{{ $customerinsurance->from_date }}">
+                                        </div>
+                                        <div class="mb-3 col-md-6">
+                                            <label for="to_date" class="form-label">Expiry Date</label>
+                                            <input type="date" name="to_date" id="to_date" class="form-control"
+                                                value="{{ $customerinsurance->to_date }}">
+                                        </div>
+                                    </div>
+
+                                    {{-- Introducer & Subagent Codes --}}
+                                    <div class="mb-3">
+                                        <label for="introducer_code" class="form-label">Agent Code</label>
+                                        <select name="introducer_code" id="introducer_code" class="form-control"
+                                            required>
+                                            <option value="">Select Agent Rep_code</option>
+                                            @foreach ($agents as $agent)
+                                                <option value="{{ $agent->id }}"
+                                                    {{ $agent->id == $customerinsurance->introducer_code ? 'selected' : '' }}>
+                                                    {{ $agent->rep_code }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="subagent_code" class="form-label">Sub Agent Code</label>
+                                        <select name="subagent_code" id="subagent_code" class="form-control">
+                                            <option value="">Select SubAgent Rep_code</option>
+                                            @foreach ($agentsWithSubagents as $agent)
+                                                @foreach ($agent->subagents as $index => $subagent)
+                                                    @php
+                                                        $subCode =
+                                                            $agent->rep_code .
+                                                            '/' .
+                                                            str_pad($index + 1, 3, '0', STR_PAD_LEFT);
+                                                    @endphp
+                                                    <option value="{{ $subCode }}"
+                                                        {{ $customerinsurance->subagent_code == $subCode ? 'selected' : '' }}>
+                                                        {{ $subCode }}</option>
+                                                @endforeach
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    {{-- Premium Type --}}
+                                    <div class="mb-3">
+                                        <label for="premium_type" class="form-label">Premium Type</label>
+                                        <select name="premium_type" id="premium_type" class="form-control" required>
+                                            <option value="">Select Premium Type</option>
+                                            <option value="Cash"
+                                                {{ $customerinsurance->premium_type == 'Cash' ? 'selected' : '' }}>Cash
+                                            </option>
+                                            <option value="Debit"
+                                                {{ $customerinsurance->premium_type == 'Debit' ? 'selected' : '' }}>Debit
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    {{-- Submit --}}
+                                    <div class="card-footer text-end">
+                                        <button class="btn btn-primary" type="submit">Update</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
+
                 </div>
-            @endsection
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Customer data handling
+        const customerData = @json($customerData);
+
+        document.getElementById('customerSelect').addEventListener('change', function() {
+            const selectedId = this.value;
+            if (customerData[selectedId]) {
+                document.getElementById('contact').value = customerData[selectedId].contact ?? '';
+                document.getElementById('whatsapp').value = customerData[selectedId].whatsapp ?? '';
+                document.getElementById('address').value = customerData[selectedId].address ?? '';
+            } else {
+                document.getElementById('contact').value = '';
+                document.getElementById('whatsapp').value = '';
+                document.getElementById('address').value = '';
+            }
+        });
+
+        // Insurance cascade handling
+        const insuranceData = @json($insurance_types);
+
+        // Get current selected values for edit mode - Fixed variable declarations
+        const currentInsuranceType = {{ $customerinsurance->insurance_type ?? 'null' }};
+        const currentCategory = {{ $customerinsurance->category ?? 'null' }};
+        const currentSubcategory = {{ $customerinsurance->subcategory ?? 'null' }};
+        const currentFormField = {{ $customerinsurance->varietyfields ?? 'null' }};
+
+        console.log('Current values:', {
+            insuranceType: currentInsuranceType,
+            category: currentCategory,
+            subcategory: currentSubcategory,
+            formField: currentFormField
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const insuranceSelect = document.getElementById('insurance_type');
+            const categorySelect = document.getElementById('category');
+            const subcategorySelect = document.getElementById('subcategory');
+            const formfieldSelect = document.getElementById('varietyfields');
+
+            const categoryWrapper = document.getElementById('category_wrapper');
+            const subcategoryWrapper = document.getElementById('subcategory_wrapper');
+            const formfieldWrapper = document.getElementById('formfield_wrapper');
+
+            function populateSelect(select, items, selectedValue, valueKey = 'id', textKey = 'name') {
+                select.innerHTML = '<option value="">Select ' + select.getAttribute('data-placeholder') +
+                    '</option>';
+                if (items && items.length > 0) {
+                    items.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item[valueKey];
+                        option.textContent = item[textKey];
+                        if (selectedValue && item[valueKey] == selectedValue) {
+                            option.selected = true;
+                        }
+                        select.appendChild(option);
+                    });
+                }
+            }
+
+            function loadCategories(selectedInsuranceId, preloadCategory = null) {
+                categoryWrapper.style.display = 'none';
+                subcategoryWrapper.style.display = 'none';
+                formfieldWrapper.style.display = 'none';
+
+                categorySelect.innerHTML = '<option value="">Select Category</option>';
+                subcategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
+                formfieldSelect.innerHTML = '<option value="">Select Variety Fields</option>';
+
+                if (!selectedInsuranceId) return;
+
+                const insurance = insuranceData.find(ins => ins.id == selectedInsuranceId);
+                if (insurance && insurance.categories && insurance.categories.length > 0) {
+                    populateSelect(categorySelect, insurance.categories, preloadCategory);
+                    categoryWrapper.style.display = 'block';
+
+                    // If we have a preloaded category, load its subcategories
+                    if (preloadCategory) {
+                        loadSubcategories(selectedInsuranceId, preloadCategory, currentSubcategory);
+                    }
+                }
+            }
+
+            function loadSubcategories(selectedInsuranceId, selectedCategoryId, preloadSubcategory = null) {
+                subcategoryWrapper.style.display = 'none';
+                formfieldWrapper.style.display = 'none';
+
+                subcategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
+                formfieldSelect.innerHTML = '<option value="">Select Variety Fields</option>';
+
+                if (!selectedInsuranceId || !selectedCategoryId) return;
+
+                const insurance = insuranceData.find(ins => ins.id == selectedInsuranceId);
+                if (insurance && insurance.categories) {
+                    const category = insurance.categories.find(cat => cat.id == selectedCategoryId);
+                    if (category && category.subcategories && category.subcategories.length > 0) {
+                        populateSelect(subcategorySelect, category.subcategories, preloadSubcategory);
+                        subcategoryWrapper.style.display = 'block';
+
+                        // If we have a preloaded subcategory, load its form fields
+                        if (preloadSubcategory) {
+                            loadFormFields(selectedInsuranceId, selectedCategoryId, preloadSubcategory,
+                                currentFormField);
+                        }
+                    }
+                }
+            }
+
+            function loadFormFields(selectedInsuranceId, selectedCategoryId, selectedSubcategoryId,
+                preloadFormField = null) {
+                formfieldWrapper.style.display = 'none';
+                formfieldSelect.innerHTML = '<option value="">Select Variety Fields</option>';
+
+                if (!selectedInsuranceId || !selectedCategoryId || !selectedSubcategoryId) return;
+
+                const insurance = insuranceData.find(ins => ins.id == selectedInsuranceId);
+                if (insurance && insurance.categories) {
+                    const category = insurance.categories.find(cat => cat.id == selectedCategoryId);
+                    if (category && category.subcategories) {
+                        const subcategory = category.subcategories.find(sub => sub.id == selectedSubcategoryId);
+                        if (subcategory && subcategory.form_fields && subcategory.form_fields.length > 0) {
+                            populateSelect(formfieldSelect, subcategory.form_fields, preloadFormField, 'id',
+                                'field_name');
+                            formfieldWrapper.style.display = 'block';
+                        }
+                    }
+                }
+            }
+
+            // Event listeners for user interactions
+            insuranceSelect.addEventListener('change', function() {
+                loadCategories(this.value);
+            });
+
+            categorySelect.addEventListener('change', function() {
+                const insuranceId = insuranceSelect.value;
+                loadSubcategories(insuranceId, this.value);
+            });
+
+            subcategorySelect.addEventListener('change', function() {
+                const insuranceId = insuranceSelect.value;
+                const categoryId = categorySelect.value;
+                loadFormFields(insuranceId, categoryId, this.value);
+            });
+
+            // Initialize with existing data for edit mode
+            if (currentInsuranceType && currentInsuranceType !== null) {
+                console.log('Loading existing data for insurance type:', currentInsuranceType);
+                loadCategories(currentInsuranceType, currentCategory);
+            }
+        });
+
+        // Agent and subagent handling
+        const agentsWithSubagents = @json($agentsWithSubagents);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const agentSelect = document.getElementById('introducer_code');
+            const subagentSelect = document.getElementById('subagent_code');
+
+            agentSelect.addEventListener('change', function() {
+                const agentId = parseInt(this.value);
+                subagentSelect.innerHTML = '<option value="">Select SubAgent Rep_code</option>';
+
+                const selectedAgent = agentsWithSubagents.find(agent => agent.id === agentId);
+                if (selectedAgent && selectedAgent.subagents && selectedAgent.subagents.length > 0) {
+                    selectedAgent.subagents.forEach((subagent, index) => {
+                        const code =
+                            `${selectedAgent.rep_code}/${String(index + 1).padStart(3, '0')}`;
+                        const option = document.createElement('option');
+                        option.value = code;
+                        option.textContent = code;
+                        subagentSelect.appendChild(option);
+                    });
+                }
+            });
+        });
+    </script>
+@endsection
+
+@section('script')
+@endsection

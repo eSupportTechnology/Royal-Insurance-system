@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\Company;
+use App\Models\InsuranceType;
+use App\Models\Category;
+use App\Models\SubCategory;
+use App\Models\FormField;
+use App\Models\Agent;
+use App\Models\SubAgent;
 use App\Models\CustomerInsurance;
 use Illuminate\Http\Request;
 
@@ -13,8 +20,8 @@ class CustomerInsuranceController extends Controller
      */
     public function index()
     {
-        $customerinsurances = CustomerInsurance::all();
-        return view('CustomerInsurance.index',compact('customerinsurances'));
+        $customerinsurances = CustomerInsurance::with('customer')->get();
+        return view('CustomerInsurance.index', compact('customerinsurances'));
     }
 
     /**
@@ -22,42 +29,66 @@ class CustomerInsuranceController extends Controller
      */
     public function create()
     {
-        $customers = Customer::all();
-        return view('CustomerInsurance.create',compact('customers'));
+        $customers = Customer::select('id', 'name', 'phone', 'whatsapp_number', 'address')->get();
+        $companies = Company::all();
+        $insurance_types = InsuranceType::with('categories.subcategories.formFields')->get();
+        $categories = Category::all();
+        $subcategories = SubCategory::all();
+        $formfields = FormField::all();
+        $agents = Agent::all();
+
+        $agentsWithSubagents = Agent::with('subagents')->get(); // Get agents + their subagents
+
+        return view('CustomerInsurance.create', compact(
+            'agents',
+            'customers',
+            'companies',
+            'insurance_types',
+            'categories',
+            'subcategories',
+            'formfields',
+            'agentsWithSubagents'
+        ));
     }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $validated = $request->validate([
-        'inv' => 'required|string|max:50',
-        'date' => 'required|date',
-        'name' => 'required|string|max:255',
-        'policy' => 'nullable|string|max:255',
-        'dn' => 'nullable|string|max:255',
-        'vehicle' => 'nullable|string|max:255',
-        'class' => 'nullable|string|max:255',
-        'insurance_company' => 'nullable|string|max:255',
-        'rep' => 'nullable|string|max:255',
-        'basic' => 'nullable|numeric',
-        'srcc' => 'nullable|numeric',
-        'tc' => 'nullable|numeric',
-        'others' => 'nullable|numeric',
-        'total' => 'required|numeric',
-        'sum_insured' => 'nullable|numeric',
-        'from_date' => 'nullable|date',
-        'to_date' => 'nullable|date|after_or_equal:from_date',
-        'contact' => 'nullable|string|max:20',
-        'address' => 'nullable|string|max:255',
-        'introducer_code' => 'nullable|string|max:50',
-    ]);
+    {
+        $validated = $request->validate([
+            'inv' => 'required|string|max:50',
+            'date' => 'required|date',
+            'name' => 'required|string|max:255',
+            'policy' => 'nullable|string|max:255',
+            'dn' => 'nullable|string|max:255',
+            'vehicle' => 'nullable|string|max:255',
+            'insurance_company' => 'required|string|max:255',
+            'insurance_type' => 'required|exists:insurance_types,id',
+            'category' => 'nullable|exists:categories,id',
+            'subcategory' => 'nullable|exists:sub_categories,id',
+            'varietyfields' => 'nullable|exists:form_fields,id',
+            'basic' => 'nullable|numeric',
+            'srcc' => 'nullable|numeric',
+            'tc' => 'nullable|numeric',
+            'others' => 'nullable|numeric',
+            'total' => 'required|numeric',
+            'sum_insured' => 'nullable|numeric',
+            'from_date' => 'nullable|date',
+            'to_date' => 'nullable|date|after_or_equal:from_date',
+            'contact' => 'nullable|string|max:20',
+            'whatsapp' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:255',
+            'introducer_code' => 'required|string|max:50',
+            'subagent_code' => 'nullable|string|max:50',
+            'premium_type' => 'required|string|max:20',
+        ]);
 
-    CustomerInsurance::create($validated);
+        CustomerInsurance::create($validated);
 
-    return redirect()->route('customerinsurance.index')->with('success', 'Customer Insurance Record Created Successfully!');
-}
+        return redirect()->route('customerinsurance.index')->with('success', 'Customer Insurance Record Created Successfully!');
+    }
 
 
     /**
@@ -66,7 +97,7 @@ class CustomerInsuranceController extends Controller
     public function show(string $id)
     {
         $customerinsurance = CustomerInsurance::find($id);
-        return view('CustomerInsurance.show',compact('customerinsurance'));
+        return view('CustomerInsurance.show', compact('customerinsurance'));
     }
 
     /**
@@ -75,7 +106,28 @@ class CustomerInsuranceController extends Controller
     public function edit(string $id)
     {
         $customerinsurance = CustomerInsurance::find($id);
-        return view('Customerinsurance.edit',compact('customerinsurance'));
+
+        $customers = Customer::select('id', 'name', 'phone', 'whatsapp_number', 'address')->get();
+        $companies = Company::all();
+        $insurance_types = InsuranceType::with('categories.subcategories.formFields')->get();
+        $categories = Category::all();
+        $subcategories = SubCategory::all();
+        $formfields = FormField::all();
+        $agents = Agent::all();
+
+        $agentsWithSubagents = Agent::with('subagents')->get(); // Get agents + their subagents
+
+        return view('CustomerInsurance.edit', compact(
+            'agents',
+            'customers',
+            'companies',
+            'insurance_types',
+            'categories',
+            'subcategories',
+            'formfields',
+            'agentsWithSubagents',
+            'customerinsurance'
+        ));
     }
 
     /**
@@ -90,9 +142,11 @@ class CustomerInsuranceController extends Controller
             'policy'           => 'nullable|string|max:255',
             'dn'               => 'nullable|string|max:255',
             'vehicle'          => 'nullable|string|max:255',
-            'class'            => 'nullable|string|max:255',
-            'insurance_company'=> 'nullable|string|max:255',
-            'rep'              => 'nullable|string|max:255',
+            'insurance_company' => 'required|string|max:255',
+            'insurance_type' => 'required|exists:insurance_types,id',
+            'category'      => 'nullable|exists:categories,id',
+            'subcategory'  => 'nullable|exists:sub_categories,id',
+            'varietyfields'    => 'nullable|exists:form_fields,id',
             'basic'            => 'nullable|numeric',
             'srcc'             => 'nullable|numeric',
             'tc'               => 'nullable|numeric',
@@ -102,17 +156,20 @@ class CustomerInsuranceController extends Controller
             'from_date'        => 'nullable|date',
             'to_date'          => 'nullable|date|after_or_equal:from_date',
             'contact'          => 'nullable|string|max:20',
+            'whatsapp'         => 'nullable|string|max:20',
             'address'          => 'nullable|string|max:255',
-            'introducer_code'  => 'nullable|string|max:50',
+            'introducer_code'  => 'required|string|max:50',
+            'subagent_code'    => 'nullable|string|max:50',
+            'premium_type'     => 'required|string|max:20',
         ]);
 
         $customerInsurance = CustomerInsurance::findOrFail($id);
 
-    // Then update it
-    $customerInsurance->update($validated);
+        // Then update it
+        $customerInsurance->update($validated);
 
         return redirect()->route('customerinsurance.index')
-                         ->with('success', 'Customer Insurance Record Updated Successfully!');
+            ->with('success', 'Customer Insurance Record Updated Successfully!');
     }
 
     /**

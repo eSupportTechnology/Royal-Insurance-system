@@ -32,7 +32,9 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Customer Insurance ID</th>
-                                        <th>Agent ID</th>
+                                        <th>Customer Name</th>
+                                        <th>Company Name</th>
+                                        <th>Sub Agent ID</th>
                                         <th>Net Premium Commission</th>
                                         <th>SRCC Premium Commission</th>
                                         <th>TC Premium Commission</th>
@@ -42,25 +44,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($commissions as $data)
-                                        <tr>
+                                    @foreach ($allCommissions as $data)
+                                        <tr @if ($newCommissions->contains('id', $data->id)) style="background-color: #fff8cc;" @endif>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $data['insurance']->id }}</td>
-                                            <td>{{ $data['insurance']->subagent_code }}</td>
-                                            <td>Rs.{{ number_format($data['netPremiumCommission'], 2) }}</td>
-                                            <td>Rs.{{ number_format($data['srccPremiumCommission'], 2) }}</td>
-                                            <td>Rs.{{ number_format($data['tcPremiumCommission'], 2) }}</td>
-                                            <td><strong>Rs.{{ number_format($data['totalCommission'], 2) }}</strong></td>
+                                            <td>{{ $data->customerInsurance->id ?? '-' }}</td>
+                                            <td>{{ $data->customerInsurance->customer->name ?? '-' }}</td>
+                                            <td>{{ $data->customerInsurance->company->name ?? '-' }}</td>
+                                            <td>{{ $data->customerInsurance->subagent_code ?? '-' }}</td>
+                                            <td>Rs.{{ number_format($data->net_premium, 2) }}</td>
+                                            <td>Rs.{{ number_format($data->srcc_premium, 2) }}</td>
+                                            <td>Rs.{{ number_format($data->tc_premium, 2) }}</td>
+                                            <td><strong>Rs.{{ number_format($data->total, 2) }}</strong></td>
                                             <td>
-                                                @if ($data['status'] == 'Completed')
-                                                    <span class="badge bg-success">{{ $data['status'] }}</span>
+                                                @if ($data->status === 'Completed')
+                                                    <span class="badge bg-success">{{ $data->status }}</span>
                                                 @else
-                                                    <span class="badge bg-danger">{{ $data['status'] }}</span>
+                                                    <span class="badge bg-danger">{{ $data->status }}</span>
                                                 @endif
                                             </td>
-
                                         </tr>
                                     @endforeach
+
 
                                     {{-- @if ($commissions->isEmpty())
                                         <tr>

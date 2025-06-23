@@ -187,14 +187,10 @@ Route::prefix('authentication')->group(function () {
 
         //commission
 
-Route::get('/rib-commissions', [CommissionController::class, 'ribIndex'])->name('commissions.rib');
-Route::get('/agent-commissions', [CommissionController::class, 'agentIndex'])->name('commissions.agent');
-Route::get('/subagent-commissions', [CommissionController::class, 'subagentIndex'])->name('commissions.subagent');
-
-
-
+        Route::get('/rib-commissions', [CommissionController::class, 'ribIndex'])->name('commissions.rib');
+        Route::get('/agent-commissions', [CommissionController::class, 'agentIndex'])->name('commissions.agent');
+        Route::get('/subagent-commissions', [CommissionController::class, 'subagentIndex'])->name('commissions.subagent');
     });
 });
 
 require __DIR__ . '/auth.php';
-

@@ -85,10 +85,15 @@ class CustomerInsuranceController extends Controller
             'premium_type' => 'required|string|max:20',
         ]);
 
-        CustomerInsurance::create($validated);
+        // Use 'inv' as the unique identifier to avoid duplicate insurance entries
+        CustomerInsurance::updateOrCreate(
+            ['inv' => $validated['inv']],  // Search condition
+            $validated                      // Fields to update or insert
+        );
 
         return redirect()->route('customerinsurance.index')->with('success', 'Customer Insurance Record Created Successfully!');
     }
+
 
 
     /**
@@ -163,14 +168,14 @@ class CustomerInsuranceController extends Controller
             'premium_type'     => 'required|string|max:20',
         ]);
 
+        // Find and update the record
         $customerInsurance = CustomerInsurance::findOrFail($id);
-
-        // Then update it
         $customerInsurance->update($validated);
 
         return redirect()->route('customerinsurance.index')
             ->with('success', 'Customer Insurance Record Updated Successfully!');
     }
+
 
     /**
      * Remove the specified resource from storage.

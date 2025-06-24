@@ -52,12 +52,14 @@
                                     {{-- INV & Date --}}
                                     <div class="row">
                                         <div class="mb-3 col-md-6">
-                                            <label for="inv" class="form-label">RIB INV Number</label>
+                                            <label for="inv" class="form-label">RIB INV Number <span
+                                                    class="text-danger">*</span></label>
                                             <input type="text" name="inv" id="inv" class="form-control"
                                                 required>
                                         </div>
                                         <div class="mb-3 col-md-6">
-                                            <label for="date" class="form-label">Date</label>
+                                            <label for="date" class="form-label">Date <span
+                                                    class="text-danger">*</span></label>
                                             <input type="date" name="date" id="date" class="form-control"
                                                 required>
                                         </div>
@@ -65,7 +67,8 @@
 
                                     {{-- Customer Dropdown --}}
                                     <div class="mb-3">
-                                        <label for="name" class="form-label">Select Customer</label>
+                                        <label for="name" class="form-label">Select Customer <span
+                                                class="text-danger">*</span></label>
                                         <div class="position-relative">
                                             <select name="name" id="customerSelect" class="form-control mb-5" required
                                                 style="appearance: none; padding-right: 2.5rem;">
@@ -75,9 +78,7 @@
                                                 @endforeach
                                             </select>
                                             <span
-                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                                ▼
-                                            </span>
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
                                         </div>
                                     </div>
 
@@ -115,7 +116,8 @@
 
                                     {{-- Company Dropdown --}}
                                     <div class="mb-3">
-                                        <label for="insurance_company" class="form-label">Select Company</label>
+                                        <label for="insurance_company" class="form-label">Select Company <span
+                                                class="text-danger">*</span></label>
                                         <div class="position-relative">
                                             <select name="insurance_company" class="form-control mb-5" required
                                                 style="appearance: none; padding-right: 2.5rem;">
@@ -125,15 +127,14 @@
                                                 @endforeach
                                             </select>
                                             <span
-                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                                ▼
-                                            </span>
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
                                         </div>
                                     </div>
 
                                     {{-- Insurance Type Dropdown --}}
                                     <div class="mb-3">
-                                        <label for="insurance_type" class="form-label">Select Insurance Type</label>
+                                        <label for="insurance_type" class="form-label">Select Insurance Type <span
+                                                class="text-danger">*</span></label>
                                         <div class="position-relative">
                                             <select name="insurance_type" id="insurance_type" class="form-control"
                                                 required style="appearance: none; padding-right: 2.5rem;">
@@ -144,13 +145,11 @@
                                                 @endforeach
                                             </select>
                                             <span
-                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                                ▼
-                                            </span>
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
                                         </div>
                                     </div>
 
-                                    {{-- Category Dropdown --}}
+                                    {{-- Category --}}
                                     <div class="mb-3" id="category_wrapper">
                                         <label for="category" class="form-label">Select Category</label>
                                         <div class="position-relative">
@@ -159,13 +158,11 @@
                                                 <option value="">Select Category</option>
                                             </select>
                                             <span
-                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                                ▼
-                                            </span>
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
                                         </div>
                                     </div>
 
-                                    {{-- Subcategory Dropdown --}}
+                                    {{-- Subcategory --}}
                                     <div class="mb-3" id="subcategory_wrapper">
                                         <label for="subcategory" class="form-label">Select Sub Category</label>
                                         <div class="position-relative">
@@ -174,13 +171,11 @@
                                                 <option value="">Select Sub Category</option>
                                             </select>
                                             <span
-                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                                ▼
-                                            </span>
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
                                         </div>
                                     </div>
 
-                                    {{-- Variety Fields Dropdown --}}
+                                    {{-- Variety Fields --}}
                                     <div class="mb-3" id="formfield_wrapper">
                                         <label for="varietyfields" class="form-label">Select Variety Fields</label>
                                         <div class="position-relative">
@@ -189,13 +184,11 @@
                                                 <option value="">Select Variety Fields</option>
                                             </select>
                                             <span
-                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                                ▼
-                                            </span>
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
                                         </div>
                                     </div>
 
-                                    {{-- Premium Fields: Basic, SRCC, TC --}}
+                                    {{-- Premium Fields --}}
                                     <div class="row">
                                         <div class="mb-3 col-md-4">
                                             <label for="basic" class="form-label">Net Premium</label>
@@ -214,7 +207,7 @@
                                         </div>
                                     </div>
 
-                                    {{-- Others, Total, Sum Insured --}}
+                                    {{-- Others --}}
                                     <div class="row">
                                         <div class="mb-3 col-md-4">
                                             <label for="others" class="form-label">Others</label>
@@ -233,7 +226,7 @@
                                         </div>
                                     </div>
 
-                                    {{-- Dates: From and To --}}
+                                    {{-- Dates --}}
                                     <div class="row">
                                         <div class="mb-3 col-md-6">
                                             <label for="from_date" class="form-label">Commencement Date</label>
@@ -247,7 +240,8 @@
 
                                     {{-- Agent Code --}}
                                     <div class="mb-3">
-                                        <label for="introducer_code" class="form-label">Agent Code</label>
+                                        <label for="introducer_code" class="form-label">Agent Code <span
+                                                class="text-danger">*</span></label>
                                         <div class="position-relative">
                                             <select name="introducer_code" id="introducer_code" class="form-control"
                                                 required style="appearance: none; padding-right: 2.5rem;">
@@ -257,9 +251,7 @@
                                                 @endforeach
                                             </select>
                                             <span
-                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                                ▼
-                                            </span>
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
                                         </div>
                                     </div>
 
@@ -280,15 +272,14 @@
                                                 @endforeach
                                             </select>
                                             <span
-                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                                ▼
-                                            </span>
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
                                         </div>
                                     </div>
 
                                     {{-- Premium Type --}}
                                     <div class="mb-3">
-                                        <label for="premium_type" class="form-label">Premium Type</label>
+                                        <label for="premium_type" class="form-label">Premium Type <span
+                                                class="text-danger">*</span></label>
                                         <div class="position-relative">
                                             <select name="premium_type" id="premium_type" class="form-control" required
                                                 style="appearance: none; padding-right: 2.5rem;">
@@ -297,9 +288,7 @@
                                                 <option value="Debit">Debit</option>
                                             </select>
                                             <span
-                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                                ▼
-                                            </span>
+                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
                                         </div>
                                     </div>
 
@@ -311,6 +300,7 @@
                             </div>
                         </div>
                     </form>
+
 
                 </div>
             </div>

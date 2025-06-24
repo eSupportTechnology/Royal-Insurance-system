@@ -56,14 +56,14 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="email" name="email" value="{{ $newcustomers->email }}" required>
+                                <input class="form-control" type="email" name="email" value="{{ $newcustomers->email }}" >
                             </div>
                         </div>
 
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Phone</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="number" name="phone" value="{{ $newcustomers->phone }}" required>
+                                <input class="form-control" type="number" name="phone" value="{{ $newcustomers->phone }}" >
                             </div>
                         </div>
 
@@ -77,7 +77,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">NIC</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="text" name="nic" value="{{ $newcustomers->nic }}" required>
+                                <input class="form-control" type="text" name="nic" value="{{ $newcustomers->nic }}" >
                             </div>
                         </div>
 
@@ -91,7 +91,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Location</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="text" name="address" value="{{ $newcustomers->address }}" required>
+                                <input class="form-control" type="text" name="address" value="{{ $newcustomers->address }}">
                             </div>
                         </div>
                     </div>

@@ -59,15 +59,18 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
+
                                     {{-- INV & Date --}}
                                     <div class="row">
                                         <div class="mb-3 col-md-6">
-                                            <label for="inv" class="form-label">RIB INV Number</label>
+                                            <label for="inv" class="form-label">RIB INV Number <span
+                                                    class="text-danger">*</span></label>
                                             <input type="text" name="inv" id="inv"
                                                 value="{{ $customerinsurance->inv }}" class="form-control" required>
                                         </div>
                                         <div class="mb-3 col-md-6">
-                                            <label for="date" class="form-label">Date</label>
+                                            <label for="date" class="form-label">Date <span
+                                                    class="text-danger">*</span></label>
                                             <input type="date" name="date" id="date"
                                                 value="{{ $customerinsurance->date }}" class="form-control" required>
                                         </div>
@@ -75,14 +78,16 @@
 
                                     {{-- Customer Dropdown --}}
                                     <div class="mb-3">
-                                        <label for="name" class="form-label">Select Customer</label>
+                                        <label for="name" class="form-label">Select Customer <span
+                                                class="text-danger">*</span></label>
                                         <div class="position-relative">
                                             <select name="name" id="customerSelect" class="form-control mb-5" required>
                                                 <option value="">Select Customer</option>
                                                 @foreach ($customers as $customer)
                                                     <option value="{{ $customer->id }}"
                                                         {{ $customer->id == $customerinsurance->name ? 'selected' : '' }}>
-                                                        {{ $customer->name }}</option>
+                                                        {{ $customer->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                             <span class="position-absolute top-50 end-0 translate-middle-y pe-3">▼</span>
@@ -128,31 +133,35 @@
 
                                     {{-- Company Dropdown --}}
                                     <div class="mb-3">
-                                        <label for="insurance_company" class="form-label">Select Company</label>
+                                        <label for="insurance_company" class="form-label">Select Company <span
+                                                class="text-danger">*</span></label>
                                         <select name="insurance_company" class="form-control" required>
                                             <option value="">Select Company</option>
                                             @foreach ($companies as $company)
                                                 <option value="{{ $company->id }}"
                                                     {{ $customerinsurance->insurance_company == $company->id ? 'selected' : '' }}>
-                                                    {{ $company->name }}</option>
+                                                    {{ $company->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
 
                                     {{-- Insurance Type Dropdown --}}
                                     <div class="mb-3">
-                                        <label for="insurance_type" class="form-label">Select Insurance Type</label>
+                                        <label for="insurance_type" class="form-label">Select Insurance Type <span
+                                                class="text-danger">*</span></label>
                                         <select name="insurance_type" id="insurance_type" class="form-control" required>
                                             <option value="">Select Insurance Type</option>
                                             @foreach ($insurance_types as $insuranceType)
                                                 <option value="{{ $insuranceType->id }}"
                                                     {{ $customerinsurance->insurance_type == $insuranceType->id ? 'selected' : '' }}>
-                                                    {{ $insuranceType->name }}</option>
+                                                    {{ $insuranceType->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
 
-                                    {{-- Category, Subcategory, Variety Field (empty - JS loaded) --}}
+                                    {{-- Category, Subcategory, Variety Field --}}
                                     <div class="mb-3" id="category_wrapper">
                                         <label for="category" class="form-label">Select Category</label>
                                         <select name="category" id="category" class="form-control">
@@ -174,7 +183,7 @@
                                         </select>
                                     </div>
 
-                                    {{-- Basic, SRCC, TC --}}
+                                    {{-- Premium Inputs --}}
                                     <div class="row">
                                         <div class="mb-3 col-md-4">
                                             <label for="basic" class="form-label">Net Premium</label>
@@ -212,7 +221,7 @@
                                         </div>
                                     </div>
 
-                                    {{-- From & To Dates --}}
+                                    {{-- Dates --}}
                                     <div class="row">
                                         <div class="mb-3 col-md-6">
                                             <label for="from_date" class="form-label">Commencement Date</label>
@@ -226,20 +235,23 @@
                                         </div>
                                     </div>
 
-                                    {{-- Introducer & Subagent Codes --}}
+                                    {{-- Agent Code --}}
                                     <div class="mb-3">
-                                        <label for="introducer_code" class="form-label">Agent Code</label>
+                                        <label for="introducer_code" class="form-label">Agent Code <span
+                                                class="text-danger">*</span></label>
                                         <select name="introducer_code" id="introducer_code" class="form-control"
                                             required>
                                             <option value="">Select Agent Rep_code</option>
                                             @foreach ($agents as $agent)
                                                 <option value="{{ $agent->id }}"
                                                     {{ $agent->id == $customerinsurance->introducer_code ? 'selected' : '' }}>
-                                                    {{ $agent->rep_code }}</option>
+                                                    {{ $agent->rep_code }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
 
+                                    {{-- Sub Agent Code --}}
                                     <div class="mb-3">
                                         <label for="subagent_code" class="form-label">Sub Agent Code</label>
                                         <select name="subagent_code" id="subagent_code" class="form-control">
@@ -254,7 +266,8 @@
                                                     @endphp
                                                     <option value="{{ $subCode }}"
                                                         {{ $customerinsurance->subagent_code == $subCode ? 'selected' : '' }}>
-                                                        {{ $subCode }}</option>
+                                                        {{ $subCode }}
+                                                    </option>
                                                 @endforeach
                                             @endforeach
                                         </select>
@@ -262,7 +275,8 @@
 
                                     {{-- Premium Type --}}
                                     <div class="mb-3">
-                                        <label for="premium_type" class="form-label">Premium Type</label>
+                                        <label for="premium_type" class="form-label">Premium Type <span
+                                                class="text-danger">*</span></label>
                                         <select name="premium_type" id="premium_type" class="form-control" required>
                                             <option value="">Select Premium Type</option>
                                             <option value="Cash"
@@ -278,10 +292,12 @@
                                     <div class="card-footer text-end">
                                         <button class="btn btn-primary" type="submit">Update</button>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
                     </form>
+
 
                 </div>
             </div>

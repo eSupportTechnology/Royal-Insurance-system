@@ -165,19 +165,19 @@
                                                 <tr>
                                                     <td>
                                                         <input type="text" name="total" class="form-control"
-                                                            placeholder="Enter the value" required />
+                                                            placeholder="Enter the profit margin value" required />
                                                     </td>
                                                     <td>
                                                         <input type="text" name="rib" class="form-control"
-                                                            placeholder="Enter the value" required />
+                                                            placeholder="Enter the profit margin value" required />
                                                     </td>
                                                     <td>
                                                         <input type="text" name="main_agent" class="form-control"
-                                                            placeholder="Enter the value" required />
+                                                            placeholder="Enter the profit margin value" required />
                                                     </td>
                                                     <td>
                                                         <input type="text" name="sub_agent" class="form-control"
-                                                            placeholder="Enter the value" required />
+                                                            placeholder="Enter the profit margin value" required />
                                                     </td>
                                                 </tr>
                                             </tbody>

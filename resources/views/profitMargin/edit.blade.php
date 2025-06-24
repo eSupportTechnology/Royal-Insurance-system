@@ -161,22 +161,22 @@
                                                     <td>
                                                         <input type="text" name="total" class="form-control"
                                                             value="{{ old('total', $profitMargin->total) }}"
-                                                            placeholder="Enter the value" required />
+                                                            placeholder="Enter the profit margin " required />
                                                     </td>
                                                     <td>
                                                         <input type="text" name="rib" class="form-control"
                                                             value="{{ old('rib', $profitMargin->rib) }}"
-                                                            placeholder="Enter the value" required />
+                                                            placeholder="Enter the profit margin" required />
                                                     </td>
                                                     <td>
                                                         <input type="text" name="main_agent" class="form-control"
                                                             value="{{ old('main_agent', $profitMargin->main_agent) }}"
-                                                            placeholder="Enter the value" required />
+                                                            placeholder="Enter the profit margin" required />
                                                     </td>
                                                     <td>
                                                         <input type="text" name="sub_agent" class="form-control"
                                                             value="{{ old('sub_agent', $profitMargin->sub_agent) }}"
-                                                            placeholder="Enter the value" required />
+                                                            placeholder="Enter the profit margin" required />
                                                     </td>
                                                 </tr>
                                             </tbody>

@@ -107,10 +107,10 @@ class CustomerController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'nic' => 'required',
-            'address' => 'required',
+            'email' => 'nullable|email',
+            'phone' => 'nullable',
+            'nic' => 'nullable',
+            'address' => 'nullable',
         ]);
 
         Customer::find($id)->update($request->all());

@@ -22,6 +22,8 @@ class CustomerInsuranceController extends Controller
     {
         $customerinsurances = CustomerInsurance::with('customer')->get();
         return view('CustomerInsurance.index', compact('customerinsurances'));
+
+        
     }
 
     /**
@@ -75,6 +77,8 @@ class CustomerInsuranceController extends Controller
             'others' => 'nullable|numeric',
             'total' => 'required|numeric',
             'sum_insured' => 'nullable|numeric',
+            'paid_amount' => 'required|numeric',
+            'outstanding_amount' => 'required|numeric',
             'from_date' => 'nullable|date',
             'to_date' => 'nullable|date|after_or_equal:from_date',
             'contact' => 'nullable|string|max:20',
@@ -83,6 +87,7 @@ class CustomerInsuranceController extends Controller
             'introducer_code' => 'required|string|max:50',
             'subagent_code' => 'nullable|string|max:50',
             'premium_type' => 'required|string|max:20',
+            'status' => 'required|string|max:20',
         ]);
 
         // Use 'inv' as the unique identifier to avoid duplicate insurance entries
@@ -158,6 +163,8 @@ class CustomerInsuranceController extends Controller
             'others'           => 'nullable|numeric',
             'total'            => 'required|numeric',
             'sum_insured'      => 'nullable|numeric',
+            'paid_amount'      => 'required|numeric',
+            'outstanding_amount' => 'required|numeric',
             'from_date'        => 'nullable|date',
             'to_date'          => 'nullable|date|after_or_equal:from_date',
             'contact'          => 'nullable|string|max:20',
@@ -166,6 +173,7 @@ class CustomerInsuranceController extends Controller
             'introducer_code'  => 'required|string|max:50',
             'subagent_code'    => 'nullable|string|max:50',
             'premium_type'     => 'required|string|max:20',
+            'status'           => 'required|string|max:20',
         ]);
 
         // Find and update the record

@@ -226,6 +226,23 @@
                                         </div>
                                     </div>
 
+                                    {{-- outstanding --}}
+                                    <div class="row">
+                                        <div class="mb-3 col-md-6">
+                                            <label for="paid_amount" class="form-label">Paid Amount <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="number" name="paid_amount" id="paid_amount"
+                                                class="form-control" required>
+                                        </div>
+                                        <div class="mb-3 col-md-6">
+                                            <label for="outstanding_amount" class="form-label">Outstanding Amount <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="number" name="paid_amount" id="paid_amount"
+                                                class="form-control" required>
+                                        </div>
+                                    </div>
+
+
                                     {{-- Dates --}}
                                     <div class="row">
                                         <div class="mb-3 col-md-6">
@@ -277,18 +294,29 @@
                                     </div>
 
                                     {{-- Premium Type --}}
-                                    <div class="mb-3">
-                                        <label for="premium_type" class="form-label">Premium Type <span
-                                                class="text-danger">*</span></label>
-                                        <div class="position-relative">
-                                            <select name="premium_type" id="premium_type" class="form-control" required
-                                                style="appearance: none; padding-right: 2.5rem;">
-                                                <option value="">Select Premium Type</option>
-                                                <option value="Cash">Cash</option>
-                                                <option value="Debit">Debit</option>
-                                            </select>
-                                            <span
-                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
+                                    <div class="row">
+                                        <div class="mb-3 col-md-6">
+                                            <label for="premium_type" class="form-label">
+                                                Premium Type <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="position-relative">
+                                                <select name="premium_type" id="premium_type" class="form-control"
+                                                    required style="appearance: none; padding-right: 2.5rem;">
+                                                    <option value="">Select Premium Type</option>
+                                                    <option value="Cash">Cash</option>
+                                                    <option value="Debit">Debit</option>
+                                                </select>
+                                                <span
+                                                    style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3 col-md-6">
+                                            <label for="status" class="form-label">
+                                                Status <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" name="status" id="status" class="form-control"
+                                                readonly required>
                                         </div>
                                     </div>
 
@@ -446,6 +474,27 @@
                     });
                 }
             });
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const premiumType = document.getElementById('premium_type');
+            const statusField = document.getElementById('status');
+
+            function updateStatus() {
+                if (premiumType.value === 'Cash') {
+                    statusField.value = 'Completed';
+                } else if (premiumType.value === 'Debit') {
+                    statusField.value = 'Pending';
+                } else {
+                    statusField.value = '';
+                }
+            }
+
+            premiumType.addEventListener('change', updateStatus);
+
+            // Optionally call on page load if editing
+            updateStatus();
         });
     </script>
 

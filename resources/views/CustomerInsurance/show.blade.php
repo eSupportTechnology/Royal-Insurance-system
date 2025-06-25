@@ -121,10 +121,7 @@
                                         <input type="text" class="form-control"
                                             value="{{ $customerinsurance->categories?->name ?? 'N/A' }}" readonly>
                                     </div>
-                                </div>
 
-                                <!-- Right Column -->
-                                <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Sub-Category</label>
                                         <input type="text" class="form-control"
@@ -136,6 +133,10 @@
                                         <input type="text" class="form-control"
                                             value="{{ $customerinsurance->formField?->field_name ?? 'N/A' }}" readonly>
                                     </div>
+                                </div>
+
+                                <!-- Right Column -->
+                                <div class="col-md-6">
 
                                     <div class="mb-3">
                                         <label class="form-label">Net Premium</label>
@@ -174,6 +175,18 @@
                                     </div>
 
                                     <div class="mb-3">
+                                        <label class="form-label">Paid Amount</label>
+                                        <input type="text" class="form-control"
+                                            value="{{ $customerinsurance->paid_amount }}" readonly>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Outstanding Amount</label>
+                                        <input type="text" class="form-control"
+                                            value="{{ $customerinsurance->outstanding_amount}}" readonly>
+                                    </div>
+
+                                    <div class="mb-3">
                                         <label class="form-label">Commencement Date</label>
                                         <input type="text" class="form-control"
                                             value="{{ $customerinsurance->from_date }}" readonly>
@@ -201,6 +214,12 @@
                                         <label class="form-label">Premium Type</label>
                                         <input type="text" class="form-control"
                                             value="{{ $customerinsurance->premium_type }}" readonly>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Status</label>
+                                        <input type="text" class="form-control"
+                                            value="{{ $customerinsurance->status }}" readonly>
                                     </div>
                                 </div>
                             </div>

@@ -24,6 +24,8 @@ class CustomerInsurance extends Model
         'others',
         'total',
         'sum_insured',
+        'paid_amount',
+        'outstanding_amount',
         'from_date',
         'to_date',
         'contact',
@@ -32,6 +34,7 @@ class CustomerInsurance extends Model
         'introducer_code',
         'subagent_code',
         'premium_type',
+        'status',
 
     ];
 

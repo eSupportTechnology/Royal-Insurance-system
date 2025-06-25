@@ -221,6 +221,25 @@
                                         </div>
                                     </div>
 
+                                    {{-- outstanding --}}
+
+                                    <div class="row">
+                                        <div class="mb-3 col-md-6">
+                                            <label for="paid_amount" class="form-label">Paid Amount <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="number" name="paid_amount" id="paid_amount"
+                                                value="{{ $customerinsurance->paid_amount }}" class="form-control"
+                                                required>
+                                        </div>
+                                        <div class="mb-3 col-md-6">
+                                            <label for="outstanding_amount" class="form-label">Outstanding Amount <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="number" name="outstanding_amount" id="outstanding_amount"
+                                                value="{{ $customerinsurance->outstanding_amount }}" class="form-control"
+                                                required>
+                                        </div>
+                                    </div>
+
                                     {{-- Dates --}}
                                     <div class="row">
                                         <div class="mb-3 col-md-6">
@@ -274,28 +293,34 @@
                                     </div>
 
                                     {{-- Premium Type --}}
-                                    <div class="mb-3">
-                                        <label for="premium_type" class="form-label">Premium Type <span
-                                                class="text-danger">*</span></label>
-                                        <select name="premium_type" id="premium_type" class="form-control" required>
-                                            <option value="">Select Premium Type</option>
-                                            <option value="Cash"
-                                                {{ $customerinsurance->premium_type == 'Cash' ? 'selected' : '' }}>Cash
-                                            </option>
-                                            <option value="Debit"
-                                                {{ $customerinsurance->premium_type == 'Debit' ? 'selected' : '' }}>Debit
-                                            </option>
-                                        </select>
-                                    </div>
+                                    <div class="row">
+                                        <div class="mb-3 col-md-6">
+                                            <label for="premium_type" class="form-label">Premium Type <span
+                                                    class="text-danger">*</span></label>
+                                            <select name="premium_type" id="premium_type" class="form-control" required>
+                                                <option value="">Select Premium Type</option>
+                                                <option value="Cash"
+                                                    {{ $customerinsurance->premium_type == 'Cash' ? 'selected' : '' }}>Cash
+                                                </option>
+                                                <option value="Debit"
+                                                    {{ $customerinsurance->premium_type == 'Debit' ? 'selected' : '' }}>
+                                                    Debit</option>
+                                            </select>
+                                        </div>
 
-                                    {{-- Submit --}}
-                                    <div class="card-footer text-end">
-                                        <button class="btn btn-primary" type="submit">Update</button>
-                                    </div>
+                                        <div class="mb-3 col-md-6">
+                                            <label for="status" class="form-label">Status</label>
+                                            <input type="text" name="status" id="status" class="form-control"
+                                                value="{{ $customerinsurance->status }}" readonly>
+                                        </div>
 
+                                        {{-- Submit --}}
+                                        <div class="card-footer text-end">
+                                            <button class="btn btn-primary" type="submit">Update</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     </form>
 
 
@@ -478,6 +503,25 @@
                     });
                 }
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const premiumType = document.getElementById('premium_type');
+            const statusField = document.getElementById('status');
+
+            function updateStatus() {
+                if (premiumType.value === 'Cash') {
+                    statusField.value = 'Completed';
+                } else if (premiumType.value === 'Debit') {
+                    statusField.value = 'Pending';
+                } else {
+                    statusField.value = '';
+                }
+            }
+
+            // Update status on page load and when premium type changes
+            updateStatus();
+            premiumType.addEventListener('change', updateStatus);
         });
     </script>
 @endsection

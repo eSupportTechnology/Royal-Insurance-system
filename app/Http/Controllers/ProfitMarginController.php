@@ -31,7 +31,7 @@ class ProfitMarginController extends Controller
         $categories = Category::all();
         $subcategories = SubCategory::all();
         $formfields = FormField::all();
-        return view('profitMargin.create' ,compact('companies', 'insurance_types', 'categories', 'subcategories'));
+        return view('profitMargin.create' ,compact('companies', 'insurance_types', 'categories', 'subcategories','formfields'));
     }
 
 

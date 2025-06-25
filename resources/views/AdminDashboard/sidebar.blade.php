@@ -79,7 +79,7 @@
                             <li><a href="{{ route('insuranceType.index') }}">Insurance Types</a></li>
                             <li><a href="{{ route('categories.index') }}">Categories</a></li>
                             <li><a href="{{ route('subcategories.index') }}">Sub Categories</a></li>
-                            <li><a href="{{ route('formField.index') }}">Form Field</a></li>
+                            <li><a href="{{ route('formField.index') }}">Variety Fields</a></li>
                         </ul>
                     </li>
 
@@ -105,6 +105,19 @@
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('profitMargin.create')  }}">Add Profit Margin</a></li>
                             <li><a href="{{ route('profitMargin.index') }}">All Profit Margin</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Commission Section -->
+                    <li class="sidebar-list">
+                        <a class="sidebar-link sidebar-title" href="#">
+                            <i class="fa fa-credit-card-alt"></i> <!-- commission Icon -->
+                            <span>Commissions</span>
+                        </a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('commissions.rib') }}">RIB Commissions</a></li>
+                            <li><a href="{{ route('commissions.agent') }}">Agent Commissions</a></li>
+                            <li><a href="{{ route('commissions.subagent') }}">Sub Agent Commissions</a></li>
                         </ul>
                     </li>
 

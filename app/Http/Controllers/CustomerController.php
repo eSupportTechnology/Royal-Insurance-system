@@ -100,17 +100,17 @@ class CustomerController extends Controller
     public function editCustomer($id)
     {
         $newcustomers = Customer::find($id);
-        return view('Customer.edit', compact('newcustomers'));
+        return view('customer.edit', compact('newcustomers'));
     }
 
     public function updateCustomer(Request $request, $id)
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'nic' => 'required',
-            'address' => 'required',
+            'email' => 'nullable|email',
+            'phone' => 'nullable',
+            'nic' => 'nullable',
+            'address' => 'nullable',
         ]);
 
         Customer::find($id)->update($request->all());

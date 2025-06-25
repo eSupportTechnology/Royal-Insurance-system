@@ -26,7 +26,7 @@ class AgentController extends Controller
             'email' => 'nullable|email|unique:agents,email',
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string',
-            'company_name' => 'nullable|string|max:255',
+
         ]);
 
         // Get the latest agent ID and increment it
@@ -42,7 +42,6 @@ class AgentController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
-            'company_name' => $request->company_name,
             'rep_code' => $repCode,
         ]);
 
@@ -63,7 +62,7 @@ class AgentController extends Controller
             'email' => 'nullable|email|unique:agents,email,'.$id,
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string',
-            'company_name' => 'nullable|string|max:255',
+
         ]);
 
         $agent = Agent::findOrFail($id);
@@ -95,10 +94,10 @@ class AgentController extends Controller
         $request->validate([
             'agent_id' => 'required|exists:agents,id',
             'sub_agent_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:agents,email',
-            'phone' => 'required|string|max:20',
-            'address' => 'required|string',
-            'company_name' => 'required|string|max:255',
+            'email' => 'nullable|email|unique:agents,email',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string',
+
         ]);
 
         SubAgent::create([
@@ -107,7 +106,7 @@ class AgentController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
-            'company_name' => $request->company_name,
+
         ]);
 
         return redirect()->route('sub_agents.index')->with('success', 'Sub-agent added successfully.');
@@ -123,10 +122,10 @@ class AgentController extends Controller
         $request->validate([
             'agent_id' => 'required|exists:agents,id',
             'sub_agent_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:agents,email,'.$id,
-            'phone' => 'required|string|max:20',
-            'address' => 'required|string',
-            'company_name' => 'required|string|max:255',
+            'email' => 'nullable|email|unique:agents,email,'.$id,
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string',
+
         ]);
 
         $subagent = SubAgent::findOrFail($id);

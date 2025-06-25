@@ -56,9 +56,15 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">Representator</label>
+                            <div class="col-sm-9">
+                                <input class="form-control" type="text" name="representator" placeholder="Enter Representator Name" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Logo</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="file" name="logo" placeholder="choose the logo" required>
+                                <input class="form-control" type="file" name="logo" placeholder="choose the logo" >
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -70,7 +76,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
-                                <input class="form-control" type="email" name="email" placeholder="Enter Email Address" required>
+                                <input class="form-control" type="email" name="email" placeholder="Enter Email Address" >
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -79,16 +85,7 @@
                                 <input class="form-control digits" type="text" name="contact_number" placeholder="Type your Contact Number">
                             </div>
                         </div>
-                        {{-- <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">Insurance Type</label>
-                            <div class="col-sm-9">
-                                <select class="form-select digits" id="exampleFormControlSelect9" name="insurance_type">
-                                  <option>Vehicle</option>
-                                  <option>Health</option>
-                                  <option>Property</option>
-                                </select>
-                              </div>
-                          </div> --}}
+                        
                     </div>
                 </div>
             </div>

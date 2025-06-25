@@ -48,7 +48,7 @@
                                     <th>Insuarance Type</th>
                                     <th>Category</th>
                                     <th>Sub Category</th>
-                                    <th>Form Field</th>
+                                    <th>Variety Field</th>
                                     <th>Profit Type</th>
                                     <th>Total</th>
                                     <th>RIB</th>

@@ -31,14 +31,16 @@ class CompanyController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'representator' => 'required',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'address' => 'nullable',
-            'email' => 'required|email|unique:companies,email',
+            'email' => 'nullable|email|unique:companies,email',
             'contact_number' => 'nullable',
         ]);
 
         $companies = new Company();
         $companies->name = $request->name;
+        $companies->representator = $request->representator;
         $companies->address = $request->address;
         $companies->email = $request->email;
         $companies->contact_number = $request->contact_number;
@@ -81,15 +83,17 @@ class CompanyController extends Controller
 {
     $request->validate([
         'name' => 'required',
+        'representator' => 'required',
         'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Allow null for existing logo
-        'address' => 'required',
-        'email' => 'required|email',
-        'contact_number' => 'required',
+        'address' => 'nullable',
+        'email' => 'nullable|email',
+        'contact_number' => 'nullable',
     ]);
 
     $companies = Company::findOrFail($id); // Find the company or fail if not found
 
     $companies->name = $request->input('name');
+    $companies->representator = $request->input('representator');
     $companies->address = $request->input('address');
     $companies->email = $request->input('email');
     $companies->contact_number = $request->input('contact_number');

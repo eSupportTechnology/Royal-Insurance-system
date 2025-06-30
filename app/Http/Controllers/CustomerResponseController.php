@@ -19,16 +19,19 @@ use Illuminate\Support\Facades\Storage;
 class CustomerResponseController extends Controller
 {
     public function create()
-    {
-        $agents = Agent::all();
-        $customers = Customer::all();
-        $insurance_types = InsuranceType::all();
-        $categories = Category::all();
-        $subcategories = SubCategory::all();
-        $formFields = FormField::with('options')->get(); // Load options with each form field
+{
+    $agents = Agent::select('id', 'name')->get();
+    $customers = Customer::select('id', 'name')->get();
+    $insurance_types = InsuranceType::all();
+    $categories = Category::all();
+    $subcategories = SubCategory::all();
+    $formFields = FormField::with('options')->get();
 
-        return view('customerResponse.create', compact('agents', 'customers', 'insurance_types', 'categories', 'subcategories', 'formFields'));
-    }
+    return view('customerResponse.create', compact('agents', 'customers', 'insurance_types', 'categories', 'subcategories', 'formFields'));
+}
+
+
+
 
     public function getFormFields(Request $request)
     {

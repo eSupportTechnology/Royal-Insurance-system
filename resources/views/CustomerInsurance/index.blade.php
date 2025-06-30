@@ -43,109 +43,39 @@
                             <table class="table table-responsive-sm" id="export-button">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>RIB INV Number</th>
+                                        <th>No</th>
+                                        <th>INV</th>
                                         <th>Date</th>
                                         <th>Customer</th>
-                                        <th>Contact Number</th>
-                                        <th>Whatsapp Number</th>
+                                        <th>Contact</th>
+                                        <th>WhatsApp</th>
                                         <th>Address</th>
-                                        <th>Policy Number</th>
-                                        <th>D/N/INV Number</th>
-                                        <th>Vehicle/ChassiNo</th>
+                                        <th>Policy</th>
+                                        <th>D/N</th>
+                                        <th>Vehicle</th>
                                         <th>Company</th>
                                         <th>Insurance Type</th>
                                         <th>Category</th>
-                                        <th>Sub Category</th>
-                                        <th>Variety Field</th>
-                                        <th>Net Premium</th>
-                                        <th>SRCC Premium</th>
-                                        <th>TC Premium</th>
+                                        <th>SubCategory</th>
+                                        <th>Form Field</th>
+                                        <th>Basic</th>
+                                        <th>SRCC</th>
+                                        <th>TC</th>
                                         <th>Others</th>
                                         <th>Total</th>
                                         <th>Sum Insured</th>
-                                        <th>Paid Amount</th>
-                                        <th>Outstanding Amount</th>
-                                        <th>Commencement Date</th>
-                                        <th>Expiry Date</th>
-                                        <th>Agent Code</th>
-                                        <th>SubAgent Code</th>
+                                        <th>Paid</th>
+                                        <th>Outstanding</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Agent</th>
+                                        <th>Subagent</th>
                                         <th>Premium Type</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach ($customerinsurances as $insurance)
-                                        <tr>
-                                            <td>{{ $insurance->id }}</td>
-                                            <td>{{ $insurance->inv }}</td>
-                                            <td>{{ $insurance->date }}</td>
-                                            <td>{{ $insurance->customer->name ?? 'N/A' }}</td>
-                                            <td>{{ $insurance->contact }}</td>
-                                            <td>{{ $insurance->whatsapp }}</td>
-                                            <td>{{ $insurance->address }}</td>
-                                            <td>{{ $insurance->policy }}</td>
-                                            <td>{{ $insurance->dn }}</td>
-                                            <td>{{ $insurance->vehicle }}</td>
-                                            <td>{{ $insurance->company->name ?? 'N/A' }}</td>
-                                            <td>{{ $insurance->insuranceType->name ?? 'N/A' }}</td>
-                                            <td>{{ $insurance->categories?->name ?? 'N/A' }}</td>
-                                            <td>{{ $insurance->subCategory?->name ?? 'N/A' }}</td>
-                                            <td>{{ $insurance->formField?->field_name ?? 'N/A' }}</td>
-                                            <td>{{ $insurance->basic }}</td>
-                                            <td>{{ $insurance->srcc }}</td>
-                                            <td>{{ $insurance->tc }}</td>
-                                            <td>{{ $insurance->others }}</td>
-                                            <td>{{ $insurance->total }}</td>
-                                            <td>{{ $insurance->sum_insured }}</td>
-                                            <td>{{ $insurance->paid_amount }}</td>
-                                            <td>{{ $insurance->outstanding_amount }}</td>
-                                            <td>{{ $insurance->from_date }}</td>
-                                            <td>{{ $insurance->to_date }}</td>
-                                            <td>{{ $insurance->agent?->rep_code ?? 'N/A' }}</td>
-                                            <td>{{ $insurance->subagent_code }}</td>
-                                            <td>{{ $insurance->premium_type }}</td>
-                                            <td><span
-                                                    class="badge {{ $insurance->status == 'Completed' ? 'bg-success' : 'bg-danger' }}">
-                                                    {{ $insurance->status }}
-                                                </span>
-                                            </td>
-                                            <td class="d-flex align-items-center gap-2">
-                                                <a href="{{ route('customerinsurance.show', $insurance->id) }}"
-                                                    class="btn btn-sm btn-primary">
-                                                    <i class="icon-eye"></i>
-                                                </a>
-                                                <a href="{{ route('customerinsurance.edit', $insurance->id) }}"
-                                                    class="btn btn-sm btn-warning">
-                                                    <i class="icon-pencil-alt"></i>
-                                                </a>
-
-                                                @if ($insurance->status !== 'Completed')
-                                                    <a href="" class="btn btn-sm btn-info">
-                                                        <i class="icon-link"></i>
-                                                    </a>
-                                                @endif
-
-                                                <form action="{{ route('customerinsurance.destroy', $insurance->id) }}"
-                                                    method="POST" style="display:inline-block;"
-                                                    onsubmit="return confirm('Are you sure?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="btn btn-sm btn-danger" type="submit">
-                                                        <i class="icon-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-                                    @if ($customerinsurances->isEmpty())
-                                        <tr>
-                                            <td colspan="22" class="text-center">No records found.</td>
-                                        </tr>
-                                    @endif
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
@@ -168,15 +98,141 @@
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            if ($.fn.DataTable.isDataTable('#export-button')) {
-                $('#export-button').DataTable().destroy();
-            }
+
+    <script type="text/javascript">
+        $(function() {
             $('#export-button').DataTable({
-                dom: 'Bfrtip',
-                buttons: ['csv', 'excel', 'pdf', 'print']
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('customerinsurance.index') }}",
+                // dom: 'Bfrtip',
+                // buttons: ['csv', 'excel', 'pdf', 'print'],
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'inv',
+                        name: 'inv'
+                    },
+                    {
+                        data: 'date',
+                        name: 'date'
+                    },
+                    {
+                        data: 'customer',
+                        name: 'customer'
+                    },
+                    {
+                        data: 'contact',
+                        name: 'contact'
+                    },
+                    {
+                        data: 'whatsapp',
+                        name: 'whatsapp'
+                    },
+                    {
+                        data: 'address',
+                        name: 'address'
+                    },
+                    {
+                        data: 'policy',
+                        name: 'policy'
+                    },
+                    {
+                        data: 'dn',
+                        name: 'dn'
+                    },
+                    {
+                        data: 'vehicle',
+                        name: 'vehicle'
+                    },
+                    {
+                        data: 'company',
+                        name: 'company'
+                    },
+                    {
+                        data: 'insurance_type',
+                        name: 'insurance_type'
+                    },
+                    {
+                        data: 'category',
+                        name: 'category'
+                    },
+                    {
+                        data: 'subcategory',
+                        name: 'subcategory'
+                    },
+                    {
+                        data: 'form_field',
+                        name: 'form_field'
+                    },
+                    {
+                        data: 'basic',
+                        name: 'basic'
+                    },
+                    {
+                        data: 'srcc',
+                        name: 'srcc'
+                    },
+                    {
+                        data: 'tc',
+                        name: 'tc'
+                    },
+                    {
+                        data: 'others',
+                        name: 'others'
+                    },
+                    {
+                        data: 'total',
+                        name: 'total'
+                    },
+                    {
+                        data: 'sum_insured',
+                        name: 'sum_insured'
+                    },
+                    {
+                        data: 'paid_amount',
+                        name: 'paid_amount'
+                    },
+                    {
+                        data: 'outstanding_amount',
+                        name: 'outstanding_amount'
+                    },
+                    {
+                        data: 'from_date',
+                        name: 'from_date'
+                    },
+                    {
+                        data: 'to_date',
+                        name: 'to_date'
+                    },
+                    {
+                        data: 'agent',
+                        name: 'agent'
+                    },
+                    {
+                        data: 'subagent_code',
+                        name: 'subagent_code'
+                    },
+                    {
+                        data: 'premium_type',
+                        name: 'premium_type'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
             });
+
+            
         });
     </script>
 @endsection

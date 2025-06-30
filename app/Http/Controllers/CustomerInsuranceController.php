@@ -12,19 +12,103 @@ use App\Models\Agent;
 use App\Models\SubAgent;
 use App\Models\CustomerInsurance;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class CustomerInsuranceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $customerinsurances = CustomerInsurance::with('customer')->get();
-        return view('CustomerInsurance.index', compact('customerinsurances'));
+    public function index(Request $request)
+{
+    if ($request->ajax()) {
+        $data = CustomerInsurance::with([
+            'customer',
+            'company',
+            'insuranceType',
+            'categories',
+            'subCategory',
+            'formField',
+            'agent'
+        ]);
 
-        
+        $data = CustomerInsurance::query();
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+
+            ->addColumn('customer', fn($row) => $row->customer->name ?? 'N/A')
+            ->addColumn('company', fn($row) => $row->company->name ?? 'N/A')
+            ->addColumn('insurance_type', fn($row) => $row->insuranceType->name ?? 'N/A')
+            ->addColumn('category', fn($row) => $row->categories->name ?? 'N/A')
+            ->addColumn('subcategory', fn($row) => $row->subCategory->name ?? 'N/A')
+            ->addColumn('form_field', fn($row) => $row->formField->field_name ?? 'N/A')
+            ->addColumn('agent', fn($row) => $row->agent?->rep_code ?? 'N/A')
+
+            // ✅ Add colored status badge
+            ->addColumn('status', function ($row) {
+                if ($row->status === 'Completed') {
+                    return '<span class="badge bg-success">Completed</span>';
+                } elseif ($row->status === 'Pending') {
+                    return '<span class="badge bg-danger text-dark">Pending</span>';
+                } else {
+                    return '<span class="badge bg-secondary">Unknown</span>';
+                }
+            })
+
+            // ✅ Enable search on related fields
+            ->filterColumn('customer', function ($query, $keyword) {
+                $query->whereHas('customer', function ($q) use ($keyword) {
+                    $q->where('name', 'like', "%{$keyword}%");
+                });
+            })
+            ->filterColumn('company', function ($query, $keyword) {
+                $query->whereHas('company', function ($q) use ($keyword) {
+                    $q->where('name', 'like', "%{$keyword}%");
+                });
+            })
+            ->filterColumn('insurance_type', function ($query, $keyword) {
+                $query->whereHas('insuranceType', function ($q) use ($keyword) {
+                    $q->where('name', 'like', "%{$keyword}%");
+                });
+            })
+            ->filterColumn('agent', function ($query, $keyword) {
+                $query->whereHas('agent', function ($q) use ($keyword) {
+                    $q->where('rep_code', 'like', "%{$keyword}%");
+                });
+            })
+
+            // ✅ Action buttons with conditional link
+            ->addColumn('action', function ($row) {
+                $view = '<a href="' . route('customerinsurance.show', $row->id) . '" class="btn btn-sm btn-primary" title="View"><i class="icon-eye"></i></a>';
+
+                $edit = '<a href="' . route('customerinsurance.edit', $row->id) . '" class="btn btn-sm btn-warning" title="Edit"><i class="icon-pencil-alt"></i></a>';
+
+                $delete = '
+<form action="' . route('customerinsurance.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure?\');" style="display:inline;">
+    ' . csrf_field() . method_field('DELETE') . '
+    <button type="submit" class="btn btn-sm btn-danger d-inline-flex align-items-center justify-content-center" style="height: 31px; width: 31px;">
+        <i class="icon-trash"></i>
+    </button>
+</form>';
+
+                $link = '';
+                if ($row->status === 'Pending') {
+                    $link = '<a href="' . route('customerinsurance.setCash', $row->id) . '" class="btn btn-sm btn-info" title="Set to Cash"><i class="icon-link"></i></a>';
+                }
+
+                return '<div class="d-flex gap-1 align-items-center">' . $view . $edit . $link . $delete . '</div>';
+            })
+
+            // ✅ Allow HTML rendering in status and action columns
+            ->rawColumns(['status', 'action'])
+            ->make(true);
     }
+
+    return view('customerinsurance.index');
+}
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -192,5 +276,20 @@ class CustomerInsuranceController extends Controller
     {
         CustomerInsurance::find($id)->delete();
         return redirect()->route('customerinsurance.index')->with('success', 'CustomerInsurance deleted successfully.');
+    }
+
+    public function setCash($id)
+    {
+        $insurance = CustomerInsurance::findOrFail($id);
+
+        if ($insurance->status === 'Pending') {
+            $insurance->premium_type = 'Cash';
+            $insurance->status = 'Completed';
+            $insurance->save();
+
+            return redirect()->back()->with('success', 'Successfully updated.');
+        }
+
+        return redirect()->back()->with('error', 'Update failed. Status is not Pending.');
     }
 }

@@ -45,7 +45,6 @@ class CustomerInsuranceController extends Controller
             ->addColumn('form_field', fn($row) => $row->formField->field_name ?? 'N/A')
             ->addColumn('agent', fn($row) => $row->agent?->rep_code ?? 'N/A')
 
-            // ✅ Add colored status badge
             ->addColumn('status', function ($row) {
                 if ($row->status === 'Completed') {
                     return '<span class="badge bg-success">Completed</span>';
@@ -56,7 +55,6 @@ class CustomerInsuranceController extends Controller
                 }
             })
 
-            // ✅ Enable search on related fields
             ->filterColumn('customer', function ($query, $keyword) {
                 $query->whereHas('customer', function ($q) use ($keyword) {
                     $q->where('name', 'like', "%{$keyword}%");
@@ -78,23 +76,22 @@ class CustomerInsuranceController extends Controller
                 });
             })
 
-            // ✅ Action buttons with conditional link
             ->addColumn('action', function ($row) {
                 $view = '<a href="' . route('customerinsurance.show', $row->id) . '" class="btn btn-sm btn-primary" title="View"><i class="icon-eye"></i></a>';
 
                 $edit = '<a href="' . route('customerinsurance.edit', $row->id) . '" class="btn btn-sm btn-warning" title="Edit"><i class="icon-pencil-alt"></i></a>';
 
-                $delete = '
+               $delete = '
 <form action="' . route('customerinsurance.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure?\');" style="display:inline;">
     ' . csrf_field() . method_field('DELETE') . '
-    <button type="submit" class="btn btn-sm btn-danger d-inline-flex align-items-center justify-content-center" style="height: 31px; width: 31px;">
+    <button type="submit" class="btn btn-sm btn-danger d-inline-flex align-items-center justify-content-center" style="height: 31px; padding: 0 28px;">
         <i class="icon-trash"></i>
     </button>
 </form>';
 
                 $link = '';
                 if ($row->status === 'Pending') {
-                    $link = '<a href="' . route('customerinsurance.setCash', $row->id) . '" class="btn btn-sm btn-info" title="Set to Cash"><i class="icon-link"></i></a>';
+                    $link = '<a href="' . route('customerinsurance.setCash', $row->id) . '" class="btn btn-sm btn-info" title="Set to Cash" style="height: 31px; padding: 0 28px;"><i class="icon-link"></i></a>';
                 }
 
                 return '<div class="d-flex gap-1 align-items-center">' . $view . $edit . $link . $delete . '</div>';

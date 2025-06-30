@@ -79,7 +79,7 @@ class CustomerController extends Controller
                     $delete = '
                     <form action="' . route('delete-customer', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure?\');" style="display:inline;">
                         ' . csrf_field() . method_field('DELETE') . '
-                        <button type="submit" class="btn btn-sm btn-danger"><i class="icon-trash"></i></button>
+                        <button type="submit" class="btn btn-sm btn-danger" style="height: 31px; padding: 0 28px;"><i class="icon-trash"></i></button>
                     </form>';
 
                     return '<div class="d-flex gap-1 align-items-center">' . $view . $edit . $delete . '</div>';

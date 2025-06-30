@@ -15,78 +15,96 @@
                         @csrf
                         @method('PUT')
 
-                        <!-- Agent -->
+                        <!-- Agent with Autocomplete -->
                         <div class="mb-3">
-                            <label>Agent</label>
-                            <select name="agent_id" class="form-control" required>
-                                @foreach($agents as $agent)
-                                    <option value="{{ $agent->id }}" {{ $response->agent_id == $agent->id ? 'selected' : '' }}>
-                                        {{ $agent->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <label for="agent_search" class="form-label">Agent</label>
+                            <div class="position-relative">
+                                <input type="text" id="agent_search" class="form-control" placeholder="Type agent name..." autocomplete="off"
+                                       value="{{ $response->agent->name ?? '' }}">
+                                <input type="hidden" name="agent_id" id="agent_id" value="{{ $response->agent_id }}" required>
+                                <div id="agent_suggestions" class="dropdown-menu w-100" style="max-height: 200px; overflow-y: auto;"></div>
+                            </div>
                         </div>
 
-                        <!-- Customer -->
+                        <!-- Customer with Autocomplete -->
                         <div class="mb-3">
-                            <label>Customer</label>
-                            <select name="customer_id" class="form-control" required>
-                                @foreach($customers as $customer)
-                                    <option value="{{ $customer->id }}" {{ $response->customer_email == $customer->email ? 'selected' : '' }}>
-                                        {{ $customer->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <label for="customer_search" class="form-label">Customer</label>
+                            <div class="position-relative">
+                                <input type="text" id="customer_search" class="form-control" placeholder="Type customer name..." autocomplete="off"
+                                       value="{{ $response->customer_name ?? '' }}">
+                                <input type="hidden" name="customer_id" id="customer_id" value="{{ $response->customer_id }}" required>
+                                <div id="customer_suggestions" class="dropdown-menu w-100" style="max-height: 200px; overflow-y: auto;"></div>
+                            </div>
                         </div>
 
                         <!-- Insurance Type, Category, Subcategory -->
                         <div class="mb-3">
-                            <label>Insurance Type</label>
-                            <select name="insurance_type_id" class="form-control" required>
-                                @foreach($insurance_types as $type)
-                                    <option value="{{ $type->id }}" {{ $response->insurance_type_id == $type->id ? 'selected' : '' }}>
-                                        {{ $type->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <label for="insurance_type_id" class="form-label">Insurance Type</label>
+                            <div class="position-relative">
+                                <select name="insurance_type_id" id="insurance_type_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
+                                    @foreach($insurance_types as $type)
+                                        <option value="{{ $type->id }}" {{ $response->insurance_type_id == $type->id ? 'selected' : '' }}>
+                                            {{ $type->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                    ▼
+                                </span>
+                            </div>
                         </div>
 
                         <div class="mb-3">
-                            <label>Category</label>
-                            <select name="category_id" class="form-control" required>
-                                @foreach($categories as $cat)
-                                    <option value="{{ $cat->id }}" {{ $response->category_id == $cat->id ? 'selected' : '' }}>
-                                        {{ $cat->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <label for="category_id" class="form-label">Category</label>
+                            <div class="position-relative">
+                                <select name="category_id" id="category_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
+                                    @foreach($categories as $cat)
+                                        <option value="{{ $cat->id }}" {{ $response->category_id == $cat->id ? 'selected' : '' }}>
+                                            {{ $cat->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                    ▼
+                                </span>
+                            </div>
                         </div>
 
                         <div class="mb-3">
-                            <label>Sub Category</label>
-                            <select name="sub_category_id" class="form-control">
-                                <option value="">-- None --</option>
-                                @foreach($subcategories as $sub)
-                                    <option value="{{ $sub->id }}" {{ $response->sub_category_id == $sub->id ? 'selected' : '' }}>
-                                        {{ $sub->name }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <label for="sub_category_id" class="form-label">Sub Category</label>
+                            <div class="position-relative">
+                                <select name="sub_category_id" id="sub_category_id" class="form-control" style="appearance: none; padding-right: 2.5rem;">
+                                    <option value="">-- None --</option>
+                                    @foreach($subcategories as $sub)
+                                        <option value="{{ $sub->id }}" {{ $response->sub_category_id == $sub->id ? 'selected' : '' }}>
+                                            {{ $sub->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                    ▼
+                                </span>
+                            </div>
                         </div>
 
                         <!-- Status and Date -->
                         <div class="mb-3">
-                            <label>Status</label>
-                            <select name="status" class="form-control">
-                                <option value="Pending" {{ $response->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="Approved" {{ $response->status == 'Approved' ? 'selected' : '' }}>Approved</option>
-                                <option value="Rejected" {{ $response->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
-                            </select>
+                            <label for="status" class="form-label">Status</label>
+                            <div class="position-relative">
+                                <select name="status" id="status" class="form-control" style="appearance: none; padding-right: 2.5rem;">
+                                    <option value="Pending" {{ $response->status == 'Pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="Approved" {{ $response->status == 'Approved' ? 'selected' : '' }}>Approved</option>
+                                    <option value="Rejected" {{ $response->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
+                                </select>
+                                <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                    ▼
+                                </span>
+                            </div>
                         </div>
 
                         <div class="mb-3">
-                            <label>Date</label>
-                            <input type="date" name="date" class="form-control" value="{{ $response->date }}">
+                            <label for="date" class="form-label">Date</label>
+                            <input type="date" name="date" id="date" class="form-control" value="{{ $response->date }}">
                         </div>
 
                         <!-- Form Fields -->
@@ -156,4 +174,103 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function () {
+        var agents = @json($agents);
+        var customers = @json($customers);
+
+        // Autocomplete functionality for agents
+        $('#agent_search').on('input', function() {
+            const searchTerm = $(this).val().toLowerCase();
+            const suggestions = $('#agent_suggestions');
+
+            if (searchTerm.length < 1) {
+                suggestions.removeClass('show');
+                return;
+            }
+
+            const filteredAgents = agents.filter(agent =>
+                agent.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredAgents.length > 0) {
+                let html = '';
+                filteredAgents.forEach(agent => {
+                    html += `<button type="button" class="dropdown-item" data-id="${agent.id}" data-name="${agent.name}">${agent.name}</button>`;
+                });
+                suggestions.html(html).addClass('show');
+            } else {
+                suggestions.removeClass('show');
+            }
+        });
+
+        // Handle agent selection
+        $(document).on('click', '#agent_suggestions .dropdown-item', function() {
+            const agentId = $(this).data('id');
+            const agentName = $(this).data('name');
+
+            $('#agent_search').val(agentName);
+            $('#agent_id').val(agentId);
+            $('#agent_suggestions').removeClass('show');
+        });
+
+        // Autocomplete functionality for customers
+        $('#customer_search').on('input', function() {
+            const searchTerm = $(this).val().toLowerCase();
+            const suggestions = $('#customer_suggestions');
+
+            if (searchTerm.length < 1) {
+                suggestions.removeClass('show');
+                return;
+            }
+
+            const filteredCustomers = customers.filter(customer =>
+                customer.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredCustomers.length > 0) {
+                let html = '';
+                filteredCustomers.forEach(customer => {
+                    html += `<button type="button" class="dropdown-item" data-id="${customer.id}" data-name="${customer.name}">${customer.name}</button>`;
+                });
+                suggestions.html(html).addClass('show');
+            } else {
+                suggestions.removeClass('show');
+            }
+        });
+
+        // Handle customer selection
+        $(document).on('click', '#customer_suggestions .dropdown-item', function() {
+            const customerId = $(this).data('id');
+            const customerName = $(this).data('name');
+
+            $('#customer_search').val(customerName);
+            $('#customer_id').val(customerId);
+            $('#customer_suggestions').removeClass('show');
+        });
+
+        // Hide suggestions when clicking outside
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.position-relative').length) {
+                $('.dropdown-menu').removeClass('show');
+            }
+        });
+
+        // Clear hidden fields when input is cleared
+        $('#agent_search').on('input', function() {
+            if ($(this).val() === '') {
+                $('#agent_id').val('');
+            }
+        });
+
+        $('#customer_search').on('input', function() {
+            if ($(this).val() === '') {
+                $('#customer_id').val('');
+            }
+        });
+    });
+</script>
 @endsection

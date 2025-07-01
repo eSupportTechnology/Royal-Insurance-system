@@ -19,7 +19,7 @@ class CustomerInsuranceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+   public function index(Request $request)
 {
     if ($request->ajax()) {
         $data = CustomerInsurance::with([
@@ -32,7 +32,19 @@ class CustomerInsuranceController extends Controller
             'agent'
         ]);
 
-        $data = CustomerInsurance::query();
+        // Apply customer filter
+        if ($request->has('name') && $request->name != '') {
+            $data->whereHas('customer', function ($q) use ($request) {
+                $q->where('id', $request->name);
+            });
+        }
+
+        // Apply company filter
+        if ($request->has('insurance_company') && $request->insurance_company != '') {
+            $data->whereHas('company', function ($q) use ($request) {
+                $q->where('id', $request->insurance_company);
+            });
+        }
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -81,13 +93,13 @@ class CustomerInsuranceController extends Controller
 
                 $edit = '<a href="' . route('customerinsurance.edit', $row->id) . '" class="btn btn-sm btn-warning" title="Edit"><i class="icon-pencil-alt"></i></a>';
 
-               $delete = '
-<form action="' . route('customerinsurance.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure?\');" style="display:inline;">
-    ' . csrf_field() . method_field('DELETE') . '
-    <button type="submit" class="btn btn-sm btn-danger d-inline-flex align-items-center justify-content-center" style="height: 31px; padding: 0 28px;">
-        <i class="icon-trash"></i>
-    </button>
-</form>';
+                $delete = '
+    <form action="' . route('customerinsurance.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure?\');" style="display:inline;">
+        ' . csrf_field() . method_field('DELETE') . '
+        <button type="submit" class="btn btn-sm btn-danger d-inline-flex align-items-center justify-content-center" style="height: 31px; padding: 0 28px;">
+            <i class="icon-trash"></i>
+        </button>
+    </form>';
 
                 $link = '';
                 if ($row->status === 'Pending') {
@@ -97,12 +109,24 @@ class CustomerInsuranceController extends Controller
                 return '<div class="d-flex gap-1 align-items-center">' . $view . $edit . $link . $delete . '</div>';
             })
 
-            // ✅ Allow HTML rendering in status and action columns
             ->rawColumns(['status', 'action'])
             ->make(true);
     }
 
-    return view('customerinsurance.index');
+    // Get unique customers and companies for dropdowns
+    $customers = CustomerInsurance::with('customer')
+        ->get()
+        ->pluck('customer')
+        ->unique('id')
+        ->sortBy('name');
+
+    $companies = CustomerInsurance::with('company')
+        ->get()
+        ->pluck('company')
+        ->unique('id')
+        ->sortBy('name');
+
+    return view('customerinsurance.index', compact('customers', 'companies'));
 }
 
 

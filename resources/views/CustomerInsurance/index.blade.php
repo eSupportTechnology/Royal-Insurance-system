@@ -38,6 +38,35 @@
                         <h5>Customer Insurance Details</h5>
                         <a href="{{ route('customerinsurance.create') }}" class="btn btn-primary">Add </a>
                     </div>
+
+                    <!-- Filter Section -->
+                    <div class="card-body border-bottom">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="customer_filter" class="form-label">Filter by Customer:</label>
+                                <select id="customer_filter" class="form-select">
+                                    <option value="">All Customers</option>
+                                    @foreach($customers as $customer)
+                                        <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="company_filter" class="form-label">Filter by Company:</label>
+                                <select id="company_filter" class="form-select">
+                                    <option value="">All Companies</option>
+                                    @foreach($companies as $company)
+                                        <option value="{{ $company->id }}">{{ $company->name ?? $company->insurance_company }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
+                                <button id="apply_filters" class="btn btn-primary">Apply Filters</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="card-body">
                         <div class="dt-ext table-responsive">
                             <table class="table table-responsive-sm" id="export-button">
@@ -101,12 +130,16 @@
 
     <script type="text/javascript">
         $(function() {
-            $('#export-button').DataTable({
+            var table = $('#export-button').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('customerinsurance.index') }}",
-                // dom: 'Bfrtip',
-                // buttons: ['csv', 'excel', 'pdf', 'print'],
+                ajax: {
+                    url: "{{ route('customerinsurance.index') }}",
+                    data: function(d) {
+                        d.name = $('#customer_filter').val();
+                        d.insurance_company = $('#company_filter').val();
+                    }
+                },
                 columns: [{
                         data: 'id',
                         name: 'id'
@@ -232,7 +265,22 @@
                 ]
             });
 
-            
+            // Apply filters when button is clicked
+            $('#apply_filters').click(function() {
+                table.ajax.reload();
+            });
+
+            // Clear filters
+            $('#clear_filters').click(function() {
+                $('#customer_filter').val('');
+                $('#company_filter').val('');
+                table.ajax.reload();
+            });
+
+            // Optional: Auto-apply filters when dropdown changes
+            $('#customer_filter, #company_filter').change(function() {
+                table.ajax.reload();
+            });
         });
     </script>
 @endsection

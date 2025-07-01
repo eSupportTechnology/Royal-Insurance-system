@@ -5,14 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\Agent;
 use App\Models\SubAgent;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class AgentController extends Controller
 {
-    public function index()
-    {
-        $agents = Agent::all();
-        return view('agents.index', compact('agents'));
+    public function index(Request $request)
+{
+    if ($request->ajax()) {
+        $data = Agent::query();
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $edit = '<a href="' . route('agents.edit', $row->id) . '" class="btn btn-sm btn-warning"><i class="icon-pencil-alt"></i></a>';
+                $delete = '
+                    <form action="' . route('agents.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure?\');" style="display:inline;">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-sm btn-danger" style="height: 31px; padding: 0 28px;"><i class="icon-trash"></i></button>
+                    </form>';
+                return '<div class="d-flex gap-1 align-items-center">' . $edit . $delete . '</div>';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
+
+    return view('agents.index');
+}
 
     public function create()
     {
@@ -79,12 +97,31 @@ class AgentController extends Controller
         return redirect()->route('agents.index')->with('success', 'Agent deleted successfully.');
     }
 
-    public function subagentindex(){
-        $agentsWithSubagents = Agent::with('subagents')->get();
-        $subagents = SubAgent::all();
-        return view('sub_agents.index',compact('subagents','agentsWithSubagents'));
+    public function subagentindex(Request $request)
+{
+    if ($request->ajax()) {
+        $data = SubAgent::with('agent');
 
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('rep_code', function ($row) {
+                return $row->agent ? $row->agent->rep_code : 'N/A';
+            })
+            ->addColumn('action', function ($row) {
+                $edit = '<a href="' . route('sub_agents.edit', $row->id) . '" class="btn btn-sm btn-warning"><i class="icon-pencil-alt"></i></a>';
+                $delete = '
+                    <form action="' . route('sub_agents.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure?\');" style="display:inline;">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-sm btn-danger" style="height: 31px; padding: 0 28px;"><i class="icon-trash"></i></button>
+                    </form>';
+                return '<div class="d-flex gap-1 align-items-center">' . $edit . $delete . '</div>';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
+
+    return view('sub_agents.index');
+}
     public function subagentcreate(){
         $subagents = Agent::all();
         return view('sub_agents.create',compact('subagents'));

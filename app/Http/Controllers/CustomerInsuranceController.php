@@ -300,17 +300,21 @@ class CustomerInsuranceController extends Controller
     }
 
     public function setCash($id)
-    {
-        $insurance = CustomerInsurance::findOrFail($id);
+{
+    try {
+        $customerInsurance = CustomerInsurance::findOrFail($id);
 
-        if ($insurance->status === 'Pending') {
-            $insurance->premium_type = 'Cash';
-            $insurance->status = 'Completed';
-            $insurance->save();
+        // Update the premium type to cash and status to completed
+        $customerInsurance->premium_type = 'Cash';
+        $customerInsurance->status = 'Completed';
+        $customerInsurance->save();
 
-            return redirect()->back()->with('success', 'Successfully updated.');
-        }
+        return redirect()->route('customerinsurance.index')
+            ->with('success', 'Customer insurance premium type updated to cash and status set to completed successfully.');
 
-        return redirect()->back()->with('error', 'Update failed. Status is not Pending.');
+    } catch (\Exception $e) {
+        return redirect()->route('customerinsurance.index')
+            ->with('error', 'Failed to update customer insurance record: ' . $e->getMessage());
     }
+}
 }

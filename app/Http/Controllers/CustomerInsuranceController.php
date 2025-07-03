@@ -126,7 +126,7 @@ class CustomerInsuranceController extends Controller
         ->unique('id')
         ->sortBy('name');
 
-    return view('customerinsurance.index', compact('customers', 'companies'));
+    return view('CustomerInsurance.index', compact('customers', 'companies'));
 }
 
 

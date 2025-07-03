@@ -9,44 +9,46 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/vendors/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/vendors/datatable-extension.css') }}">
 @endsection
-<style>
-    /* Move search box and pagination to right */
-    div.dataTables_wrapper div.dataTables_filter {
-        text-align: right !important;
-    }
+ <style>
 
-    div.dataTables_wrapper div.dataTables_paginate {
-        text-align: right !important;
-    }
+         .dataTables_wrapper .dataTables_filter {
+            padding-right: 1rem;
+            text-align: right !important;
+            /* margin-bottom: 15px !important; */
+        }
 
-    /* Optional: Align page info to left and remove margin */
-    div.dataTables_wrapper div.dataTables_info {
-        text-align: left !important;
-        margin-top: 0.5rem;
-    }
-    .dataTables_filter,
-.dataTables_paginate,
-.dataTables_length,
-.dataTables_info {
-    padding: 0.5rem 1rem;
-    white-space: nowrap;
-}
+        .dataTables_wrapper .dataTables_length {
+            text-align: left !important;
+            /* margin-bottom: 15px !important; */
+        }
 
-.dataTables_wrapper .dataTables_paginate {
-    margin-top: 0;
-}
 
-.dt-ext {
-    overflow-x: auto;
-}
+        .dataTables_paginate {
+            text-align: center !important;
+            /* margin-top: 15px !important; */
+        }
 
-/* Optional: Prevent controls from being inside scroll */
-.d-flex > .dataTables_filter,
-.d-flex > .dataTables_paginate {
-    margin-left: auto;
-}
+        /* .dataTables_paginate .paginate_button {
+            padding: 5px 10px !important;
+            margin: 0 2px !important;
+            border: 1px solid #ddd !important;
+            border-radius: 4px !important;
+            background-color: #fff !important;
+            color: #007bff !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+        }
 
-</style>
+        .dataTables_paginate .paginate_button:hover {
+            background-color: #f8f9fa !important;
+        }
+
+        .dataTables_paginate .paginate_button.current {
+            background-color: #007bff !important;
+            color: #fff !important;
+            border-color: #007bff !important;
+        } */
+    </style>
 
 
 @section('content')

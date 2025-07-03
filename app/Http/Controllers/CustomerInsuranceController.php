@@ -137,7 +137,7 @@ class CustomerInsuranceController extends Controller
     public function create()
     {
         $customers = Customer::select('id', 'name', 'phone', 'whatsapp_number', 'address')->get();
-        $companies = Company::all();
+        $companies = Company::all('id', 'name');
         $insurance_types = InsuranceType::with('categories.subcategories.formFields')->get();
         $categories = Category::all();
         $subcategories = SubCategory::all();
@@ -317,4 +317,32 @@ class CustomerInsuranceController extends Controller
             ->with('error', 'Failed to update customer insurance record: ' . $e->getMessage());
     }
 }
+
+// public function getCustomerId(Request $request)
+// {
+//     $name = $request->input('name');
+
+//     $matches = Customer::where('name', 'like', '%' . $name . '%')->get();
+
+//     if ($matches->count() === 1) {
+//         return response()->json(['id' => $matches->first()->id]);
+//     }
+
+//     return response()->json(['id' => null]);
+// }
+
+
+// public function getCompanyId(Request $request)
+// {
+//     $name = $request->input('name');
+
+//     $matches = Company::where('name', 'like', '%' . $name . '%')->get();
+
+//     if ($matches->count() === 1) {
+//         return response()->json(['id' => $matches->first()->id]);
+//     }
+
+//     return response()->json(['id' => null]);
+// }
+
 }

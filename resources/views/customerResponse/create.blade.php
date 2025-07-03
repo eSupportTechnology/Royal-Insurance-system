@@ -31,7 +31,7 @@
                         <div class="mb-3">
                             <label for="agent_search" class="form-label">Select Agent</label>
                             <div class="position-relative">
-                                <input type="text" id="agent_search" class="form-control" placeholder="Type agent name..." autocomplete="off">
+                                <input type="text" id="agent_search" class="form-control" placeholder="Type atleast 1 characters..." autocomplete="off">
                                 <input type="hidden" name="agent_id" id="agent_id" required>
                                 <div id="agent_suggestions" class="dropdown-menu w-100" style="max-height: 200px; overflow-y: auto;"></div>
                             </div>
@@ -41,7 +41,7 @@
                         <div class="mb-3">
                             <label for="customer_search" class="form-label">Select Customer</label>
                             <div class="position-relative">
-                                <input type="text" id="customer_search" class="form-control mb-5" placeholder="Type customer name..." autocomplete="off">
+                                <input type="text" id="customer_search" class="form-control mb-5" placeholder="Type atleast 1 characters..." autocomplete="off">
                                 <input type="hidden" name="customer_id" id="customer_id" required>
                                 <div id="customer_suggestions" class="dropdown-menu w-100" style="max-height: 200px; overflow-y: auto;"></div>
                             </div>

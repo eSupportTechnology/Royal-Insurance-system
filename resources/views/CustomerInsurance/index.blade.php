@@ -9,6 +9,44 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/vendors/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/vendors/datatable-extension.css') }}">
 @endsection
+<style>
+    /* Move search box and pagination to right */
+    div.dataTables_wrapper div.dataTables_filter {
+        text-align: right !important;
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate {
+        text-align: right !important;
+    }
+
+    /* Optional: Align page info to left and remove margin */
+    div.dataTables_wrapper div.dataTables_info {
+        text-align: left !important;
+        margin-top: 0.5rem;
+    }
+    .dataTables_filter,
+.dataTables_paginate,
+.dataTables_length,
+.dataTables_info {
+    padding: 0.5rem 1rem;
+    white-space: nowrap;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    margin-top: 0;
+}
+
+.dt-ext {
+    overflow-x: auto;
+}
+
+/* Optional: Prevent controls from being inside scroll */
+.d-flex > .dataTables_filter,
+.d-flex > .dataTables_paginate {
+    margin-left: auto;
+}
+
+</style>
 
 
 @section('content')
@@ -46,7 +84,7 @@
                                 <label for="customer_filter" class="form-label">Filter by Customer:</label>
                                 <select id="customer_filter" class="form-select">
                                     <option value="">All Customers</option>
-                                    @foreach($customers as $customer)
+                                    @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                                     @endforeach
                                 </select>
@@ -55,8 +93,9 @@
                                 <label for="company_filter" class="form-label">Filter by Company:</label>
                                 <select id="company_filter" class="form-select">
                                     <option value="">All Companies</option>
-                                    @foreach($companies as $company)
-                                        <option value="{{ $company->id }}">{{ $company->name ?? $company->insurance_company }}</option>
+                                    @foreach ($companies as $company)
+                                        <option value="{{ $company->id }}">
+                                            {{ $company->name ?? $company->insurance_company }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -67,6 +106,10 @@
                         </div>
                     </div>
 
+                    <div class="d-flex justify-content-between flex-wrap mb-2">
+            <div id="export-button_info" class="dataTables_info"></div>
+            <div id="export-button_filter" class="dataTables_filter"></div>
+        </div>
                     <div class="card-body">
                         <div class="dt-ext table-responsive">
                             <table class="table table-responsive-sm" id="export-button">
@@ -104,18 +147,17 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
                             </table>
+                            <div class="d-flex justify-content-between flex-wrap mt-2">
+            <div id="export-button_length" class="dataTables_length"></div>
+            <div id="export-button_paginate" class="dataTables_paginate"></div>
+        </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-@endsection
-
 
 @section('script')
     <script src="{{ asset('frontend/assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
@@ -283,4 +325,5 @@
             });
         });
     </script>
+@endsection
 @endsection

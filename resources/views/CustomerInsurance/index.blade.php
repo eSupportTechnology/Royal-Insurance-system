@@ -1,54 +1,79 @@
 @extends('AdminDashboard.master')
 
 @section('title', 'Customers')
+<style>
+    .dataTables_wrapper .dataTables_filter {
+        padding-right: 1rem;
+        text-align: right !important;
+    }
 
+    .dataTables_wrapper .dataTables_length {
+        text-align: left !important;
+        margin-bottom: 15px !important;
+    }
+
+    .dataTables_paginate {
+        text-align: center !important;
+        margin-top: 15px !important;
+    }
+
+    .dataTables_paginate .paginate_button {
+        padding: 5px 10px !important;
+        margin: 0 2px !important;
+        border: 1px solid #ddd !important;
+        border-radius: 4px !important;
+        background-color: #fff !important;
+        color: #007bff !important;
+        text-decoration: none !important;
+        cursor: pointer !important;
+    }
+
+    .dataTables_paginate .paginate_button:hover {
+        background-color: #f8f9fa !important;
+    }
+
+    .dataTables_paginate .paginate_button.current {
+        background-color: #007bff !important;
+        color: #fff !important;
+        border-color: #007bff !important;
+    }
+
+    .action-btn {
+    height: 31px !important;
+    width: 31px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    border: none !important;
+    font-size: 14px !important;
+}
+
+.action-btn i {
+    margin: 0 !important;
+}
+
+/* Delete button specific positioning - slightly lower */
+.delete-btn {
+    margin-top: 1rem !important;
+}
+
+/* Optional: Add hover effects for better user experience */
+.action-btn:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+</style>
 @section('css')
 @endsection
+
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/vendors/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/vendors/datatable-extension.css') }}">
 @endsection
- <style>
 
-         .dataTables_wrapper .dataTables_filter {
-            padding-right: 1rem;
-            text-align: right !important;
-            /* margin-bottom: 15px !important; */
-        }
-
-        .dataTables_wrapper .dataTables_length {
-            text-align: left !important;
-            /* margin-bottom: 15px !important; */
-        }
-
-
-        .dataTables_paginate {
-            text-align: center !important;
-            /* margin-top: 15px !important; */
-        }
-
-        /* .dataTables_paginate .paginate_button {
-            padding: 5px 10px !important;
-            margin: 0 2px !important;
-            border: 1px solid #ddd !important;
-            border-radius: 4px !important;
-            background-color: #fff !important;
-            color: #007bff !important;
-            text-decoration: none !important;
-            cursor: pointer !important;
-        }
-
-        .dataTables_paginate .paginate_button:hover {
-            background-color: #f8f9fa !important;
-        }
-
-        .dataTables_paginate .paginate_button.current {
-            background-color: #007bff !important;
-            color: #fff !important;
-            border-color: #007bff !important;
-        } */
-    </style>
 
 
 @section('content')
@@ -109,9 +134,9 @@
                     </div>
 
                     <div class="d-flex justify-content-between flex-wrap mb-2">
-            <div id="export-button_info" class="dataTables_info"></div>
-            <div id="export-button_filter" class="dataTables_filter"></div>
-        </div>
+                        <div id="export-button_info" class="dataTables_info"></div>
+                        <div id="export-button_filter" class="dataTables_filter"></div>
+                    </div>
                     <div class="card-body">
                         <div class="dt-ext table-responsive">
                             <table class="table table-responsive-sm" id="export-button">
@@ -151,9 +176,9 @@
                                 </thead>
                             </table>
                             <div class="d-flex justify-content-between flex-wrap mt-2">
-            <div id="export-button_length" class="dataTables_length"></div>
-            <div id="export-button_paginate" class="dataTables_paginate"></div>
-        </div>
+                                <div id="export-button_length" class="dataTables_length"></div>
+                                <div id="export-button_paginate" class="dataTables_paginate"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

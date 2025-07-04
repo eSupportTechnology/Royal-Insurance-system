@@ -89,25 +89,25 @@ class CustomerInsuranceController extends Controller
             })
 
             ->addColumn('action', function ($row) {
-                $view = '<a href="' . route('customerinsurance.show', $row->id) . '" class="btn btn-sm btn-primary" title="View"><i class="icon-eye"></i></a>';
+    $view = '<a href="' . route('customerinsurance.show', $row->id) . '" class="btn btn-sm btn-primary action-btn" title="View"><i class="icon-eye"></i></a>';
 
-                $edit = '<a href="' . route('customerinsurance.edit', $row->id) . '" class="btn btn-sm btn-warning" title="Edit"><i class="icon-pencil-alt"></i></a>';
+    $edit = '<a href="' . route('customerinsurance.edit', $row->id) . '" class="btn btn-sm btn-warning action-btn" title="Edit"><i class="icon-pencil-alt"></i></a>';
 
-                $delete = '
-    <form action="' . route('customerinsurance.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure?\');" style="display:inline;">
-        ' . csrf_field() . method_field('DELETE') . '
-        <button type="submit" class="btn btn-sm btn-danger d-inline-flex align-items-center justify-content-center" style="height: 31px; padding: 0 28px;">
-            <i class="icon-trash"></i>
-        </button>
-    </form>';
+    $delete = '
+<form action="' . route('customerinsurance.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure?\');" style="display:inline;">
+    ' . csrf_field() . method_field('DELETE') . '
+    <button type="submit" class="btn btn-sm btn-danger action-btn delete-btn" title="Delete">
+        <i class="icon-trash"></i>
+    </button>
+</form>';
 
-                $link = '';
-                if ($row->status === 'Pending') {
-                    $link = '<a href="' . route('customerinsurance.setCash', $row->id) . '" class="btn btn-sm btn-info" title="Set to Cash" style="height: 31px; padding: 0 28px;"><i class="icon-link"></i></a>';
-                }
+    $link = '';
+    if ($row->status === 'Pending') {
+        $link = '<a href="' . route('customerinsurance.setCash', $row->id) . '" class="btn btn-sm btn-info action-btn" title="Set to Cash"><i class="icon-link"></i></a>';
+    }
 
-                return '<div class="d-flex gap-1 align-items-center">' . $view . $edit . $link . $delete . '</div>';
-            })
+    return '<div class="d-flex gap-1 align-items-center">' . $view . $edit . $link . $delete . '</div>';
+})
 
             ->rawColumns(['status', 'action'])
             ->make(true);

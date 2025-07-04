@@ -293,11 +293,14 @@
                                     </div>
 
                                     {{-- Premium Type --}}
+                                    {{-- Premium Type (Read-only display, but submits value) --}}
                                     <div class="row">
                                         <div class="mb-3 col-md-6">
                                             <label for="premium_type" class="form-label">Premium Type <span
                                                     class="text-danger">*</span></label>
-                                            <select name="premium_type" id="premium_type" class="form-control" required>
+
+                                            {{-- Disabled dropdown (for display only) --}}
+                                            <select class="form-control" disabled>
                                                 <option value="">Select Premium Type</option>
                                                 <option value="Cash"
                                                     {{ $customerinsurance->premium_type == 'Cash' ? 'selected' : '' }}>Cash
@@ -306,21 +309,27 @@
                                                     {{ $customerinsurance->premium_type == 'Debit' ? 'selected' : '' }}>
                                                     Debit</option>
                                             </select>
+
+                                            {{-- Hidden input to actually submit the value --}}
+                                            <input type="hidden" name="premium_type"
+                                                value="{{ $customerinsurance->premium_type }}">
                                         </div>
+
 
                                         <div class="mb-3 col-md-6">
                                             <label for="status" class="form-label">Status</label>
                                             <input type="text" name="status" id="status" class="form-control"
                                                 value="{{ $customerinsurance->status }}" readonly>
                                         </div>
+                                    </div>
 
-                                        {{-- Submit --}}
-                                        <div class="card-footer text-end">
-                                            <button class="btn btn-primary" type="submit">Update</button>
-                                        </div>
+                                    {{-- Submit --}}
+                                    <div class="card-footer text-end">
+                                        <button class="btn btn-primary" type="submit">Update</button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </form>
 
 
@@ -505,24 +514,24 @@
             });
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const premiumType = document.getElementById('premium_type');
-            const statusField = document.getElementById('status');
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const premiumType = document.getElementById('premium_type');
+        //     const statusField = document.getElementById('status');
 
-            function updateStatus() {
-                if (premiumType.value === 'Cash') {
-                    statusField.value = 'Completed';
-                } else if (premiumType.value === 'Debit') {
-                    statusField.value = 'Pending';
-                } else {
-                    statusField.value = '';
-                }
-            }
+        //     function updateStatus() {
+        //         if (premiumType.value === 'Cash') {
+        //             statusField.value = 'Completed';
+        //         } else if (premiumType.value === 'Debit') {
+        //             statusField.value = 'Pending';
+        //         } else {
+        //             statusField.value = '';
+        //         }
+        //     }
 
-            // Update status on page load and when premium type changes
-            updateStatus();
-            premiumType.addEventListener('change', updateStatus);
-        });
+        //     // Update status on page load and when premium type changes
+        //     updateStatus();
+        //     premiumType.addEventListener('change', updateStatus);
+        // });
     </script>
 @endsection
 

@@ -8,6 +8,7 @@ use App\Models\FormField;
 use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class CustomerController extends Controller
 {
@@ -65,10 +66,29 @@ class CustomerController extends Controller
     }
 
 
-    public function newCustomer()
+    public function newCustomer(Request $request)
     {
-        $newcustomers = Customer::all();
-        return view('customer.index', compact('newcustomers'));
+        if ($request->ajax()) {
+            $data = Customer::query();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $view = '<a href="' . route('view-customer', $row->id) . '" class="btn btn-sm btn-primary"><i class="icon-eye"></i></a>';
+                    $edit = '<a href="' . route('edit-customer', $row->id) . '" class="btn btn-sm btn-warning"><i class="icon-pencil-alt"></i></a>';
+                    $delete = '
+                    <form action="' . route('delete-customer', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure?\');" style="display:inline;">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-sm btn-danger" style="height: 31px; padding: 0 28px;"><i class="icon-trash"></i></button>
+                    </form>';
+
+                    return '<div class="d-flex gap-1 align-items-center">' . $view . $edit . $delete . '</div>';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('customer.index');
     }
 
 
@@ -79,22 +99,22 @@ class CustomerController extends Controller
     }
 
     public function storeCustomer(Request $request)
-{
-    $request->validate([
-        'name' => 'required',
-        'phone' => 'nullable',
-        'nic' => 'nullable',
-        'address' => 'nullable',
-        'whatsapp_number' => 'nullable'
-    ]);
+    {
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'nullable',
+            'nic' => 'nullable',
+            'address' => 'nullable',
+            'whatsapp_number' => 'nullable'
+        ]);
 
-    $data = $request->all();
-    $data['Insurance_coverages'] = $request->input('Insurance_coverages', 0); // Default to 0
+        $data = $request->all();
+        $data['Insurance_coverages'] = $request->input('Insurance_coverages', 0); // Default to 0
 
-    Customer::create($data);
+        Customer::create($data);
 
-    return redirect()->route('new-customer')->with('success', 'Customer created successfully.');
-}
+        return redirect()->route('new-customer')->with('success', 'Customer created successfully.');
+    }
 
 
     public function editCustomer($id)
@@ -132,5 +152,4 @@ class CustomerController extends Controller
 
         return view('customer.view', compact('customer', 'responses'));
     }
-
 }

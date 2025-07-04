@@ -10,7 +10,7 @@ class CustomerResponse extends Model
     use HasFactory;
 
     protected $fillable = [
-        'agent_id', 
+        'agent_id',
         'insurance_type_id',
         'category_id',
         'sub_category_id',
@@ -21,6 +21,15 @@ class CustomerResponse extends Model
         'date'
     ];
 
+    public function agent()
+    {
+        return $this->belongsTo(Agent::class);
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
     public function responseFields()
     {
         return $this->hasMany(CustomerResponseField::class);
@@ -35,7 +44,7 @@ class CustomerResponse extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
-    
+
     public function subCategory()
     {
         return $this->belongsTo(SubCategory::class, 'sub_category_id');

@@ -27,85 +27,67 @@
                     <form action="{{ route('customerResponse.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
-                            <!-- Select Agent -->
-                            <div class="mb-3">
-                                <label for="agent_id" class="form-label">Select Agent</label>
-                                <div class="position-relative">
-                                    <select name="agent_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
-                                        <option value="">Select Agent</option>
-                                        @foreach($agents as $agent)
-                                            <option value="{{ $agent->id }}">{{ $agent->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    <!-- Dropdown Icon -->
-                                    <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                        ▼
-                                    </span>
-                                </div>
-                            </div>
-
-
-                        <!-- Select Customer -->
+                        <!-- Select Agent with Autocomplete -->
                         <div class="mb-3">
-                            <label for="customer_id" class="form-label">Select Customer</label>
+                            <label for="agent_search" class="form-label">Select Agent</label>
                             <div class="position-relative">
-                            <select name="customer_id" class="form-control mb-5" required style="appearance: none; padding-right: 2.5rem;">
-                                <option value="">Select Customer</option>
-                                @foreach($customers as $customer)
-                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                                @endforeach
-                            </select>
-                            <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                ▼
-                            </span>
-                        </div>
+                                <input type="text" id="agent_search" class="form-control" placeholder="Type atleast 1 characters..." autocomplete="off">
+                                <input type="hidden" name="agent_id" id="agent_id" required>
+                                <div id="agent_suggestions" class="dropdown-menu w-100" style="max-height: 200px; overflow-y: auto;"></div>
+                            </div>
                         </div>
 
-
-
+                        <!-- Select Customer with Autocomplete -->
+                        <div class="mb-3">
+                            <label for="customer_search" class="form-label">Select Customer</label>
+                            <div class="position-relative">
+                                <input type="text" id="customer_search" class="form-control mb-5" placeholder="Type atleast 1 characters..." autocomplete="off">
+                                <input type="hidden" name="customer_id" id="customer_id" required>
+                                <div id="customer_suggestions" class="dropdown-menu w-100" style="max-height: 200px; overflow-y: auto;"></div>
+                            </div>
+                        </div>
 
                         <!-- Select Insurance Type -->
                         <div class="mb-3">
                             <label for="insurance_type_id" class="form-label">Select Insurance Type</label>
                             <div class="position-relative">
-                            <select name="insurance_type_id" id="insurance_type_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
-                                <option value="">Select Insurance Type</option>
-                                @foreach($insurance_types as $insuranceType)
-                                    <option value="{{ $insuranceType->id }}">{{ $insuranceType->name }}</option>
-                                @endforeach
-                            </select>
-                            <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                ▼
-                            </span>
-                        </div>
+                                <select name="insurance_type_id" id="insurance_type_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
+                                    <option value="">Select Insurance Type</option>
+                                    @foreach($insurance_types as $insuranceType)
+                                        <option value="{{ $insuranceType->id }}">{{ $insuranceType->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                    ▼
+                                </span>
+                            </div>
                         </div>
 
                         <!-- Select Category -->
                         <div class="mb-3">
                             <label for="category_id" class="form-label">Select Category</label>
                             <div class="position-relative">
-                            <select name="category_id" id="category_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
-                                <option value="">Select Category</option>
-                            </select>
-                            <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                ▼
-                            </span>
-                        </div>
+                                <select name="category_id" id="category_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
+                                    <option value="">Select Category</option>
+                                </select>
+                                <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                    ▼
+                                </span>
+                            </div>
                         </div>
 
                         <!-- Select Subcategory -->
                         <div class="mb-3">
                             <label for="sub_category_id" class="form-label">Select Sub Category</label>
                             <div class="position-relative">
-                            <select name="sub_category_id" id="sub_category_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
-                                <option value="">Select Sub Category</option>
-                            </select>
-                            <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                ▼
-                            </span>
+                                <select name="sub_category_id" id="sub_category_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
+                                    <option value="">Select Sub Category</option>
+                                </select>
+                                <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                    ▼
+                                </span>
+                            </div>
                         </div>
-                        </div>
-
 
                         <!-- Form Fields Area -->
                         <div id="formFieldsArea" class="mt-4 p-4 border rounded bg-light shadow-sm text-black"></div>
@@ -114,15 +96,15 @@
                         <div class="mb-3 mt-5">
                             <label for="status" class="form-label">Status</label>
                             <div class="position-relative">
-                            <select name="status" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
-                                <option value="Pending">Pending</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Rejected">Rejected</option>
-                            </select>
-                            <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
-                                ▼
-                            </span>
-                        </div>
+                                <select name="status" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+                                <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
+                                    ▼
+                                </span>
+                            </div>
                         </div>
 
                         <!-- Submission Date -->
@@ -146,6 +128,98 @@
         var categories = @json($categories);
         var subcategories = @json($subcategories);
         var formFields = @json($formFields);
+        var agents = @json($agents);
+        var customers = @json($customers);
+
+        // Autocomplete functionality for agents
+        $('#agent_search').on('input', function() {
+            const searchTerm = $(this).val().toLowerCase();
+            const suggestions = $('#agent_suggestions');
+
+            if (searchTerm.length < 1) {
+                suggestions.removeClass('show');
+                return;
+            }
+
+            const filteredAgents = agents.filter(agent =>
+                agent.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredAgents.length > 0) {
+                let html = '';
+                filteredAgents.forEach(agent => {
+                    html += `<button type="button" class="dropdown-item" data-id="${agent.id}" data-name="${agent.name}">${agent.name}</button>`;
+                });
+                suggestions.html(html).addClass('show');
+            } else {
+                suggestions.removeClass('show');
+            }
+        });
+
+        // Handle agent selection
+        $(document).on('click', '#agent_suggestions .dropdown-item', function() {
+            const agentId = $(this).data('id');
+            const agentName = $(this).data('name');
+
+            $('#agent_search').val(agentName);
+            $('#agent_id').val(agentId);
+            $('#agent_suggestions').removeClass('show');
+        });
+
+        // Autocomplete functionality for customers
+        $('#customer_search').on('input', function() {
+            const searchTerm = $(this).val().toLowerCase();
+            const suggestions = $('#customer_suggestions');
+
+            if (searchTerm.length < 1) {
+                suggestions.removeClass('show');
+                return;
+            }
+
+            const filteredCustomers = customers.filter(customer =>
+                customer.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredCustomers.length > 0) {
+                let html = '';
+                filteredCustomers.forEach(customer => {
+                    html += `<button type="button" class="dropdown-item" data-id="${customer.id}" data-name="${customer.name}">${customer.name}</button>`;
+                });
+                suggestions.html(html).addClass('show');
+            } else {
+                suggestions.removeClass('show');
+            }
+        });
+
+        // Handle customer selection
+        $(document).on('click', '#customer_suggestions .dropdown-item', function() {
+            const customerId = $(this).data('id');
+            const customerName = $(this).data('name');
+
+            $('#customer_search').val(customerName);
+            $('#customer_id').val(customerId);
+            $('#customer_suggestions').removeClass('show');
+        });
+
+        // Hide suggestions when clicking outside
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.position-relative').length) {
+                $('.dropdown-menu').removeClass('show');
+            }
+        });
+
+        // Clear hidden fields when input is cleared
+        $('#agent_search').on('input', function() {
+            if ($(this).val() === '') {
+                $('#agent_id').val('');
+            }
+        });
+
+        $('#customer_search').on('input', function() {
+            if ($(this).val() === '') {
+                $('#customer_id').val('');
+            }
+        });
 
         function renderFields(fields) {
             $('#formFieldsArea').empty();
@@ -155,19 +229,14 @@
 
                 if (field.field_type === 'text') {
                     fieldHtml += `<input type="text" name="responses[${field.id}]" class="form-control">`;
-
                 } else if (field.field_type === 'textarea') {
                     fieldHtml += `<textarea name="responses[${field.id}]" class="form-control"></textarea>`;
-
                 } else if (field.field_type === 'date') {
                     fieldHtml += `<input type="date" name="responses[${field.id}]" class="form-control">`;
-
                 } else if (field.field_type === 'file') {
                     fieldHtml += `<input type="file" name="responses[${field.id}]" class="form-control">`;
-
                 } else if (field.field_type === 'number') {
                     fieldHtml += `<input type="number" name="responses[${field.id}]" class="form-control">`;
-
                 } else if (field.field_type === 'select') {
                     fieldHtml += `<select name="responses[${field.id}]" class="form-control"><option value="">Select an option</option>`;
                     field.options.forEach(option => {
@@ -219,7 +288,6 @@
                 }
             });
 
-            // Load form fields where sub_category_id is null
             const typeId = $('#insurance_type_id').val();
             const fields = formFields.filter(field =>
                 field.insurance_type_id == typeId &&
@@ -240,14 +308,12 @@
             let fields = [];
 
             if (subCategoryId) {
-                // Load fields that match the selected subcategory
                 fields = formFields.filter(field =>
                     field.insurance_type_id == typeId &&
                     field.category_id == categoryId &&
                     field.sub_category_id == subCategoryId
                 );
             } else {
-                // No subcategory selected, show fields with null sub_category_id
                 fields = formFields.filter(field =>
                     field.insurance_type_id == typeId &&
                     field.category_id == categoryId &&

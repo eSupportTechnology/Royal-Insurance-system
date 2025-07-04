@@ -175,6 +175,10 @@ Route::prefix('authentication')->group(function () {
         Route::get('/customer-insurance/{id}/edit', [CustomerInsuranceController::class, 'edit'])->name('customerinsurance.edit');
         Route::put('/customer-insurance/{id}', [CustomerInsuranceController::class, 'update'])->name('customerinsurance.update');
         Route::delete('/customer-insurance/{id}/delete', [CustomerInsuranceController::class, 'destroy'])->name('customerinsurance.destroy');
+        Route::get('/customer-insurance/set-cash/{id}', [CustomerInsuranceController::class, 'setCash'])->name('customerinsurance.setCash');
+        // Route::get('/get-customer-id', [CustomerInsuranceController::class, 'getCustomerId']);
+        // Route::get('/get-company-id', [CustomerInsuranceController::class, 'getCompanyId']);
+
 
         //profit margin
 

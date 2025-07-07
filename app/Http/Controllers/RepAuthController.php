@@ -86,7 +86,7 @@ class RepAuthController extends Controller
 
     public function dashboard()
     {
-        return view('Repdashboard.home');
+        return view('RepDashboard.home');
     }
 
     public function logout(Request $request)

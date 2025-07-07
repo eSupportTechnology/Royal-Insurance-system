@@ -51,7 +51,7 @@
     @endif
 
     <div class="form-group">
-        <label>Agent/Sub_Agent Code</label>
+        <label>Agent/Sub Agent Code</label>
         <input type="text" name="code" class="form-control" placeholder="Enter your code" required>
     </div>
 

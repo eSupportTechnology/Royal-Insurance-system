@@ -15,6 +15,7 @@ use App\Http\Controllers\CustomerResponseController;
 use App\Http\Controllers\ProfitMarginController;
 use App\Http\Controllers\QuotationController;
 use App\Http\Controllers\CommissionController;
+use App\Http\Controllers\RepAuthController;
 use App\Models\ProfitMargin;
 use FontLib\Table\Type\name;
 use Illuminate\Support\Facades\Artisan;
@@ -176,8 +177,6 @@ Route::prefix('authentication')->group(function () {
         Route::put('/customer-insurance/{id}', [CustomerInsuranceController::class, 'update'])->name('customerinsurance.update');
         Route::delete('/customer-insurance/{id}/delete', [CustomerInsuranceController::class, 'destroy'])->name('customerinsurance.destroy');
         Route::get('/customer-insurance/set-cash/{id}', [CustomerInsuranceController::class, 'setCash'])->name('customerinsurance.setCash');
-        // Route::get('/get-customer-id', [CustomerInsuranceController::class, 'getCustomerId']);
-        // Route::get('/get-company-id', [CustomerInsuranceController::class, 'getCompanyId']);
 
 
         //profit margin
@@ -195,6 +194,22 @@ Route::prefix('authentication')->group(function () {
         Route::get('/agent-commissions', [CommissionController::class, 'agentIndex'])->name('commissions.agent');
         Route::get('/subagent-commissions', [CommissionController::class, 'subagentIndex'])->name('commissions.subagent');
     });
+});
+
+//rep authentication
+
+Route::get('/rep-login', [RepAuthController::class, 'loginForm'])->name('rep.login.form');
+Route::post('/rep-login', [RepAuthController::class, 'login'])->name('rep.login');
+Route::get('/rep-register', [RepAuthController::class, 'registerForm'])->name('rep.register.form');
+Route::post('/rep/check-code', [RepAuthController::class, 'checkCode'])->name('rep.check.code');
+Route::post('/rep-register', [RepAuthController::class, 'register'])->name('rep.register');
+
+Route::middleware('auth:rep')->group(function () {
+    Route::get('/rep-dashboard', [RepAuthController::class, 'dashboard'])->name('rep.dashboard');
+    Route::post('logout', [RepAuthController::class, 'logout'])->name('rep.logout');
+
+    Route::get('/rep-agent-commissions', [CommissionController::class, 'repagentIndex'])->name('rep.commissions.agent');
+        Route::get('/rep-subagent-commissions', [CommissionController::class, 'repsubagentIndex'])->name('rep.commissions.subagent');
 });
 
 require __DIR__ . '/auth.php';

@@ -127,27 +127,41 @@ class AgentController extends Controller
         return view('sub_agents.create',compact('subagents'));
     }
 
-    public function subagentstore(Request $request){
-        $request->validate([
-            'agent_id' => 'required|exists:agents,id',
-            'sub_agent_name' => 'required|string|max:255',
-            'email' => 'nullable|email|unique:agents,email',
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string',
+    public function subagentstore(Request $request)
+{
+    $request->validate([
+        'agent_id' => 'required|exists:agents,id',
+        'sub_agent_name' => 'required|string|max:255',
+        'email' => 'nullable|email|unique:agents,email',
+        'phone' => 'nullable|string|max:20',
+        'address' => 'nullable|string',
+    ]);
 
-        ]);
+    // Get selected agent
+    $agent = Agent::findOrFail($request->agent_id);
 
-        SubAgent::create([
-            'agent_id' => $request->agent_id,
-            'sub_agent_name' => $request->sub_agent_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'address' => $request->address,
+    // Get the agent's rep_code (e.g., RIB/001)
+    $baseRepCode = $agent->rep_code;
 
-        ]);
+    // Count existing sub-agents for this agent
+    $count = SubAgent::where('agent_id', $agent->id)->count();
 
-        return redirect()->route('sub_agents.index')->with('success', 'Sub-agent added successfully.');
-    }
+    // Generate sub-agent rep code: RIB/001/001, RIB/001/002, etc.
+    $subAgentRepCode = $baseRepCode . '/' . str_pad($count + 1, 3, '0', STR_PAD_LEFT);
+
+    // Create the sub-agent
+    SubAgent::create([
+        'agent_id' => $agent->id,
+        'sub_agent_rep_code' => $subAgentRepCode,
+        'sub_agent_name' => $request->sub_agent_name,
+        'email' => $request->email,
+        'phone' => $request->phone,
+        'address' => $request->address,
+    ]);
+
+    return redirect()->route('sub_agents.index')->with('success', 'Sub-agent added successfully.');
+}
+
 
     public function subagentedit($id){
         $subagent = SubAgent::findOrFail($id);
@@ -155,21 +169,49 @@ class AgentController extends Controller
         return view('sub_agents.edit',compact('subagent','agents'));
     }
 
-    public function subagentupdate(Request $request, $id){
-        $request->validate([
-            'agent_id' => 'required|exists:agents,id',
-            'sub_agent_name' => 'required|string|max:255',
-            'email' => 'nullable|email|unique:agents,email,'.$id,
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string',
+  public function subagentupdate(Request $request, $id)
+{
+    $request->validate([
+        'agent_id' => 'required|exists:agents,id',
+        'sub_agent_name' => 'required|string|max:255',
+        'email' => 'nullable|email|unique:agents,email,' . $id,
+        'phone' => 'nullable|string|max:20',
+        'address' => 'nullable|string',
+    ]);
 
-        ]);
+    $subagent = SubAgent::findOrFail($id);
+    $newAgent = Agent::findOrFail($request->agent_id);
+    $baseRepCode = $newAgent->rep_code;
 
-        $subagent = SubAgent::findOrFail($id);
-        $subagent->update($request->all());
+    // Find the highest rep code under the selected agent
+    $latestSub = SubAgent::where('agent_id', $newAgent->id)
+        ->where('id', '!=', $id) // Exclude current sub-agent if it's already under this agent
+        ->orderByDesc('sub_agent_rep_code')
+        ->first();
 
-        return redirect()->route('sub_agents.index')->with('success', 'Sub-agent updated successfully.');
+    if ($latestSub && preg_match('/\/(\d+)$/', $latestSub->sub_agent_rep_code, $matches)) {
+        $nextNum = intval($matches[1]) + 1;
+    } else {
+        $nextNum = 1;
     }
+
+    $newSubRepCode = $baseRepCode . '/' . str_pad($nextNum, 3, '0', STR_PAD_LEFT);
+
+    // Update fields
+    $subagent->agent_id = $request->agent_id;
+    $subagent->sub_agent_name = $request->sub_agent_name;
+    $subagent->email = $request->email;
+    $subagent->phone = $request->phone;
+    $subagent->address = $request->address;
+    $subagent->sub_agent_rep_code = $newSubRepCode;
+    $subagent->save();
+
+    return redirect()->route('sub_agents.index')->with('success', 'Sub-agent updated successfully.');
+}
+
+
+
+
     public function subagentdestroy($id){
         $subagent = SubAgent::findOrFail($id);
         $subagent->delete();

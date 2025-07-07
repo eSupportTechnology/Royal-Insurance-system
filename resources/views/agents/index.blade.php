@@ -111,5 +111,5 @@
             border-color: #007bff !important;
         }
     </style>
-    
+
 @endsection

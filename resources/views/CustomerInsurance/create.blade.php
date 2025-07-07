@@ -120,7 +120,7 @@
                                         <div class="position-relative">
                                             <input type="text" id="company_search" class="form-control mb-2"
                                                 placeholder="Type at least 1 character..." autocomplete="off">
-                                            <input type="hidden" name="insurance_company" id="company_id" required>
+                                            <input type="hidden" name="insurance_company" id="insurance_company" required>
                                             <div id="company_suggestions" class="dropdown-menu w-100"
                                                 style="max-height: 200px; overflow-y: auto;"></div>
                                         </div>
@@ -232,7 +232,7 @@
                                         <div class="mb-3 col-md-6">
                                             <label for="outstanding_amount" class="form-label">Outstanding Amount <span
                                                     class="text-danger">*</span></label>
-                                            <input type="number" name="paid_amount" id="paid_amount"
+                                            <input type="number" name="outstanding_amount" id="outstanding_amount"
                                                 class="form-control" required>
                                         </div>
                                     </div>
@@ -273,15 +273,8 @@
                                         <div class="position-relative">
                                             <select name="subagent_code" id="subagent_code" class="form-control"
                                                 style="appearance: none; padding-right: 2.5rem;">
-                                                <option value="">Select SubAgent Rep_code</option>
-                                                @foreach ($agentsWithSubagents as $agent)
-                                                    @foreach ($agent->subagents as $index => $subagent)
-                                                        <option
-                                                            value="{{ $agent->rep_code }}/{{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}">
-                                                            {{ $agent->rep_code }}/{{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}
-                                                        </option>
-                                                    @endforeach
-                                                @endforeach
+                                                <option value="">Select Sub Agent Rep_code</option>
+                                                {{-- This will be populated by JS --}}
                                             </select>
                                             <span
                                                 style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
@@ -454,7 +447,7 @@
                 const companyName = $(this).data('name');
 
                 $('#company_search').val(companyName);
-                $('#company_id').val(companyId);
+                $('#insurance_company').val(companyId);
                 $('#company_suggestions').removeClass('show').empty();
             });
 
@@ -468,7 +461,7 @@
             // Clear fields if input cleared
             $('#company_search').on('input', function() {
                 if ($(this).val().trim() === '') {
-                    $('#company_id').val('');
+                    $('#insurance_company').val('');
                     $('#company_suggestions').removeClass('show').empty();
                 }
             });
@@ -561,7 +554,7 @@
         });
 
         // Make the subagents accessible in JS
-        const agentsWithSubagents = @json($agentsWithSubagents);
+        const subagents = @json($subagents);
 
         document.addEventListener('DOMContentLoaded', () => {
             const agentSelect = document.getElementById('introducer_code');
@@ -571,17 +564,14 @@
                 const agentId = parseInt(this.value);
                 subagentSelect.innerHTML = '<option value="">Select SubAgent Rep_code</option>';
 
-                const selectedAgent = agentsWithSubagents.find(agent => agent.id === agentId);
-                if (selectedAgent && selectedAgent.subagents.length) {
-                    selectedAgent.subagents.forEach((subagent, index) => {
-                        const code =
-                            `${selectedAgent.rep_code}/${String(index + 1).padStart(3, '0')}`;
-                        const option = document.createElement('option');
-                        option.value = code;
-                        option.textContent = code;
-                        subagentSelect.appendChild(option);
-                    });
-                }
+                const selectedSubagents = subagents.filter(sa => sa.agent_id === agentId);
+
+                selectedSubagents.forEach((subagent, index) => {
+                    const option = document.createElement('option');
+                    option.value = subagent.sub_agent_rep_code;
+                    option.textContent = subagent.sub_agent_rep_code;
+                    subagentSelect.appendChild(option);
+                });
             });
         });
 

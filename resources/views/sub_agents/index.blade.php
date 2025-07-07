@@ -36,6 +36,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Rep Code</th>
+                                    <th>Sub AgentRep Code</th>
                                     <th>Sub Agent</th>
                                     <th>Email</th>
                                     <th>Phone</th>
@@ -72,6 +73,7 @@
                 columns: [
                     { data: 'id', name: 'id' },
                     { data: 'rep_code', name: 'agent.rep_code' },
+                    { data: 'sub_agent_rep_code', name: 'sub_agent_rep_code' },
                     { data: 'sub_agent_name', name: 'sub_agent_name' },
                     { data: 'email', name: 'email' },
                     { data: 'phone', name: 'phone' },
@@ -120,5 +122,5 @@
             border-color: #007bff !important;
         }
     </style>
-    
+
 @endsection

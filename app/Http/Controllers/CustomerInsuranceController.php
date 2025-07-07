@@ -143,8 +143,10 @@ class CustomerInsuranceController extends Controller
         $subcategories = SubCategory::all();
         $formfields = FormField::all();
         $agents = Agent::all();
+        $subagents = SubAgent::select('id', 'agent_id', 'sub_agent_rep_code')->get();
 
-        $agentsWithSubagents = Agent::with('subagents')->get(); // Get agents + their subagents
+
+        // $agentsWithSubagents = Agent::with('subagents')->get();
 
         return view('CustomerInsurance.create', compact(
             'agents',
@@ -154,7 +156,7 @@ class CustomerInsuranceController extends Controller
             'categories',
             'subcategories',
             'formfields',
-            'agentsWithSubagents'
+            'subagents'
         ));
     }
 

@@ -34,7 +34,7 @@
                 <div class="media-body ms-2 d-flex align-items-center">
                     @if(Auth::check())
                         <span class="me-1">{{ Auth::user()->name }}</span>
-                        <small class="text-muted">(Admin)</small>
+                        <small class="text-muted">(Rep)</small>
                         <i class="middle fa fa-angle-down ms-1"></i>
                     @else
                         <span>Guest</span>

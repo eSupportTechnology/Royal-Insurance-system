@@ -17,6 +17,34 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
+                <div class="card mb-3">
+                    <div class="card-body row">
+                        <div class="col-md-4">
+                            <label>Filter by Customer</label>
+                            <select id="customer-filter" class="form-control">
+                                <option value="">All Customers</option>
+                                @foreach ($customers as $customer)
+                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Filter by Company</label>
+                            <select id="company-filter" class="form-control">
+                                <option value="">All Companies</option>
+                                @foreach ($companies as $company)
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
+<button id="apply_filters" class="btn btn-primary">Apply Filters</button>
+
+                        </div>
+                    </div>
+                </div>
+
                 <div class="container">
 
                 </div>
@@ -27,7 +55,7 @@
                     </div>
                     <div class="card-body">
                         <div class="dt-ext table-responsive">
-                            <table class="table table-responsive-sm" id="export-button">
+                            <table class="table table-responsive-sm" id="agent-commission-table">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -40,35 +68,11 @@
                                         <th>TC Premium Commission</th>
                                         <th>Total Commission</th>
                                         <th>Status</th>
-
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach ($commissionRecords as $data)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $data->customer_insurance_id }}</td>
-                                        <td>{{ $data->customerInsurance->customer->name ?? '-' }}</td>
-                                            <td>{{ $data->customerInsurance->company->name ?? '-' }}</td>
-                                        <td>{{ $data->agent_rep_code ?? 'N/A' }}</td>
-                                        <td>Rs.{{ number_format($data->net_premium, 2) }}</td>
-                                        <td>Rs.{{ number_format($data->srcc_premium, 2) }}</td>
-                                        <td>Rs.{{ number_format($data->tc_premium, 2) }}</td>
-                                        <td><strong>Rs.{{ number_format($data->total, 2) }}</strong></td>
-                                        <td>
-                                            <span class="badge {{ $data->status == 'Completed' ? 'bg-success' : 'bg-danger' }}">
-                                                {{ $data->status }}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    {{-- @if ($commissions->!isEmpty())
-                                        <tr>
-                                            <td colspan="22" class="text-center">No records found.</td>
-                                        </tr>
-                                    @endif --}}
-                                </tbody>
+                                <tbody></tbody>
                             </table>
+
                         </div>
                     </div>
                 </div>
@@ -91,14 +95,83 @@
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
     <script>
-        $(document).ready(function() {
-            if ($.fn.DataTable.isDataTable('#export-button')) {
-                $('#export-button').DataTable().destroy();
+$(document).ready(function() {
+    var table = $('#agent-commission-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '{{ route('rep.commissions.agent') }}',
+            data: function(d) {
+                d.customer_id = $('#customer-filter').val();
+                d.company_id = $('#company-filter').val();
             }
-            $('#export-button').DataTable({
-                dom: 'Bfrtip',
-                buttons: ['csv', 'excel', 'pdf', 'print']
-            });
-        });
-    </script>
+        },
+        columns: [
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'customer_id', name: 'customer_id' },
+            { data: 'customer_name', name: 'customer_name' },
+            { data: 'company_name', name: 'company_name' },
+            { data: 'agent_id', name: 'agent_id' },
+            { data: 'net', name: 'net' },
+            { data: 'srcc', name: 'srcc' },
+            { data: 'tc', name: 'tc' },
+            { data: 'total', name: 'total' },
+            { data: 'status', name: 'status' },
+        ],
+    });
+
+    // Apply Filters button reloads table with filters
+    $('#apply_filters').on('click', function() {
+        table.ajax.reload();
+    });
+
+    // Clear Filters button resets selects and reloads table
+    $('#clear_filters').on('click', function() {
+        $('#customer-filter').val('');
+        $('#company-filter').val('');
+        table.ajax.reload();
+    });
+});
+</script>
+<style>
+        /* Simple search positioning */
+        .dataTables_wrapper .dataTables_filter {
+            padding-right: 1rem;
+            text-align: right !important;
+            margin-bottom: 15px !important;
+        }
+
+        .dataTables_wrapper .dataTables_length {
+            text-align: left !important;
+            margin-bottom: 15px !important;
+        }
+
+        /* Basic pagination styling */
+        .dataTables_paginate {
+            text-align: center !important;
+            margin-top: 15px !important;
+        }
+
+        .dataTables_paginate .paginate_button {
+            padding: 5px 10px !important;
+            margin: 0 2px !important;
+            border: 1px solid #ddd !important;
+            border-radius: 4px !important;
+            background-color: #fff !important;
+            color: #007bff !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+        }
+
+        .dataTables_paginate .paginate_button:hover {
+            background-color: #f8f9fa !important;
+        }
+
+        .dataTables_paginate .paginate_button.current {
+            background-color: #007bff !important;
+            color: #fff !important;
+            border-color: #007bff !important;
+        }
+    </style>
+
 @endsection

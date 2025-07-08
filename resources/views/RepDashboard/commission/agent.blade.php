@@ -17,42 +17,44 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
-                <div class="card mb-3">
-                    <div class="card-body row">
-                        <div class="col-md-4">
-                            <label>Filter by Customer</label>
-                            <select id="customer-filter" class="form-control">
-                                <option value="">All Customers</option>
-                                @foreach ($customers as $customer)
-                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label>Filter by Company</label>
-                            <select id="company-filter" class="form-control">
-                                <option value="">All Companies</option>
-                                @foreach ($companies as $company)
-                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-4 d-flex align-items-end">
-                            <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
-<button id="apply_filters" class="btn btn-primary">Apply Filters</button>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="container">
-
-                </div>
 
                 <div class="card mt-3">
                     <div class="card-header d-flex justify-content-between">
                         <h5>Agent Commission Details</h5>
                     </div>
+                    <div class="card mb-3">
+                        <div class="card-body row">
+                            <div class="col-md-4">
+                                <label>Filter by Customer</label>
+                                <select id="customer-filter" class="form-control">
+                                    <option value="">All Customers</option>
+                                    @foreach ($customers as $customer)
+                                        <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Filter by Company</label>
+                                <select id="company-filter" class="form-control">
+                                    <option value="">All Companies</option>
+                                    @foreach ($companies as $company)
+                                        <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
+                                <button id="apply_filters" class="btn btn-primary">Apply Filters</button>
+
+                            </div>
+                        </div>
+
+
+                    <div class="container">
+
+                    </div>
+
+
                     <div class="card-body">
                         <div class="dt-ext table-responsive">
                             <table class="table table-responsive-sm" id="agent-commission-table">
@@ -75,6 +77,7 @@
 
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,45 +98,76 @@
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
     <script>
-$(document).ready(function() {
-    var table = $('#agent-commission-table').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: '{{ route('rep.commissions.agent') }}',
-            data: function(d) {
-                d.customer_id = $('#customer-filter').val();
-                d.company_id = $('#company-filter').val();
-            }
-        },
-        columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-            { data: 'customer_id', name: 'customer_id' },
-            { data: 'customer_name', name: 'customer_name' },
-            { data: 'company_name', name: 'company_name' },
-            { data: 'agent_id', name: 'agent_id' },
-            { data: 'net', name: 'net' },
-            { data: 'srcc', name: 'srcc' },
-            { data: 'tc', name: 'tc' },
-            { data: 'total', name: 'total' },
-            { data: 'status', name: 'status' },
-        ],
-    });
+        $(document).ready(function() {
+            var table = $('#agent-commission-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '{{ route('rep.commissions.agent') }}',
+                    data: function(d) {
+                        d.customer_id = $('#customer-filter').val();
+                        d.company_id = $('#company-filter').val();
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'customer_id',
+                        name: 'customer_id'
+                    },
+                    {
+                        data: 'customer_name',
+                        name: 'customer_name'
+                    },
+                    {
+                        data: 'company_name',
+                        name: 'company_name'
+                    },
+                    {
+                        data: 'agent_id',
+                        name: 'agent_id'
+                    },
+                    {
+                        data: 'net',
+                        name: 'net'
+                    },
+                    {
+                        data: 'srcc',
+                        name: 'srcc'
+                    },
+                    {
+                        data: 'tc',
+                        name: 'tc'
+                    },
+                    {
+                        data: 'total',
+                        name: 'total'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                ],
+            });
 
-    // Apply Filters button reloads table with filters
-    $('#apply_filters').on('click', function() {
-        table.ajax.reload();
-    });
+            // Apply Filters button reloads table with filters
+            $('#apply_filters').on('click', function() {
+                table.ajax.reload();
+            });
 
-    // Clear Filters button resets selects and reloads table
-    $('#clear_filters').on('click', function() {
-        $('#customer-filter').val('');
-        $('#company-filter').val('');
-        table.ajax.reload();
-    });
-});
-</script>
-<style>
+            // Clear Filters button resets selects and reloads table
+            $('#clear_filters').on('click', function() {
+                $('#customer-filter').val('');
+                $('#company-filter').val('');
+                table.ajax.reload();
+            });
+        });
+    </script>
+    <style>
         /* Simple search positioning */
         .dataTables_wrapper .dataTables_filter {
             padding-right: 1rem;

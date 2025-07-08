@@ -93,9 +93,13 @@
                 { data: 'nic', name: 'nic' },
                 { data: 'address', name: 'address' },
                 { data: 'action', name: 'action', orderable: false, searchable: false },
-            ]
+            ],
+
+
         });
     });
+
+
 </script>
 
   <style>
@@ -138,4 +142,5 @@
             border-color: #007bff !important;
         }
     </style>
+
 @endsection

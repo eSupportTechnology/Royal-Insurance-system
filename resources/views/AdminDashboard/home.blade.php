@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="container-fluid">        
+<div class="container-fluid">
             <div class="page-title">
               <div class="row">
                 <div class="col-6">
@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-6">
                   <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">                                       
+                    <li class="breadcrumb-item"><a href="index.html">
                         <svg class="stroke-icon">
                           <use href="{{ asset('frontend/assets/svg/icon-sprite.svg#stroke-home') }}"></use>
                         </svg></a></li>
@@ -26,18 +26,18 @@
           <!-- Container-fluid starts-->
           <div class="container-fluid">
             <div class="row widget-grid">
-              <div class="col-xxl-4 col-sm-6 box-col-6"> 
+              <div class="col-xxl-4 col-sm-6 box-col-6">
                 <div class="card profile-box">
                   <div class="card-body">
                     <div class="media media-wrapper justify-content-between">
-                      <div class="media-body"> 
+                      <div class="media-body">
                         <div class="greeting-user">
-                          <h4 class="f-w-600">Welcome to cuba</h4>
+                          <h4 class="f-w-600">Welcome to RIB</h4>
                           <p>Here whats happing in your account today</p>
                           <div class="whatsnew-btn"><a class="btn btn-outline-white">Whats New !</a></div>
                         </div>
                       </div>
-                      <div>  
+                      <div>
                         <div class="clockbox">
                           <svg id="clock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
                             <g id="face">

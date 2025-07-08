@@ -12,62 +12,64 @@
         <div class="row">
             <div class="col-sm-12">
 
-                {{-- Filter Section --}}
-                <div class="card mb-3">
-                    <div class="card-body row">
-                        <div class="col-md-4">
-                            <label>Filter by Customer</label>
-                            <select id="customer-filter" class="form-control">
-                                <option value="">All Customers</option>
-                                @foreach ($customers as $customer)
-                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label>Filter by Company</label>
-                            <select id="company-filter" class="form-control">
-                                <option value="">All Companies</option>
-                                @foreach ($companies as $company)
-                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-4 d-flex align-items-end">
-                            <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
-                            <button id="apply_filters" class="btn btn-primary">Apply Filters</button>
-                        </div>
-                    </div>
-                </div>
-
                 {{-- Table Section --}}
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
                         <h5>Agent Commission Details</h5>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="agent-commission-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Customer Insurance ID</th>
-                                        <th>Customer Name</th>
-                                        <th>Company Name</th>
-                                        <th>Agent ID</th>
-                                        <th>Net Premium</th>
-                                        <th>SRCC Premium</th>
-                                        <th>TC Premium</th>
-                                        <th>Total</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody> <!-- Loaded via AJAX -->
-                            </table>
+
+                    {{-- Filter Section --}}
+                    <div class="card mb-3">
+                        <div class="card-body row">
+                            <div class="col-md-4">
+                                <label>Filter by Customer</label>
+                                <select id="customer-filter" class="form-control">
+                                    <option value="">All Customers</option>
+                                    @foreach ($customers as $customer)
+                                        <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Filter by Company</label>
+                                <select id="company-filter" class="form-control">
+                                    <option value="">All Companies</option>
+                                    @foreach ($companies as $company)
+                                        <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
+                                <button id="apply_filters" class="btn btn-primary">Apply Filters</button>
+                            </div>
+                        </div>
+
+
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="agent-commission-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Customer Insurance ID</th>
+                                            <th>Customer Name</th>
+                                            <th>Company Name</th>
+                                            <th>Agent ID</th>
+                                            <th>Net Premium</th>
+                                            <th>SRCC Premium</th>
+                                            <th>TC Premium</th>
+                                            <th>Total</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody> <!-- Loaded via AJAX -->
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -160,7 +162,6 @@
     </script>
 
     <style>
-        /* Simple search positioning */
         .dataTables_wrapper .dataTables_filter {
             padding-right: 1rem;
             text-align: right !important;

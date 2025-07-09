@@ -94,7 +94,7 @@
                 ajax: {
                     url: '{{ route('commissions.agent') }}',
                     data: function(d) {
-                        d.customer_id = $('#customer-filter').val(); // ✅ Use matching keys
+                        d.customer_id = $('#customer-filter').val(); 
                         d.company_id = $('#company-filter').val();
                     }
                 },

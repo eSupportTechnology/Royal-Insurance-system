@@ -123,6 +123,8 @@ class CommissionController extends Controller
     {
         // Recalculate and update commissions
         $customerInsurances = CustomerInsurance::with('agent')->get();
+        
+
 
         foreach ($customerInsurances as $insurance) {
             $profitMargins = ProfitMargin::where('company_id', $insurance->insurance_company)
@@ -169,6 +171,8 @@ class CommissionController extends Controller
                     'status' => $status,
                 ]
             );
+
+
         }
 
         // AJAX DataTables response

@@ -39,9 +39,19 @@
                                 </select>
                             </div>
                             <div class="col-md-4 d-flex align-items-end">
-                               <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
-                               <button id="apply_filters" class="btn btn-primary">Apply Filters</button>
+                                <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
+                                <button id="apply_filters" class="btn btn-primary">Apply Filters</button>
                             </div>
+
+                            <div class="col-md-3 mt-3">
+                                <label for="from_date">From Date:</label>
+                                <input type="date" id="from_date" class="form-control">
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <label for="to_date">To Date:</label>
+                                <input type="date" id="to_date" class="form-control">
+                            </div>
+
                         </form>
 
                         <div class="dt-ext mt-4 table-responsive">
@@ -82,48 +92,100 @@
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
 
     <script>
-        $(document).ready(function () {
-        let table = $('#subagent-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: "{{ route('commissions.subagent') }}",
-                data: function (d) {
-                    d.customer_id = $('#filter_customer').val();
-                    d.company_id = $('#filter_company').val();
-                }
-            },
-            columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                { data: 'customer_id', name: 'customer_id' },
-                { data: 'customer_name', name: 'customer_name' },
-                { data: 'company_name', name: 'company_name' },
-                { data: 'sub_agent_id', name: 'sub_agent_id' },
-                { data: 'net', name: 'net' },
-                { data: 'srcc', name: 'srcc' },
-                { data: 'tc', name: 'tc' },
-                { data: 'total', name: 'total' },
-                { data: 'status', name: 'status' },
-                { data: 'action', name: 'action', orderable: false, searchable: false },
-            ]
-        });
+        $(document).ready(function() {
+            let table = $('#subagent-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('commissions.subagent') }}",
+                    data: function(d) {
+                        d.customer_id = $('#filter_customer').val();
+                        d.company_id = $('#filter_company').val();
 
-        $('#apply_filters').click(function (e) {
-            e.preventDefault();
+                          // ✅ Add these lines to send the date range
+                        d.from_date = $('#from_date').val();
+                        d.to_date = $('#to_date').val();
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'customer_id',
+                        name: 'customer_id'
+                    },
+                    {
+                        data: 'customer_name',
+                        name: 'customer_name'
+                    },
+                    {
+                        data: 'company_name',
+                        name: 'company_name'
+                    },
+                    {
+                        data: 'sub_agent_id',
+                        name: 'sub_agent_id'
+                    },
+                    {
+                        data: 'net',
+                        name: 'net'
+                    },
+                    {
+                        data: 'srcc',
+                        name: 'srcc'
+                    },
+                    {
+                        data: 'tc',
+                        name: 'tc'
+                    },
+                    {
+                        data: 'total',
+                        name: 'total'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+
+             // Reload on filter button
+        $('#apply_filters').click(function() {
             table.ajax.reload();
         });
 
-        $('#clear_filters').click(function (e) {
-            e.preventDefault();
-            $('#filter_customer').val('');
-            $('#filter_company').val('');
+        // Clear filters
+        $('#clear_filters').click(function() {
+            $('#customer_filter').val('');
+            $('#company_filter').val('');
+            $('#from_date').val('');
+            $('#to_date').val('');
+            table.ajax.reload();
+        });
+
+        // ✅ Auto-apply filter when customer or company changes
+        $('#customer_filter, #company_filter').change(function() {
+            table.ajax.reload();
+        });
+
+        // ✅ Auto-apply filter when date changes
+        $('#from_date, #to_date').on('change', function() {
             table.ajax.reload();
         });
     });
     </script>
 
     <style>
-       /* Position search bar (top right) */
+        /* Position search bar (top right) */
         .dataTables_wrapper .dataTables_filter {
             padding-right: 1rem;
             text-align: right !important;

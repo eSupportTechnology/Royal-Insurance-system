@@ -329,6 +329,11 @@ class CommissionController extends Controller
                 });
             }
 
+            // Apply insurance date filter
+            if ($request->from_date && $request->to_date) {
+                $data->whereBetween('created_at', [$request->from_date, $request->to_date]);
+            }
+
             return DataTables::of($data)
                 ->filterColumn('customer_name', function ($query, $keyword) {
                     $query->whereHas('customerInsurance.customer', function ($q) use ($keyword) {
@@ -466,6 +471,11 @@ class CommissionController extends Controller
                 $query->whereHas('customerInsurance.company', function ($q) use ($request) {
                     $q->where('id', $request->company_id);
                 });
+            }
+
+            // Apply insurance date filter
+            if ($request->from_date && $request->to_date) {
+                $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
             }
 
             return DataTables::of($query)
@@ -608,6 +618,11 @@ class CommissionController extends Controller
                 $query->whereHas('customerInsurance.company', function ($q) use ($request) {
                     $q->where('id', $request->company_id);
                 });
+            }
+
+            // Apply insurance date filter
+            if ($request->from_date && $request->to_date) {
+                $query->whereBetween('created_at', [$request->from_date, $request->to_date]);
             }
 
             // Handle global search from DataTables

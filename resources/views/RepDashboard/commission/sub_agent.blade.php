@@ -46,6 +46,16 @@
                                 <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
                                 <button id="apply_filters" class="btn btn-primary">Apply Filters</button>
                             </div>
+
+                             <div class="col-md-3 mt-3">
+                                <label for="from_date">From Date:</label>
+                                <input type="date" id="from_date" class="form-control">
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <label for="to_date">To Date:</label>
+                                <input type="date" id="to_date" class="form-control">
+                            </div>
+
                         </div>
 
 
@@ -103,6 +113,10 @@
                     data: function(d) {
                         d.customer_id = $('#customer-filter').val();
                         d.company_id = $('#company-filter').val();
+
+                           // ✅ Add these lines to send the date range
+                        d.from_date = $('#from_date').val();
+                        d.to_date = $('#to_date').val();
                     }
                 },
                 columns: [{
@@ -158,16 +172,30 @@
                 // buttons: ['csv', 'excel', 'pdf', 'print'],
             });
 
-            $('#apply_filters').on('click', function() {
-                table.ajax.reload();
-            });
-
-            $('#clear_filters').on('click', function() {
-                $('#customer-filter').val('');
-                $('#company-filter').val('');
-                table.ajax.reload();
-            });
+                // Reload on filter button
+        $('#apply_filters').click(function() {
+            table.ajax.reload();
         });
+
+        // Clear filters
+        $('#clear_filters').click(function() {
+            $('#customer_filter').val('');
+            $('#company_filter').val('');
+            $('#from_date').val('');
+            $('#to_date').val('');
+            table.ajax.reload();
+        });
+
+        // ✅ Auto-apply filter when customer or company changes
+        $('#customer_filter, #company_filter').change(function() {
+            table.ajax.reload();
+        });
+
+        // ✅ Auto-apply filter when date changes
+        $('#from_date, #to_date').on('change', function() {
+            table.ajax.reload();
+        });
+    });
     </script>
 
     <style>

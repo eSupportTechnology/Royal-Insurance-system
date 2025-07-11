@@ -41,6 +41,16 @@
                                 <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
                                 <button id="apply_filters" class="btn btn-primary">Apply Filters</button>
                             </div>
+
+                            <div class="col-md-3" style="margin-top: 12px;">
+                                <label for="from_date">From Date:</label>
+                                <input type="date" id="from_date" class="form-control">
+                            </div>
+                            <div class="col-md-3" style="margin-top: 12px;">
+                                <label for="to_date">To Date:</label>
+                                <input type="date" id="to_date" class="form-control">
+                            </div>
+
                         </div>
                     </div>
                     <div class="card-body">
@@ -57,6 +67,7 @@
                                         <th>TC Premium Commission</th>
                                         <th>Total Commission</th>
                                         <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -91,6 +102,10 @@
                     data: function(d) {
                         d.name = $('#customer_filter').val();
                         d.insurance_company = $('#company_filter').val();
+
+                         // ✅ Add these lines to send the date range
+                        d.from_date = $('#from_date').val();
+                        d.to_date = $('#to_date').val();
                     }
                 },
                 columns: [{
@@ -130,17 +145,37 @@
                     {
                         data: 'status',
                         name: 'status'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
                     }
                 ]
             });
 
-            $('#apply_filters').on('click', function() {
+            // Reload on filter button
+            $('#apply_filters').click(function() {
                 table.ajax.reload();
             });
 
-            $('#clear_filters').on('click', function() {
+            // Clear filters
+            $('#clear_filters').click(function() {
                 $('#customer_filter').val('');
                 $('#company_filter').val('');
+                $('#from_date').val('');
+                $('#to_date').val('');
+                table.ajax.reload();
+            });
+
+            // ✅ Auto-apply filter when customer or company changes
+            $('#customer_filter, #company_filter').change(function() {
+                table.ajax.reload();
+            });
+
+            // ✅ Auto-apply filter when date changes
+            $('#from_date, #to_date').on('change', function() {
                 table.ajax.reload();
             });
         });
@@ -148,21 +183,41 @@
 
 
     <style>
-        /* Simple search positioning */
+        /* Position search bar (top right) */
         .dataTables_wrapper .dataTables_filter {
             padding-right: 1rem;
             text-align: right !important;
             margin-bottom: 15px !important;
         }
 
+        /* Position 'Show entries' (top left) */
         .dataTables_wrapper .dataTables_length {
             text-align: left !important;
             margin-bottom: 15px !important;
         }
 
-        /* Basic pagination styling */
-        .dataTables_paginate {
-            text-align: center !important;
+        /* Make "Show entries" appear in one line */
+        .dataTables_wrapper .dataTables_length label {
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px;
+            /* Optional spacing */
+            white-space: nowrap;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            margin: 0 5px;
+            width: 60px !important;
+            /* Adjust as needed */
+            padding: 4px 6px;
+        }
+
+
+
+        /* Move pagination to right */
+        .dataTables_wrapper .dataTables_paginate {
+            display: flex !important;
+            justify-content: flex-end !important;
             margin-top: 15px !important;
         }
 

@@ -80,47 +80,88 @@
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
     <script type="text/javascript">
-    $(function () {
-        $('#export-button').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('new-customer') }}",
-            columns: [
-                { data: 'id', name: 'id' },
-                { data: 'name', name: 'name' },
-                { data: 'email', name: 'email' },
-                { data: 'phone', name: 'phone' },
-                { data: 'nic', name: 'nic' },
-                { data: 'address', name: 'address' },
-                { data: 'action', name: 'action', orderable: false, searchable: false },
-            ],
+        $(function() {
+            $('#export-button').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('new-customer') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone'
+                    },
+                    {
+                        data: 'nic',
+                        name: 'nic'
+                    },
+                    {
+                        data: 'address',
+                        name: 'address'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
 
 
+            });
         });
-    });
+    </script>
 
-
-</script>
-
-  <style>
-        /* Simple search positioning */
+    <style>
+        /* Position search bar (top right) */
         .dataTables_wrapper .dataTables_filter {
             padding-right: 1rem;
             text-align: right !important;
             margin-bottom: 15px !important;
         }
 
+        /* Position 'Show entries' (top left) */
         .dataTables_wrapper .dataTables_length {
             text-align: left !important;
             margin-bottom: 15px !important;
         }
 
-        /* Basic pagination styling */
-        .dataTables_paginate {
-            text-align: center !important;
+        /* Make "Show entries" appear in one line */
+        .dataTables_wrapper .dataTables_length label {
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px;
+            /* Optional spacing */
+            white-space: nowrap;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            margin: 0 5px;
+            width: 60px !important;
+            /* Adjust as needed */
+            padding: 4px 6px;
+        }
+
+
+
+        /* Move pagination to right */
+        .dataTables_wrapper .dataTables_paginate {
+            display: flex !important;
+            justify-content: flex-end !important;
             margin-top: 15px !important;
         }
 
+        /* Pagination button styles */
         .dataTables_paginate .paginate_button {
             padding: 5px 10px !important;
             margin: 0 2px !important;

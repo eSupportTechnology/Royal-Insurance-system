@@ -43,6 +43,16 @@
                                 <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
                                 <button id="apply_filters" class="btn btn-primary">Apply Filters</button>
                             </div>
+
+                            <div class="col-md-3" style="margin-top: 12px;">
+                                <label for="from_date">From Date:</label>
+                                <input type="date" id="from_date" class="form-control">
+                            </div>
+                            <div class="col-md-3" style="margin-top: 12px;">
+                                <label for="to_date">To Date:</label>
+                                <input type="date" id="to_date" class="form-control">
+                            </div>
+
                         </div>
 
 
@@ -62,6 +72,7 @@
                                             <th>TC Premium</th>
                                             <th>Total</th>
                                             <th>Status</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody> <!-- Loaded via AJAX -->
@@ -87,15 +98,20 @@
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
+       
+    $(document).ready(function() {
             let table = $('#agent-commission-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '{{ route('commissions.agent') }}',
+                    url: "{{ route('commissions.agent') }}",
                     data: function(d) {
-                        d.customer_id = $('#customer-filter').val(); 
-                        d.company_id = $('#company-filter').val();
+                        d.name = $('#customer_filter').val();
+                        d.insurance_company = $('#company_filter').val();
+
+                         // ✅ Add these lines to send the date range
+                        d.from_date = $('#from_date').val();
+                        d.to_date = $('#to_date').val();
                     }
                 },
                 columns: [{
@@ -135,47 +151,86 @@
                     {
                         data: 'total',
                         name: 'total',
-                        orderable: false,
-                        searchable: false
+                        // orderable: false,
+                        // searchable: false
                     },
                     {
                         data: 'status',
                         name: 'status',
+                        // orderable: false,
+                        // searchable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
                         orderable: false,
                         searchable: false
                     },
                 ]
             });
 
-            $('#apply_filters').on('click', function(e) {
-                e.preventDefault();
-                table.ajax.reload();
-            });
-
-            $('#clear_filters').on('click', function(e) {
-                e.preventDefault();
-                $('#customer-filter').val('');
-                $('#company-filter').val('');
-                table.ajax.reload();
-            });
+           // Reload on filter button
+        $('#apply_filters').click(function() {
+            table.ajax.reload();
         });
+
+        // Clear filters
+        $('#clear_filters').click(function() {
+            $('#customer_filter').val('');
+            $('#company_filter').val('');
+            $('#from_date').val('');
+            $('#to_date').val('');
+            table.ajax.reload();
+        });
+
+        // ✅ Auto-apply filter when customer or company changes
+        $('#customer_filter, #company_filter').change(function() {
+            table.ajax.reload();
+        });
+
+        // ✅ Auto-apply filter when date changes
+        $('#from_date, #to_date').on('change', function() {
+            table.ajax.reload();
+        });
+    });
     </script>
 
     <style>
+        /* Position search bar (top right) */
         .dataTables_wrapper .dataTables_filter {
             padding-right: 1rem;
             text-align: right !important;
             margin-bottom: 15px !important;
         }
 
+        /* Position 'Show entries' (top left) */
         .dataTables_wrapper .dataTables_length {
             text-align: left !important;
             margin-bottom: 15px !important;
         }
 
-        /* Basic pagination styling */
-        .dataTables_paginate {
-            text-align: center !important;
+        /* Make "Show entries" appear in one line */
+        .dataTables_wrapper .dataTables_length label {
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px;
+            /* Optional spacing */
+            white-space: nowrap;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            margin: 0 5px;
+            width: 60px !important;
+            /* Adjust as needed */
+            padding: 4px 6px;
+        }
+
+
+
+        /* Move pagination to right */
+        .dataTables_wrapper .dataTables_paginate {
+            display: flex !important;
+            justify-content: flex-end !important;
             margin-top: 15px !important;
         }
 

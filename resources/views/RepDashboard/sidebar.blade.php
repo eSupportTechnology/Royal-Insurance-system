@@ -35,13 +35,13 @@
                     <li class="sidebar-list">
                         <a class="sidebar-link sidebar-title" href="#">
                             <i class="fa fa-credit-card-alt"></i>
-                            <span>Commissions</span>
+                            <span>Commissions and Details</span>
                         </a>
                         <ul class="sidebar-submenu">
                             @if ($rep && $rep->role === 'agent')
-                                <li><a href="{{ route('rep.commissions.agent') }}">Agent Commissions</a></li>
+                                <li><a href="{{ route('rep.commissions.agent') }}">Agent Commissions and Insurance Details</a></li>
                             @elseif ($rep && $rep->role === 'subagent')
-                                <li><a href="{{ route('rep.commissions.subagent') }}">Sub Agent Commissions</a></li>
+                                <li><a href="{{ route('rep.commissions.subagent') }}">Sub Agent Commissions and Insurance Details</a></li>
                             @endif
                         </ul>
                     </li>

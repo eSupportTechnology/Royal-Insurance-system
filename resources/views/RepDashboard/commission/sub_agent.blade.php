@@ -18,7 +18,7 @@
                 <!-- Table Card -->
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
-                        <h5>Sub Agent Commission Details</h5>
+                        <h5>Sub Agent Commissions and Insurance Details</h5>
                     </div>
 
                     <!-- Filter Card -->
@@ -65,6 +65,7 @@
                                         <th>TC Premium Commission</th>
                                         <th>Total Commission</th>
                                         <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody> <!-- DataTables will populate this -->
@@ -146,9 +147,15 @@
                         data: 'status',
                         name: 'status'
                     },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
                 ],
-                dom: 'Bfrtip',
-                buttons: ['csv', 'excel', 'pdf', 'print'],
+                // dom: 'Bfrtip',
+                // buttons: ['csv', 'excel', 'pdf', 'print'],
             });
 
             $('#apply_filters').on('click', function() {
@@ -164,24 +171,43 @@
     </script>
 
     <style>
-        /* Simple search positioning */
+         /* Position search bar (top right) */
         .dataTables_wrapper .dataTables_filter {
             padding-right: 1rem;
             text-align: right !important;
             margin-bottom: 15px !important;
         }
 
+        /* Position 'Show entries' (top left) */
         .dataTables_wrapper .dataTables_length {
             text-align: left !important;
             margin-bottom: 15px !important;
         }
 
-        /* Basic pagination styling */
-        .dataTables_paginate {
-            text-align: center !important;
-            margin-top: 15px !important;
+        /* Make "Show entries" appear in one line */
+        .dataTables_wrapper .dataTables_length label {
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px;
+            /* Optional spacing */
+            white-space: nowrap;
         }
 
+        .dataTables_wrapper .dataTables_length select {
+            margin: 0 5px;
+            width: 60px !important;
+            /* Adjust as needed */
+            padding: 4px 6px;
+        }
+
+
+
+        /* Move pagination to right */
+        .dataTables_wrapper .dataTables_paginate {
+            display: flex !important;
+            justify-content: flex-end !important;
+            margin-top: 15px !important;
+        }
         .dataTables_paginate .paginate_button {
             padding: 5px 10px !important;
             margin: 0 2px !important;

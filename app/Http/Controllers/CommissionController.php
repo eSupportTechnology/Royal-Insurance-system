@@ -85,6 +85,11 @@ class CommissionController extends Controller
                 });
             }
 
+            // Apply insurance date filter
+            if ($request->from_date && $request->to_date) {
+                $data->whereBetween('created_at', [$request->from_date, $request->to_date]);
+            }
+
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('customer_id', fn($row) => $row->customerInsurance->id ?? '-')
@@ -98,7 +103,11 @@ class CommissionController extends Controller
                     $badge = $row->status === 'Completed' ? 'success' : 'danger';
                     return '<span class="badge bg-' . $badge . '">' . $row->status . '</span>';
                 })
-                ->rawColumns(['total', 'status'])
+                ->addColumn('action', function ($row) {
+                    $view = '<a href="' . route('customerinsurance.show', $row->customerInsurance->id) . '" class="btn btn-sm btn-primary action-btn" title="View"><i class="icon-eye"></i></a>';
+                    return '<div class="d-flex gap-1 align-items-center">' . $view . '</div>';
+                })
+                ->rawColumns(['total', 'status', 'action'])
                 ->make(true);
         }
 
@@ -123,7 +132,7 @@ class CommissionController extends Controller
     {
         // Recalculate and update commissions
         $customerInsurances = CustomerInsurance::with('agent')->get();
-        
+
 
 
         foreach ($customerInsurances as $insurance) {
@@ -171,8 +180,6 @@ class CommissionController extends Controller
                     'status' => $status,
                 ]
             );
-
-
         }
 
         // AJAX DataTables response
@@ -191,7 +198,26 @@ class CommissionController extends Controller
                 });
             }
 
+            // Apply insurance date filter
+            if ($request->from_date && $request->to_date) {
+                $data->whereBetween('created_at', [$request->from_date, $request->to_date]);
+            }
+
             return DataTables::of($data)
+                ->filterColumn('customer_name', function ($query, $keyword) {
+                    $query->whereHas('customerInsurance.customer', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
+                    });
+                })
+                ->filterColumn('company_name', function ($query, $keyword) {
+                    $query->whereHas('customerInsurance.company', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
+                    });
+                })
+                ->filterColumn('agent_id', function ($query, $keyword) {
+                    $query->where('agent_rep_code', 'like', "%{$keyword}%");
+                })
+
                 ->addIndexColumn()
                 ->addColumn('customer_id', fn($row) => $row->customerInsurance->id ?? '-')
                 ->addColumn('customer_name', fn($row) => $row->customerInsurance->customer->name ?? '-')
@@ -205,7 +231,12 @@ class CommissionController extends Controller
                     $badge = $row->status === 'Completed' ? 'success' : 'danger';
                     return '<span class="badge bg-' . $badge . '">' . $row->status . '</span>';
                 })
-                ->rawColumns(['total', 'status'])
+
+                ->addColumn('action', function ($row) {
+                    $view = '<a href="' . route('customerinsurance.show', $row->customerInsurance->id) . '" class="btn btn-sm btn-primary action-btn" title="View"><i class="icon-eye"></i></a>';
+                    return '<div class="d-flex gap-1 align-items-center">' . $view . '</div>';
+                })
+                ->rawColumns(['total', 'status', 'action'])
                 ->make(true);
         }
 
@@ -299,6 +330,20 @@ class CommissionController extends Controller
             }
 
             return DataTables::of($data)
+                ->filterColumn('customer_name', function ($query, $keyword) {
+                    $query->whereHas('customerInsurance.customer', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
+                    });
+                })
+                ->filterColumn('company_name', function ($query, $keyword) {
+                    $query->whereHas('customerInsurance.company', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
+                    });
+                })
+                ->filterColumn('sub_agent_id', function ($query, $keyword) {
+                    $query->where('sub_agent_rep_code', 'like', "%{$keyword}%");
+                })
+
                 ->addIndexColumn()
                 ->addColumn('customer_id', fn($row) => $row->customerInsurance->id ?? '-')
                 ->addColumn('customer_name', fn($row) => $row->customerInsurance->customer->name ?? '-')
@@ -312,7 +357,11 @@ class CommissionController extends Controller
                     $badge = $row->status === 'Completed' ? 'success' : 'danger';
                     return '<span class="badge bg-' . $badge . '">' . $row->status . '</span>';
                 })
-                ->rawColumns(['total', 'status'])
+                ->addColumn('action', function ($row) {
+                    $view = '<a href="' . route('customerinsurance.show', $row->customerInsurance->id) . '" class="btn btn-sm btn-primary action-btn" title="View"><i class="icon-eye"></i></a>';
+                    return '<div class="d-flex gap-1 align-items-center">' . $view . '</div>';
+                })
+                ->rawColumns(['total', 'status', 'action'])
                 ->make(true);
         }
 
@@ -420,6 +469,20 @@ class CommissionController extends Controller
             }
 
             return DataTables::of($query)
+                ->filterColumn('customer_name', function ($query, $keyword) {
+                    $query->whereHas('customerInsurance.customer', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
+                    });
+                })
+                ->filterColumn('company_name', function ($query, $keyword) {
+                    $query->whereHas('customerInsurance.company', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
+                    });
+                })
+                ->filterColumn('agent_id', function ($query, $keyword) {
+                    $query->where('agent_rep_code', 'like', "%{$keyword}%");
+                })
+
                 ->addIndexColumn()
                 ->addColumn('customer_id', fn($row) => $row->customerInsurance->id ?? '-')
                 ->addColumn('customer_name', fn($row) => $row->customerInsurance->customer->name ?? '-')
@@ -433,7 +496,11 @@ class CommissionController extends Controller
                     $badge = $row->status === 'Completed' ? 'success' : 'danger';
                     return '<span class="badge bg-' . $badge . '">' . $row->status . '</span>';
                 })
-                ->rawColumns(['total', 'status'])
+                ->addColumn('action', function ($row) {
+                    $view = '<a href="' . route('customerinsurance.show', $row->customerInsurance->id) . '" class="btn btn-sm btn-primary action-btn" title="View"><i class="icon-eye"></i></a>';
+                    return '<div class="d-flex gap-1 align-items-center">' . $view . '</div>';
+                })
+                ->rawColumns(['total', 'status', 'action'])
                 ->make(true);
         }
 
@@ -577,7 +644,11 @@ class CommissionController extends Controller
                     $badge = $row->status === 'Completed' ? 'success' : 'danger';
                     return '<span class="badge bg-' . $badge . '">' . $row->status . '</span>';
                 })
-                ->rawColumns(['total', 'status'])
+                ->addColumn('action', function ($row) {
+                    $view = '<a href="' . route('customerinsurance.show', $row->customerInsurance->id) . '" class="btn btn-sm btn-primary action-btn" title="View"><i class="icon-eye"></i></a>';
+                    return '<div class="d-flex gap-1 align-items-center">' . $view . '</div>';
+                })
+                ->rawColumns(['total', 'status', 'action'])
                 ->make(true);
         }
 

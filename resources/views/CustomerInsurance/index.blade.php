@@ -2,18 +2,41 @@
 
 @section('title', 'Customers')
 <style>
+    /* Position search bar (top right) */
     .dataTables_wrapper .dataTables_filter {
         padding-right: 1rem;
         text-align: right !important;
+        margin-bottom: 15px !important;
     }
 
+    /* Position 'Show entries' (top left) */
     .dataTables_wrapper .dataTables_length {
         text-align: left !important;
         margin-bottom: 15px !important;
     }
 
-    .dataTables_paginate {
-        text-align: center !important;
+    /* Make "Show entries" appear in one line */
+    .dataTables_wrapper .dataTables_length label {
+        display: flex !important;
+        align-items: center !important;
+        gap: 5px;
+        /* Optional spacing */
+        white-space: nowrap;
+    }
+
+    .dataTables_wrapper .dataTables_length select {
+        margin: 0 5px;
+        width: 60px !important;
+        /* Adjust as needed */
+        padding: 4px 6px;
+    }
+
+
+
+    /* Move pagination to right */
+    .dataTables_wrapper .dataTables_paginate {
+        display: flex !important;
+        justify-content: flex-end !important;
         margin-top: 15px !important;
     }
 
@@ -39,31 +62,31 @@
     }
 
     .action-btn {
-    height: 31px !important;
-    width: 31px !important;
-    padding: 0 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-decoration: none !important;
-    border: none !important;
-    font-size: 14px !important;
-}
+        height: 31px !important;
+        width: 31px !important;
+        padding: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-decoration: none !important;
+        border: none !important;
+        font-size: 14px !important;
+    }
 
-.action-btn i {
-    margin: 0 !important;
-}
+    .action-btn i {
+        margin: 0 !important;
+    }
 
-/* Delete button specific positioning - slightly lower */
-.delete-btn {
-    margin-top: 1rem !important;
-}
+    /* Delete button specific positioning - slightly lower */
+    .delete-btn {
+        margin-top: 1rem !important;
+    }
 
-/* Optional: Add hover effects for better user experience */
-.action-btn:hover {
-    transform: scale(1.05);
-    transition: transform 0.2s ease;
-}
+    /* Optional: Add hover effects for better user experience */
+    .action-btn:hover {
+        transform: scale(1.05);
+        transition: transform 0.2s ease;
+    }
 </style>
 @section('css')
 @endsection
@@ -130,6 +153,19 @@
                                 <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
                                 <button id="apply_filters" class="btn btn-primary">Apply Filters</button>
                             </div>
+
+
+                            <div class="col-md-3" style="margin-top: 12px;">
+                                <label for="from_date">From Date:</label>
+                                <input type="date" id="from_date" class="form-control">
+                            </div>
+                            <div class="col-md-3" style="margin-top: 12px;">
+                                <label for="to_date">To Date:</label>
+                                <input type="date" id="to_date" class="form-control">
+                            </div>
+
+
+
                         </div>
                     </div>
 
@@ -207,6 +243,10 @@
                     data: function(d) {
                         d.name = $('#customer_filter').val();
                         d.insurance_company = $('#company_filter').val();
+
+                        // ✅ Add these lines to send the date range
+                        d.from_date = $('#from_date').val();
+                        d.to_date = $('#to_date').val();
                     }
                 },
                 columns: [{
@@ -334,7 +374,7 @@
                 ]
             });
 
-            // Apply filters when button is clicked
+            // Reload on filter button
             $('#apply_filters').click(function() {
                 table.ajax.reload();
             });
@@ -343,11 +383,18 @@
             $('#clear_filters').click(function() {
                 $('#customer_filter').val('');
                 $('#company_filter').val('');
+                $('#from_date').val('');
+                $('#to_date').val('');
                 table.ajax.reload();
             });
 
-            // Optional: Auto-apply filters when dropdown changes
+            // ✅ Auto-apply filter when customer or company changes
             $('#customer_filter, #company_filter').change(function() {
+                table.ajax.reload();
+            });
+
+            // ✅ Auto-apply filter when date changes
+            $('#from_date, #to_date').on('change', function() {
                 table.ajax.reload();
             });
         });

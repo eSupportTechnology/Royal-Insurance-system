@@ -1,24 +1,27 @@
-@extends('AdminDashboard.master')
+@extends('RepDashboard.master')
 
 @section('title', 'Agent Commission Details')
+
+@section('css')
+@endsection
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/vendors/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/vendors/datatable-extension.css') }}">
 @endsection
 
+
 @section('content')
+
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
 
-                {{-- Table Section --}}
-                <div class="card">
+                <div class="card mt-3">
                     <div class="card-header d-flex justify-content-between">
-                        <h5>Agent Commission Details</h5>
+                        <h5>Agent Commissions and Insurance Details</h5>
                     </div>
-
-                    {{-- Filter Section --}}
                     <div class="card mb-3">
                         <div class="card-body row">
                             <div class="col-md-4">
@@ -42,6 +45,7 @@
                             <div class="col-md-4 d-flex align-items-end">
                                 <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
                                 <button id="apply_filters" class="btn btn-primary">Apply Filters</button>
+
                             </div>
 
                             <div class="col-md-3" style="margin-top: 12px;">
@@ -56,35 +60,43 @@
                         </div>
 
 
+                    <div class="container">
 
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="agent-commission-table">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Customer Insurance ID</th>
-                                            <th>Customer Name</th>
-                                            <th>Company Name</th>
-                                            <th>Agent ID</th>
-                                            <th>Net Premium</th>
-                                            <th>SRCC Premium</th>
-                                            <th>TC Premium</th>
-                                            <th>Total</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody> <!-- Loaded via AJAX -->
-                                </table>
-                            </div>
+                    </div>
+
+
+                    <div class="card-body">
+                        <div class="dt-ext table-responsive">
+                            <table class="table table-responsive-sm" id="agent-commission-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer Insurance ID</th>
+                                        <th>Customer Name</th>
+                                        <th>Company Name</th>
+                                        <th>Agent ID</th>
+                                        <th>Net Premium Commission</th>
+                                        <th>SRCC Premium Commission</th>
+                                        <th>TC Premium Commission</th>
+                                        <th>Total Commission</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 @endsection
+
 
 @section('script')
     <script src="{{ asset('frontend/assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
@@ -96,18 +108,16 @@
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
-
     <script>
-       
-    $(document).ready(function() {
-            let table = $('#agent-commission-table').DataTable({
+        $(document).ready(function() {
+            var table = $('#agent-commission-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('commissions.agent') }}",
+                    url: '{{ route('rep.commissions.agent') }}',
                     data: function(d) {
-                        d.name = $('#customer_filter').val();
-                        d.insurance_company = $('#company_filter').val();
+                        d.customer_id = $('#customer-filter').val();
+                        d.company_id = $('#company-filter').val();
 
                          // ✅ Add these lines to send the date range
                         d.from_date = $('#from_date').val();
@@ -150,26 +160,22 @@
                     },
                     {
                         data: 'total',
-                        name: 'total',
-                        // orderable: false,
-                        // searchable: false
+                        name: 'total'
                     },
                     {
                         data: 'status',
-                        name: 'status',
-                        // orderable: false,
-                        // searchable: false
+                        name: 'status'
                     },
                     {
                         data: 'action',
                         name: 'action',
                         orderable: false,
                         searchable: false
-                    },
-                ]
+                    }
+                ],
             });
 
-           // Reload on filter button
+                // Reload on filter button
         $('#apply_filters').click(function() {
             table.ajax.reload();
         });
@@ -194,7 +200,6 @@
         });
     });
     </script>
-
     <style>
         /* Position search bar (top right) */
         .dataTables_wrapper .dataTables_filter {

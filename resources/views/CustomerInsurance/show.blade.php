@@ -41,7 +41,7 @@
                 </div>
                 <div class="card mt-3">
                     <div class="card-header">
-                        <h5>Show Customer Insurance Details</h5>
+                        <h5>Show Insurance Details</h5>
 
                     </div>
                     <form action="{{ route('customerinsurance.update', $customerinsurance->id) }}" method="POST">

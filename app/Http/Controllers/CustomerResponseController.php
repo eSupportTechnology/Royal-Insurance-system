@@ -19,16 +19,19 @@ use Illuminate\Support\Facades\Storage;
 class CustomerResponseController extends Controller
 {
     public function create()
-    {
-        $agents = Agent::all();
-        $customers = Customer::all();
-        $insurance_types = InsuranceType::all();
-        $categories = Category::all();
-        $subcategories = SubCategory::all();
-        $formFields = FormField::with('options')->get(); // Load options with each form field
+{
+    $agents = Agent::select('id', 'name')->get();
+    $customers = Customer::select('id', 'name')->get();
+    $insurance_types = InsuranceType::all();
+    $categories = Category::all();
+    $subcategories = SubCategory::all();
+    $formFields = FormField::with('options')->get();
 
-        return view('customerResponse.create', compact('agents', 'customers', 'insurance_types', 'categories', 'subcategories', 'formFields'));
-    }
+    return view('customerResponse.create', compact('agents', 'customers', 'insurance_types', 'categories', 'subcategories', 'formFields'));
+}
+
+
+
 
     public function getFormFields(Request $request)
     {
@@ -109,19 +112,24 @@ class CustomerResponseController extends Controller
     }
 
     public function edit($id)
-    {
-        $response = CustomerResponse::with('responseFields.formField')->findOrFail($id);
-        $agents = Agent::all();
-        $customers = Customer::all();
-        $insurance_types = InsuranceType::all();
-        $categories = Category::all();
-        $subcategories = SubCategory::all();
-        $formFields = FormField::with('options')->get();
+{
+    $response = CustomerResponse::with(['responseFields.formField.options', 'agent', 'customer'])->findOrFail($id);
+// dd([
+//         'response_id' => $response->id,
+//         'agent_id' => $response->agent_id,
+//         'customer_id' => $response->customer_id,
+//         'customer_relationship' => $response->customer,
+//         'customer_name' => $response->customer->name ?? 'NOT FOUND',
+//         'agent_name' => $response->agent->name ?? 'NOT FOUND'
+//     ]);
+    $agents = Agent::select('id', 'name')->get();
+    $customers = Customer::select('id', 'name')->get();
+    $insurance_types = InsuranceType::all();
+    $categories = Category::all();
+    $subcategories = SubCategory::all();
 
-        return view('customerResponse.edit', compact(
-            'response', 'agents', 'customers', 'insurance_types', 'categories', 'subcategories', 'formFields'
-        ));
-    }
+    return view('customerResponse.edit', compact('response', 'agents', 'customers', 'insurance_types', 'categories', 'subcategories'));
+}
 
 
     public function update(Request $request, $id)

@@ -1,5 +1,6 @@
 @extends('AdminDashboard.master')
 @section('title', 'Base Inputs')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 @section('css')
 @endsection
@@ -65,32 +66,30 @@
                                         </div>
                                     </div>
 
-                                    {{-- Customer Dropdown --}}
+                                    {{-- Customer --}}
+
                                     <div class="mb-3">
-                                        <label for="name" class="form-label">Select Customer <span
+                                        <label for="customer_search" class="form-label">Select Customer <span
                                                 class="text-danger">*</span></label>
                                         <div class="position-relative">
-                                            <select name="name" id="customerSelect" class="form-control mb-5" required
-                                                style="appearance: none; padding-right: 2.5rem;">
-                                                <option value="">Select Customer</option>
-                                                @foreach ($customers as $customer)
-                                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            <span
-                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
+                                            <input type="text" id="customer_search" class="form-control mb-5"
+                                                placeholder="Type at least 1 character..." autocomplete="off">
+                                            <input type="hidden" name="name" id="customer_id" required>
+                                            <div id="customer_suggestions" class="dropdown-menu w-100"
+                                                style="max-height: 200px; overflow-y: auto;"></div>
                                         </div>
                                     </div>
+
 
                                     {{-- Contact, WhatsApp, Address --}}
                                     <div class="row">
                                         <div class="mb-3 col-md-4">
                                             <label for="contact" class="form-label">Contact Number</label>
-                                            <input type="text" name="contact" id="contact" class="form-control">
+                                            <input type="text" name="contact" id="phone" class="form-control">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="whatsapp" class="form-label">Whatsapp Number</label>
-                                            <input type="text" name="whatsapp" id="whatsapp" class="form-control">
+                                            <input type="text" name="whatsapp" id="whatsapp_number" class="form-control">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="address" class="form-label">Address</label>
@@ -116,18 +115,14 @@
 
                                     {{-- Company Dropdown --}}
                                     <div class="mb-3">
-                                        <label for="insurance_company" class="form-label">Select Company <span
+                                        <label for="company_search" class="form-label">Select Company <span
                                                 class="text-danger">*</span></label>
                                         <div class="position-relative">
-                                            <select name="insurance_company" class="form-control mb-5" required
-                                                style="appearance: none; padding-right: 2.5rem;">
-                                                <option value="">Select Company</option>
-                                                @foreach ($companies as $company)
-                                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            <span
-                                                style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
+                                            <input type="text" id="company_search" class="form-control mb-2"
+                                                placeholder="Type at least 1 character..." autocomplete="off">
+                                            <input type="hidden" name="insurance_company" id="insurance_company" required>
+                                            <div id="company_suggestions" class="dropdown-menu w-100"
+                                                style="max-height: 200px; overflow-y: auto;"></div>
                                         </div>
                                     </div>
 
@@ -237,7 +232,7 @@
                                         <div class="mb-3 col-md-6">
                                             <label for="outstanding_amount" class="form-label">Outstanding Amount <span
                                                     class="text-danger">*</span></label>
-                                            <input type="number" name="paid_amount" id="paid_amount"
+                                            <input type="number" name="outstanding_amount" id="outstanding_amount"
                                                 class="form-control" required>
                                         </div>
                                     </div>
@@ -278,15 +273,8 @@
                                         <div class="position-relative">
                                             <select name="subagent_code" id="subagent_code" class="form-control"
                                                 style="appearance: none; padding-right: 2.5rem;">
-                                                <option value="">Select SubAgent Rep_code</option>
-                                                @foreach ($agentsWithSubagents as $agent)
-                                                    @foreach ($agent->subagents as $index => $subagent)
-                                                        <option
-                                                            value="{{ $agent->rep_code }}/{{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}">
-                                                            {{ $agent->rep_code }}/{{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}
-                                                        </option>
-                                                    @endforeach
-                                                @endforeach
+                                                <option value="">Select Sub Agent Rep_code</option>
+                                                {{-- This will be populated by JS --}}
                                             </select>
                                             <span
                                                 style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">▼</span>
@@ -347,22 +335,136 @@
         });
     @endphp
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        const customerData = @json($customerData);
+        const customers = @json($customers); // Must include id, name, contact, whatsapp_number, address
 
-        document.getElementById('customerSelect').addEventListener('change', function() {
-            const selectedId = this.value;
+        $(document).ready(function() {
+            $('#customer_search').on('input', function() {
+                const searchTerm = $(this).val().toLowerCase();
+                const suggestions = $('#customer_suggestions');
 
-            if (customerData[selectedId]) {
-                document.getElementById('contact').value = customerData[selectedId].contact ?? '';
-                document.getElementById('whatsapp').value = customerData[selectedId].whatsapp ?? '';
-                document.getElementById('address').value = customerData[selectedId].address ?? '';
-            } else {
-                document.getElementById('contact').value = '';
-                document.getElementById('whatsapp').value = '';
-                document.getElementById('address').value = '';
-            }
+                if (searchTerm.length < 1) {
+                    suggestions.removeClass('show').empty();
+                    return;
+                }
+
+                const filtered = customers.filter(c =>
+                    c.name.toLowerCase().includes(searchTerm)
+                );
+
+                if (filtered.length > 0) {
+                    let html = '';
+                    filtered.forEach(customer => {
+                        html += `<button type="button" class="dropdown-item"
+                                data-id="${customer.id}"
+                                data-name="${customer.name}"
+                                data-contact="${customer.phone ?? ''}"
+                                data-whatsapp="${customer.whatsapp_number ?? ''}"
+                                data-address="${customer.address ?? ''}">
+                                ${customer.name}
+                             </button>`;
+                    });
+                    suggestions.html(html).addClass('show');
+                } else {
+                    suggestions.removeClass('show').empty();
+                }
+            });
+
+            // When a suggestion is clicked
+            $(document).on('click', '#customer_suggestions .dropdown-item', function() {
+                const customerId = $(this).data('id');
+                const customerName = $(this).data('name');
+                const contact = $(this).data('contact');
+                const whatsapp = $(this).data('whatsapp');
+                const address = $(this).data('address');
+
+                $('#customer_search').val(customerName);
+                $('#customer_id').val(customerId);
+                $('#customer_suggestions').removeClass('show').empty();
+
+                // Fill all fields
+                $('#phone').val(contact);
+                $('#whatsapp_number').val(whatsapp);
+                $('#address').val(address);
+            });
+
+            // Hide dropdown if clicked outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.position-relative').length) {
+                    $('#customer_suggestions').removeClass('show').empty();
+                }
+            });
+
+            // Clear fields if input is cleared
+            $('#customer_search').on('input', function() {
+                if ($(this).val().trim() === '') {
+                    $('#customer_id').val('');
+                    $('#phone').val('');
+                    $('#whatsapp_number').val('');
+                    $('#address').val('');
+                    $('#customer_suggestions').removeClass('show').empty();
+                }
+            });
+        });
+
+        const companies = @json($companies); // Must contain id, name
+
+        $(document).ready(function() {
+            $('#company_search').on('input', function() {
+                const searchTerm = $(this).val().toLowerCase();
+                const suggestions = $('#company_suggestions');
+
+                if (searchTerm.length < 1) {
+                    suggestions.removeClass('show').empty();
+                    return;
+                }
+
+                const filtered = companies.filter(c =>
+                    c.name.toLowerCase().includes(searchTerm)
+                );
+
+                if (filtered.length > 0) {
+                    let html = '';
+                    filtered.forEach(company => {
+                        html += `<button type="button" class="dropdown-item"
+                        data-id="${company.id}"
+                        data-name="${company.name}">
+                        ${company.name}
+                    </button>`;
+
+                    });
+                    suggestions.html(html).addClass('show');
+                } else {
+                    suggestions.removeClass('show').empty();
+                }
+            });
+
+            // Handle selection
+            $(document).on('click', '#company_suggestions .dropdown-item', function() {
+                const companyId = $(this).data('id');
+                const companyName = $(this).data('name');
+
+                $('#company_search').val(companyName);
+                $('#insurance_company').val(companyId);
+                $('#company_suggestions').removeClass('show').empty();
+            });
+
+            // Hide on outside click
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.position-relative').length) {
+                    $('#company_suggestions').removeClass('show').empty();
+                }
+            });
+
+            // Clear fields if input cleared
+            $('#company_search').on('input', function() {
+                if ($(this).val().trim() === '') {
+                    $('#insurance_company').val('');
+                    $('#company_suggestions').removeClass('show').empty();
+                }
+            });
         });
 
         const insuranceData = @json($insurance_types);
@@ -452,7 +554,7 @@
         });
 
         // Make the subagents accessible in JS
-        const agentsWithSubagents = @json($agentsWithSubagents);
+        const subagents = @json($subagents);
 
         document.addEventListener('DOMContentLoaded', () => {
             const agentSelect = document.getElementById('introducer_code');
@@ -462,17 +564,14 @@
                 const agentId = parseInt(this.value);
                 subagentSelect.innerHTML = '<option value="">Select SubAgent Rep_code</option>';
 
-                const selectedAgent = agentsWithSubagents.find(agent => agent.id === agentId);
-                if (selectedAgent && selectedAgent.subagents.length) {
-                    selectedAgent.subagents.forEach((subagent, index) => {
-                        const code =
-                            `${selectedAgent.rep_code}/${String(index + 1).padStart(3, '0')}`;
-                        const option = document.createElement('option');
-                        option.value = code;
-                        option.textContent = code;
-                        subagentSelect.appendChild(option);
-                    });
-                }
+                const selectedSubagents = subagents.filter(sa => sa.agent_id === agentId);
+
+                selectedSubagents.forEach((subagent, index) => {
+                    const option = document.createElement('option');
+                    option.value = subagent.sub_agent_rep_code;
+                    option.textContent = subagent.sub_agent_rep_code;
+                    subagentSelect.appendChild(option);
+                });
             });
         });
 

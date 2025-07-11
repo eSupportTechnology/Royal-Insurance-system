@@ -34,7 +34,7 @@
     <div class="card mt-3">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Insurance Company List</h5>
-            <a href="{{ route('company.create') }}" class="btn btn-primary btn-sm">+ Add New Company</a>
+            <a href="{{ route('company.create') }}" class="btn btn-primary btn-sm">Add New Company</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">

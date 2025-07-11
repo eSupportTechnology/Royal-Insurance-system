@@ -19,4 +19,8 @@ class Customer extends Model
     {
         return $this->hasMany(CustomerInsurance::class);
     }
+    public function customer_responses()
+    {
+        return $this->hasMany(CustomerResponse::class);
+    }
 }

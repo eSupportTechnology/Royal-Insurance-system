@@ -2,50 +2,47 @@
 
 @section('title', 'Profit Margin')
 
-@section('css')
-@endsection
-
 @section('style')
-<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/css/vendors/datatables.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('frontend/assets/css/vendors/datatable-extension.css')}}">
+<link rel="stylesheet" href="{{ asset('frontend/assets/css/vendors/datatables.css') }}">
+<link rel="stylesheet" href="{{ asset('frontend/assets/css/vendors/datatable-extension.css') }}">
 @endsection
-
 
 @section('content')
-
-
 <div class="container-fluid">
-	<div class="row">
-		<div class="col-sm-12">
-            <div class="container">
-            @if(session('error'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Error!</strong> {{ session('error') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+    <div class="row">
+        <div class="col-sm-12">
 
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>Success!</strong> {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+            {{-- Alert messages --}}
+            <div class="container">
+                @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong> {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
             </div>
 
-			<div class="card mt-3">
-				<div class="card-header d-flex justify-content-between">
+            {{-- DataTable card --}}
+            <div class="card mt-3">
+                <div class="card-header d-flex justify-content-between">
                     <h5>Profit Margin List</h5>
                     <a href="{{ route('profitMargin.create') }}" class="btn btn-primary">Add Profit Margin</a>
                 </div>
-				<div class="card-body">
-					<div class="dt-ext table-responsive">
-						<table class="table table-responsive-sm" id="export-button">
-							<thead>
-								<tr>
+                <div class="card-body">
+                    <div class="dt-ext table-responsive">
+                        <table class="table table-bordered" id="profit-table">
+                            <thead>
+                                <tr>
                                     <th>SNO</th>
                                     <th>Company</th>
-                                    <th>Insuarance Type</th>
+                                    <th>Insurance Type</th>
                                     <th>Category</th>
                                     <th>Sub Category</th>
                                     <th>Variety Field</th>
@@ -55,72 +52,115 @@
                                     <th>Main Agent</th>
                                     <th>Sub Agent</th>
                                     <th>Actions</th>
-								</tr>
-							</thead>
-							<tbody>
-                                @foreach($profits as $profit)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $profit->company->name ?? 'N/A' }}</td>
-                                    <td>{{ $profit->insurance_type->name ?? 'N/A' }}</td>
-                                    <td>{{ $profit->category->name ?? 'N/A' }}</td>
-                                    <td>{{ $profit->sub_category->name ?? 'N/A' }}</td>
-                                    <td>{{ $profit->form_field->field_name ?? 'N/A' }}</td>
-                                    <td>{{ $profit->profit_type }}</td>
-                                    <td>{{ $profit->total }}</td>
-                                    <td>{{ $profit->rib }}</td>
-                                    <td>{{ $profit->main_agent }}</td>
-                                    <td>{{ $profit->sub_agent }}</td>
-
-                                    <td class="d-flex align-items-center gap-2">
-                                        {{-- <a href="{{ route('profitMargin.create', $profit->id) }}" class="btn btn-primary btn-sm" title="View">
-                                            <i class="icon-eye"></i>
-                                        </a> --}}
-                                        <a href="{{ route('profitMargin.edit', $profit->id) }}" class="btn btn-warning btn-sm" title="Edit">
-                                            <i class="icon-pencil-alt"></i>
-                                        </a>
-                                        <form action="{{ route('profitMargin.destroy', $profit->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger btn-sm" title="Delete">
-                                                <i class="icon-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
                                 </tr>
-                                @endforeach
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
-
-
 @endsection
 
+@section('script')
+<script src="{{ asset('frontend/assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('frontend/assets/js/datatable/datatable-extension/jszip.min.js') }}"></script>
+<script src="{{ asset('frontend/assets/js/datatable/datatable-extension/pdfmake.min.js') }}"></script>
+<script src="{{ asset('frontend/assets/js/datatable/datatable-extension/vfs_fonts.js') }}"></script>
+<script src="{{ asset('frontend/assets/js/datatable/datatable-extension/buttons.colVis.min.js') }}"></script>
+<script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
 
-    @section('script')
-    <script src="{{asset('frontend/assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.buttons.min.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/datatable/datatable-extension/jszip.min.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/datatable/datatable-extension/buttons.colVis.min.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/datatable/datatable-extension/pdfmake.min.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/datatable/datatable-extension/vfs_fonts.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/datatable/datatable-extension/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js')}}"></script>
-    <script>
-        $(document).ready(function () {
-            if ($.fn.DataTable.isDataTable('#export-button')) {
-                $('#export-button').DataTable().destroy();
-            }
-            $('#export-button').DataTable({
-                dom: 'Bfrtip',
-                buttons: ['csv', 'excel', 'pdf', 'print']
-            });
+<script>
+    $(document).ready(function () {
+        $('#profit-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('profitMargin.index') }}",
+            // dom: 'Bfrtip',
+            // buttons: ['csv', 'excel', 'pdf', 'print'],
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'company', name: 'company.name' },
+                { data: 'insurance_type', name: 'insurance_type.name' },
+                { data: 'category', name: 'category.name' },
+                { data: 'sub_category', name: 'sub_category.name' },
+                { data: 'form_field', name: 'form_field.field_name' },
+                { data: 'profit_type', name: 'profit_type' },
+                { data: 'total', name: 'total' },
+                { data: 'rib', name: 'rib' },
+                { data: 'main_agent', name: 'main_agent' },
+                { data: 'sub_agent', name: 'sub_agent' },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
+            ]
         });
-    </script>
-    @endsection
+    });
+</script>
+
+<style>
+         /* Position search bar (top right) */
+        .dataTables_wrapper .dataTables_filter {
+            padding-right: 1rem;
+            text-align: right !important;
+            margin-bottom: 15px !important;
+        }
+
+        /* Position 'Show entries' (top left) */
+        .dataTables_wrapper .dataTables_length {
+            text-align: left !important;
+            margin-bottom: 15px !important;
+        }
+
+        /* Make "Show entries" appear in one line */
+        .dataTables_wrapper .dataTables_length label {
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px;
+            /* Optional spacing */
+            white-space: nowrap;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            margin: 0 5px;
+            width: 60px !important;
+            /* Adjust as needed */
+            padding: 4px 6px;
+        }
+
+
+
+        /* Move pagination to right */
+        .dataTables_wrapper .dataTables_paginate {
+            display: flex !important;
+            justify-content: flex-end !important;
+            margin-top: 15px !important;
+        }
+
+        .dataTables_paginate .paginate_button {
+            padding: 5px 10px !important;
+            margin: 0 2px !important;
+            border: 1px solid #ddd !important;
+            border-radius: 4px !important;
+            background-color: #fff !important;
+            color: #007bff !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+        }
+
+        .dataTables_paginate .paginate_button:hover {
+            background-color: #f8f9fa !important;
+        }
+
+        .dataTables_paginate .paginate_button.current {
+            background-color: #007bff !important;
+            color: #fff !important;
+            border-color: #007bff !important;
+        }
+    </style>
+
+@endsection

@@ -8,11 +8,12 @@ class SubAgent extends Model
 {
     protected $fillable = [
         'agent_id',
+        'sub_agent_rep_code',
         'sub_agent_name',
         'email',
         'phone',
         'address',
-        
+
     ];
 
     public function agent()

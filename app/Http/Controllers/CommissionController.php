@@ -507,7 +507,7 @@ class CommissionController extends Controller
                     return '<span class="badge bg-' . $badge . '">' . $row->status . '</span>';
                 })
                 ->addColumn('action', function ($row) {
-                    $view = '<a href="' . route('customerinsurance.show', $row->customerInsurance->id) . '" class="btn btn-sm btn-primary action-btn" title="View"><i class="icon-eye"></i></a>';
+                    $view = '<a href="' . route('rep.commissions.show', $row->customerInsurance->id) . '" class="btn btn-sm btn-primary action-btn" title="View"><i class="icon-eye"></i></a>';
                     return '<div class="d-flex gap-1 align-items-center">' . $view . '</div>';
                 })
                 ->rawColumns(['total', 'status', 'action'])
@@ -660,7 +660,7 @@ class CommissionController extends Controller
                     return '<span class="badge bg-' . $badge . '">' . $row->status . '</span>';
                 })
                 ->addColumn('action', function ($row) {
-                    $view = '<a href="' . route('customerinsurance.show', $row->customerInsurance->id) . '" class="btn btn-sm btn-primary action-btn" title="View"><i class="icon-eye"></i></a>';
+                    $view = '<a href="' . route('rep.commissions.show', $row->customerInsurance->id) . '" class="btn btn-sm btn-primary action-btn" title="View"><i class="icon-eye"></i></a>';
                     return '<div class="d-flex gap-1 align-items-center">' . $view . '</div>';
                 })
                 ->rawColumns(['total', 'status', 'action'])
@@ -689,5 +689,11 @@ class CommissionController extends Controller
         $companies = Company::whereIn('id', $companyIds)->orderBy('name')->get();
 
         return view('RepDashboard.commission.sub_agent', compact('customers', 'companies'));
+    }
+
+    public function show(string $id)
+    {
+        $customerinsurance = CustomerInsurance::find($id);
+        return view('RepDashboard.commission.show', compact('customerinsurance'));
     }
 }

@@ -60,34 +60,34 @@
                         </div>
 
 
-                    <div class="container">
-
-                    </div>
-
-
-                    <div class="card-body">
-                        <div class="dt-ext table-responsive">
-                            <table class="table table-responsive-sm" id="agent-commission-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Customer Insurance ID</th>
-                                        <th>Customer Name</th>
-                                        <th>Company Name</th>
-                                        <th>Agent ID</th>
-                                        <th>Net Premium Commission</th>
-                                        <th>SRCC Premium Commission</th>
-                                        <th>TC Premium Commission</th>
-                                        <th>Total Commission</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                        <div class="container">
 
                         </div>
-                    </div>
+
+
+                        <div class="card-body">
+                            <div class="dt-ext table-responsive">
+                                <table class="table table-responsive-sm" id="agent-commission-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Customer Insurance ID</th>
+                                            <th>Customer Name</th>
+                                            <th>Company Name</th>
+                                            <th>Agent ID</th>
+                                            <th>Net Premium Commission</th>
+                                            <th>SRCC Premium Commission</th>
+                                            <th>TC Premium Commission</th>
+                                            <th>Total Commission</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@
                         d.customer_id = $('#customer-filter').val();
                         d.company_id = $('#company-filter').val();
 
-                         // ✅ Add these lines to send the date range
+                        // ✅ Add these lines to send the date range
                         d.from_date = $('#from_date').val();
                         d.to_date = $('#to_date').val();
                     }
@@ -175,30 +175,30 @@
                 ],
             });
 
-                // Reload on filter button
-        $('#apply_filters').click(function() {
-            table.ajax.reload();
-        });
+            // Reload on filter button
+            $('#apply_filters').click(function() {
+                table.ajax.reload();
+            });
 
-        // Clear filters
-        $('#clear_filters').click(function() {
-            $('#customer_filter').val('');
-            $('#company_filter').val('');
-            $('#from_date').val('');
-            $('#to_date').val('');
-            table.ajax.reload();
-        });
+            // Clear filters
+            $('#clear_filters').click(function() {
+                $('#customer_filter').val('');
+                $('#company_filter').val('');
+                $('#from_date').val('');
+                $('#to_date').val('');
+                table.ajax.reload();
+            });
 
-        // ✅ Auto-apply filter when customer or company changes
-        $('#customer_filter, #company_filter').change(function() {
-            table.ajax.reload();
-        });
+            // ✅ Auto-apply filter when customer or company changes
+            $('#customer_filter, #company_filter').change(function() {
+                table.ajax.reload();
+            });
 
-        // ✅ Auto-apply filter when date changes
-        $('#from_date, #to_date').on('change', function() {
-            table.ajax.reload();
+            // ✅ Auto-apply filter when date changes
+            $('#from_date, #to_date').on('change', function() {
+                table.ajax.reload();
+            });
         });
-    });
     </script>
     <style>
         /* Position search bar (top right) */

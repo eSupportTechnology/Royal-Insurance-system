@@ -178,7 +178,6 @@ Route::prefix('authentication')->group(function () {
         Route::delete('/customer-insurance/{id}/delete', [CustomerInsuranceController::class, 'destroy'])->name('customerinsurance.destroy');
         Route::get('/customer-insurance/set-cash/{id}', [CustomerInsuranceController::class, 'setCash'])->name('customerinsurance.setCash');
 
-
         //profit margin
 
         Route::get('/profitMargin', [ProfitMarginController::class, 'index'])->name('profitMargin.index');
@@ -209,7 +208,10 @@ Route::middleware('auth:rep')->group(function () {
     Route::post('logout', [RepAuthController::class, 'logout'])->name('rep.logout');
 
     Route::get('/rep-agent-commissions', [CommissionController::class, 'repagentIndex'])->name('rep.commissions.agent');
-        Route::get('/rep-subagent-commissions', [CommissionController::class, 'repsubagentIndex'])->name('rep.commissions.subagent');
+    Route::get('/rep-subagent-commissions', [CommissionController::class, 'repsubagentIndex'])->name('rep.commissions.subagent');
+
+    Route::get('/rep-customer-insurance/{id}/show', [CommissionController::class, 'show'])->name('rep.commissions.show');
+
 });
 
 require __DIR__ . '/auth.php';

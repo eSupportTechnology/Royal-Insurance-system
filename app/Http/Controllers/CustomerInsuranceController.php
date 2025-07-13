@@ -223,9 +223,8 @@ class CustomerInsuranceController extends Controller
         return view('CustomerInsurance.show', compact('customerinsurance'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
+
     public function edit(string $id)
     {
         $customerinsurance = CustomerInsurance::find($id);
@@ -325,31 +324,5 @@ class CustomerInsuranceController extends Controller
         }
     }
 
-    // public function getCustomerId(Request $request)
-    // {
-    //     $name = $request->input('name');
-
-    //     $matches = Customer::where('name', 'like', '%' . $name . '%')->get();
-
-    //     if ($matches->count() === 1) {
-    //         return response()->json(['id' => $matches->first()->id]);
-    //     }
-
-    //     return response()->json(['id' => null]);
-    // }
-
-
-    // public function getCompanyId(Request $request)
-    // {
-    //     $name = $request->input('name');
-
-    //     $matches = Company::where('name', 'like', '%' . $name . '%')->get();
-
-    //     if ($matches->count() === 1) {
-    //         return response()->json(['id' => $matches->first()->id]);
-    //     }
-
-    //     return response()->json(['id' => null]);
-    // }
 
 }

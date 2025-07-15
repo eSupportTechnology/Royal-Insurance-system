@@ -12,19 +12,130 @@ use App\Models\Agent;
 use App\Models\SubAgent;
 use App\Models\CustomerInsurance;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class CustomerInsuranceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customerinsurances = CustomerInsurance::with('customer')->get();
-        return view('CustomerInsurance.index', compact('customerinsurances'));
+        if ($request->ajax()) {
+            $data = CustomerInsurance::with([
+                'customer',
+                'company',
+                'insuranceType',
+                'categories',
+                'subCategory',
+                'formField',
+                'agent'
+            ]);
 
-        
+            // Apply customer filter
+            if ($request->has('name') && $request->name != '') {
+                $data->whereHas('customer', function ($q) use ($request) {
+                    $q->where('id', $request->name);
+                });
+            }
+
+            // Apply company filter
+            if ($request->has('insurance_company') && $request->insurance_company != '') {
+                $data->whereHas('company', function ($q) use ($request) {
+                    $q->where('id', $request->insurance_company);
+                });
+            }
+
+            // Apply insurance date filter
+            if ($request->from_date && $request->to_date) {
+                $data->whereBetween('date', [$request->from_date, $request->to_date]);
+            }
+
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+
+                ->addColumn('customer', fn($row) => $row->customer->name ?? 'N/A')
+                ->addColumn('company', fn($row) => $row->company->name ?? 'N/A')
+                ->addColumn('insurance_type', fn($row) => $row->insuranceType->name ?? 'N/A')
+                ->addColumn('category', fn($row) => $row->categories->name ?? 'N/A')
+                ->addColumn('subcategory', fn($row) => $row->subCategory->name ?? 'N/A')
+                ->addColumn('form_field', fn($row) => $row->formField->field_name ?? 'N/A')
+                ->addColumn('agent', fn($row) => $row->agent?->rep_code ?? 'N/A')
+
+                ->addColumn('status', function ($row) {
+                    if ($row->status === 'Completed') {
+                        return '<span class="badge bg-success">Completed</span>';
+                    } elseif ($row->status === 'Pending') {
+                        return '<span class="badge bg-danger text-dark">Pending</span>';
+                    } else {
+                        return '<span class="badge bg-secondary">Unknown</span>';
+                    }
+                })
+
+                ->filterColumn('customer', function ($query, $keyword) {
+                    $query->whereHas('customer', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
+                    });
+                })
+                ->filterColumn('company', function ($query, $keyword) {
+                    $query->whereHas('company', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
+                    });
+                })
+                ->filterColumn('insurance_type', function ($query, $keyword) {
+                    $query->whereHas('insuranceType', function ($q) use ($keyword) {
+                        $q->where('name', 'like', "%{$keyword}%");
+                    });
+                })
+                ->filterColumn('agent', function ($query, $keyword) {
+                    $query->whereHas('agent', function ($q) use ($keyword) {
+                        $q->where('rep_code', 'like', "%{$keyword}%");
+                    });
+                })
+
+                ->addColumn('action', function ($row) {
+                    $view = '<a href="' . route('customerinsurance.show', $row->id) . '" class="btn btn-sm btn-primary action-btn" title="View"><i class="icon-eye"></i></a>';
+
+                    $edit = '<a href="' . route('customerinsurance.edit', $row->id) . '" class="btn btn-sm btn-warning action-btn" title="Edit"><i class="icon-pencil-alt"></i></a>';
+
+                    $delete = '
+<form action="' . route('customerinsurance.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure?\');" style="display:inline;">
+    ' . csrf_field() . method_field('DELETE') . '
+    <button type="submit" class="btn btn-sm btn-danger action-btn delete-btn" title="Delete">
+        <i class="icon-trash"></i>
+    </button>
+</form>';
+
+                    $link = '';
+                    if ($row->status === 'Pending') {
+                        $link = '<a href="' . route('customerinsurance.setCash', $row->id) . '" class="btn btn-sm btn-info action-btn" title="Set to Cash"><i class="icon-link"></i></a>';
+                    }
+
+                    return '<div class="d-flex gap-1 align-items-center">' . $view . $edit . $link . $delete . '</div>';
+                })
+
+                ->rawColumns(['status', 'action'])
+                ->make(true);
+        }
+
+        // Get unique customers and companies for dropdowns
+        $customers = CustomerInsurance::with('customer')
+            ->get()
+            ->pluck('customer')
+            ->unique('id')
+            ->sortBy('name');
+
+        $companies = CustomerInsurance::with('company')
+            ->get()
+            ->pluck('company')
+            ->unique('id')
+            ->sortBy('name');
+
+        return view('CustomerInsurance.index', compact('customers', 'companies'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -32,14 +143,16 @@ class CustomerInsuranceController extends Controller
     public function create()
     {
         $customers = Customer::select('id', 'name', 'phone', 'whatsapp_number', 'address')->get();
-        $companies = Company::all();
+        $companies = Company::all('id', 'name');
         $insurance_types = InsuranceType::with('categories.subcategories.formFields')->get();
         $categories = Category::all();
         $subcategories = SubCategory::all();
         $formfields = FormField::all();
         $agents = Agent::all();
+        $subagents = SubAgent::select('id', 'agent_id', 'sub_agent_rep_code')->get();
 
-        $agentsWithSubagents = Agent::with('subagents')->get(); // Get agents + their subagents
+
+        // $agentsWithSubagents = Agent::with('subagents')->get();
 
         return view('CustomerInsurance.create', compact(
             'agents',
@@ -49,7 +162,7 @@ class CustomerInsuranceController extends Controller
             'categories',
             'subcategories',
             'formfields',
-            'agentsWithSubagents'
+            'subagents'
         ));
     }
 
@@ -110,9 +223,8 @@ class CustomerInsuranceController extends Controller
         return view('CustomerInsurance.show', compact('customerinsurance'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    
+
     public function edit(string $id)
     {
         $customerinsurance = CustomerInsurance::find($id);
@@ -193,4 +305,24 @@ class CustomerInsuranceController extends Controller
         CustomerInsurance::find($id)->delete();
         return redirect()->route('customerinsurance.index')->with('success', 'CustomerInsurance deleted successfully.');
     }
+
+    public function setCash($id)
+    {
+        try {
+            $customerInsurance = CustomerInsurance::findOrFail($id);
+
+            // Update the premium type to cash and status to completed
+            $customerInsurance->premium_type = 'Cash';
+            $customerInsurance->status = 'Completed';
+            $customerInsurance->save();
+
+            return redirect()->route('customerinsurance.index')
+                ->with('success', 'Customer insurance premium type updated to cash and status set to completed successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('customerinsurance.index')
+                ->with('error', 'Failed to update customer insurance record: ' . $e->getMessage());
+        }
+    }
+
+
 }

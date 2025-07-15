@@ -44,6 +44,11 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+
+        'rep' => [
+            'driver' => 'session',
+            'provider' => 'rep_auths',
+        ],
     ],
 
     /*
@@ -71,6 +76,11 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\Admin::class),
+        ],
+
+        'rep_auths' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\RepAuth::class),
         ],
 
         // 'users' => [

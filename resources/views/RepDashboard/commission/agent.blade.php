@@ -1,6 +1,6 @@
-@extends('AdminDashboard.master')
+@extends('RepDashboard.master')
 
-@section('title', 'Sub Agent Commission Details')
+@section('title', 'Agent Commission Details')
 
 @section('css')
 @endsection
@@ -10,29 +10,33 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('frontend/assets/css/vendors/datatable-extension.css') }}">
 @endsection
 
+
 @section('content')
+
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Sub Agent Commission Details</h5>
+
+                <div class="card mt-3">
+                    <div class="card-header d-flex justify-content-between">
+                        <h5>Agent Commissions and Insurance Details</h5>
                     </div>
-                    <div class="card-body">
-                        <form id="filterForm" class="row g-3">
+                    <div class="card mb-3">
+                        <div class="card-body row">
                             <div class="col-md-4">
-                                <label for="filter_customer" class="form-label">Customer</label>
-                                <select id="filter_customer" class="form-control">
-                                    <option value="">Select Customer</option>
+                                <label>Filter by Customer</label>
+                                <select id="customer-filter" class="form-control">
+                                    <option value="">All Customers</option>
                                     @foreach ($customers as $customer)
                                         <option value="{{ $customer->id }}">{{ $customer->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label for="filter_company" class="form-label">Company</label>
-                                <select id="filter_company" class="form-control">
-                                    <option value="">Select Company</option>
+                                <label>Filter by Company</label>
+                                <select id="company-filter" class="form-control">
+                                    <option value="">All Companies</option>
                                     @foreach ($companies as $company)
                                         <option value="{{ $company->id }}">{{ $company->name }}</option>
                                     @endforeach
@@ -41,45 +45,59 @@
                             <div class="col-md-4 d-flex align-items-end">
                                 <button id="clear_filters" class="btn btn-secondary me-2">Clear Filters</button>
                                 <button id="apply_filters" class="btn btn-primary">Apply Filters</button>
+
                             </div>
 
-                            <div class="col-md-3 mt-3">
+                            <div class="col-md-3" style="margin-top: 12px;">
                                 <label for="from_date">From Date:</label>
                                 <input type="date" id="from_date" class="form-control">
                             </div>
-                            <div class="col-md-3 mt-3">
+                            <div class="col-md-3" style="margin-top: 12px;">
                                 <label for="to_date">To Date:</label>
                                 <input type="date" id="to_date" class="form-control">
                             </div>
 
-                        </form>
+                        </div>
 
-                        <div class="dt-ext mt-4 table-responsive">
-                            <table class="table table-bordered" id="subagent-table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Customer Insurance ID</th>
-                                        <th>Customer Name</th>
-                                        <th>Company Name</th>
-                                        <th>Sub Agent ID</th>
-                                        <th>Net Premium</th>
-                                        <th>SRCC Premium</th>
-                                        <th>TC Premium</th>
-                                        <th>Total</th>
-                                        <th>Created At</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                            </table>
+
+                        <div class="container">
+
+                        </div>
+
+
+                        <div class="card-body">
+                            <div class="dt-ext table-responsive">
+                                <table class="table table-responsive-sm" id="agent-commission-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Customer Insurance ID</th>
+                                            <th>Customer Name</th>
+                                            <th>Company Name</th>
+                                            <th>Agent ID</th>
+                                            <th>Net Premium Commission</th>
+                                            <th>SRCC Premium Commission</th>
+                                            <th>TC Premium Commission</th>
+                                            <th>Total Commission</th>
+                                            <th>Created At</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 @endsection
+
 
 @section('script')
     <script src="{{ asset('frontend/assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
@@ -91,17 +109,16 @@
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
-
     <script>
         $(document).ready(function() {
-            let table = $('#subagent-table').DataTable({
+            var table = $('#agent-commission-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('commissions.subagent') }}",
+                    url: '{{ route('rep.commissions.agent') }}',
                     data: function(d) {
-                        d.customer_id = $('#filter_customer').val();
-                        d.company_id = $('#filter_company').val();
+                        d.customer_id = $('#customer-filter').val();
+                        d.company_id = $('#company-filter').val();
 
                         // ✅ Add these lines to send the date range
                         d.from_date = $('#from_date').val();
@@ -127,8 +144,8 @@
                         name: 'company_name'
                     },
                     {
-                        data: 'sub_agent_id',
-                        name: 'sub_agent_id'
+                        data: 'agent_id',
+                        name: 'agent_id'
                     },
                     {
                         data: 'net',
@@ -162,8 +179,8 @@
                         name: 'action',
                         orderable: false,
                         searchable: false
-                    },
-                ]
+                    }
+                ],
             });
 
             // Reload on filter button
@@ -191,7 +208,6 @@
             });
         });
     </script>
-
     <style>
         /* Position search bar (top right) */
         .dataTables_wrapper .dataTables_filter {
@@ -252,4 +268,5 @@
             border-color: #007bff !important;
         }
     </style>
+
 @endsection

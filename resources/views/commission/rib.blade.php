@@ -66,6 +66,7 @@
                                         <th>SRCC Premium Commission</th>
                                         <th>TC Premium Commission</th>
                                         <th>Total Commission</th>
+                                        <th>Created at</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -103,7 +104,7 @@
                         d.name = $('#customer_filter').val();
                         d.insurance_company = $('#company_filter').val();
 
-                         // ✅ Add these lines to send the date range
+                        // ✅ Add these lines to send the date range
                         d.from_date = $('#from_date').val();
                         d.to_date = $('#to_date').val();
                     }
@@ -141,6 +142,13 @@
                     {
                         data: 'total',
                         name: 'total'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
+                        render: function(data, type, row) {
+                            return data ? data.substring(0, 10) : '';
+                        }
                     },
                     {
                         data: 'status',

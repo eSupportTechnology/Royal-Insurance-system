@@ -79,6 +79,7 @@
                                             <th>SRCC Premium Commission</th>
                                             <th>TC Premium Commission</th>
                                             <th>Total Commission</th>
+                                            <th>Created At</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -161,6 +162,13 @@
                     {
                         data: 'total',
                         name: 'total'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
+                        render: function(data, type, row) {
+                            return data ? data.substring(0, 10) : '';
+                        }
                     },
                     {
                         data: 'status',

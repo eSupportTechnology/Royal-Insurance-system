@@ -69,6 +69,7 @@
                                             <th>SRCC Premium Commission</th>
                                             <th>TC Premium Commission</th>
                                             <th>Total Commission</th>
+                                            <th>Created At</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -110,18 +111,61 @@
                         d.to_date = $('#to_date').val();
                     }
                 },
-                columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                    { data: 'customer_insurance_id', name: 'customer_insurance_id' },
-                    { data: 'customer_name', name: 'customer_name' },
-                    { data: 'company_name', name: 'company_name' },
-                    { data: 'sub_agent_id', name: 'sub_agent_id' },
-                    { data: 'net_premium', name: 'net_premium' },
-                    { data: 'srcc_premium', name: 'srcc_premium' },
-                    { data: 'tc_premium', name: 'tc_premium' },
-                    { data: 'total', name: 'total' },
-                    { data: 'status', name: 'status' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false }
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'customer_insurance_id',
+                        name: 'customer_insurance_id'
+                    },
+                    {
+                        data: 'customer_name',
+                        name: 'customer_name'
+                    },
+                    {
+                        data: 'company_name',
+                        name: 'company_name'
+                    },
+                    {
+                        data: 'sub_agent_id',
+                        name: 'sub_agent_id'
+                    },
+                    {
+                        data: 'net_premium',
+                        name: 'net_premium'
+                    },
+                    {
+                        data: 'srcc_premium',
+                        name: 'srcc_premium'
+                    },
+                    {
+                        data: 'tc_premium',
+                        name: 'tc_premium'
+                    },
+                    {
+                        data: 'total',
+                        name: 'total'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
+                        render: function(data, type, row) {
+                            return data ? data.substring(0, 10) : '';
+                        }
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
                 ],
             });
 

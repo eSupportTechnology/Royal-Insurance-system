@@ -71,6 +71,7 @@
                                             <th>SRCC Premium</th>
                                             <th>TC Premium</th>
                                             <th>Total</th>
+                                            <th>Created At</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -98,8 +99,7 @@
     <script src="{{ asset('frontend/assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
 
     <script>
-       
-    $(document).ready(function() {
+        $(document).ready(function() {
             let table = $('#agent-commission-table').DataTable({
                 processing: true,
                 serverSide: true,
@@ -109,7 +109,7 @@
                         d.name = $('#customer_filter').val();
                         d.insurance_company = $('#company_filter').val();
 
-                         // ✅ Add these lines to send the date range
+                        // ✅ Add these lines to send the date range
                         d.from_date = $('#from_date').val();
                         d.to_date = $('#to_date').val();
                     }
@@ -151,15 +151,22 @@
                     {
                         data: 'total',
                         name: 'total',
-                        // orderable: false,
-                        // searchable: false
+
+                    },
+
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
+                        render: function(data, type, row) {
+                            return data ? data.substring(0, 10) : '';
+                        }
                     },
                     {
                         data: 'status',
                         name: 'status',
-                        // orderable: false,
-                        // searchable: false
+
                     },
+
                     {
                         data: 'action',
                         name: 'action',
@@ -169,30 +176,30 @@
                 ]
             });
 
-           // Reload on filter button
-        $('#apply_filters').click(function() {
-            table.ajax.reload();
-        });
+            // Reload on filter button
+            $('#apply_filters').click(function() {
+                table.ajax.reload();
+            });
 
-        // Clear filters
-        $('#clear_filters').click(function() {
-            $('#customer_filter').val('');
-            $('#company_filter').val('');
-            $('#from_date').val('');
-            $('#to_date').val('');
-            table.ajax.reload();
-        });
+            // Clear filters
+            $('#clear_filters').click(function() {
+                $('#customer_filter').val('');
+                $('#company_filter').val('');
+                $('#from_date').val('');
+                $('#to_date').val('');
+                table.ajax.reload();
+            });
 
-        // ✅ Auto-apply filter when customer or company changes
-        $('#customer_filter, #company_filter').change(function() {
-            table.ajax.reload();
-        });
+            // ✅ Auto-apply filter when customer or company changes
+            $('#customer_filter, #company_filter').change(function() {
+                table.ajax.reload();
+            });
 
-        // ✅ Auto-apply filter when date changes
-        $('#from_date, #to_date').on('change', function() {
-            table.ajax.reload();
+            // ✅ Auto-apply filter when date changes
+            $('#from_date, #to_date').on('change', function() {
+                table.ajax.reload();
+            });
         });
-    });
     </script>
 
     <style>

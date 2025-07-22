@@ -8,6 +8,7 @@ use App\Models\FormField;
 use App\Models\SubCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\CustomerInsurance;
 use Yajra\DataTables\Facades\DataTables;
 
 class CustomerController extends Controller
@@ -77,10 +78,13 @@ class CustomerController extends Controller
                     $view = '<a href="' . route('view-customer', $row->id) . '" class="btn btn-sm btn-primary"><i class="icon-eye"></i></a>';
                     $edit = '<a href="' . route('edit-customer', $row->id) . '" class="btn btn-sm btn-warning"><i class="icon-pencil-alt"></i></a>';
                     $delete = '
-                    <form action="' . route('delete-customer', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure?\');" style="display:inline;">
-                        ' . csrf_field() . method_field('DELETE') . '
-                        <button type="submit" class="btn btn-sm btn-danger" style="height: 31px; padding: 0 28px;"><i class="icon-trash"></i></button>
-                    </form>';
+    <form action="' . route('delete-customer', $row->id) . '" method="POST" onsubmit="return confirmDelete(this);" style="display:inline;">
+        ' . csrf_field() . method_field('DELETE') . '
+        <input type="hidden" name="confirm_delete" value="no">
+        <button type="submit" class="btn btn-sm btn-danger" style="height: 31px; padding: 0 28px;"><i class="icon-trash"></i></button>
+    </form>
+';
+
 
                     return '<div class="d-flex gap-1 align-items-center">' . $view . $edit . $delete . '</div>';
                 })
@@ -139,9 +143,30 @@ class CustomerController extends Controller
 
     public function deleteCustomer($id)
     {
-        Customer::find($id)->delete();
+        $customer = Customer::findOrFail($id);
+
+        // Check if this customer has any insurance
+        $hasInsurance = CustomerInsurance::where('name', $customer->id)->exists();
+
+        if ($hasInsurance) {
+            // Check if confirmation was passed
+            if (request()->has('confirm_delete') && request()->confirm_delete == 'yes') {
+                // Delete insurance first
+                CustomerInsurance::where('name', $customer->id)->delete();
+                // Then delete customer
+                $customer->delete();
+                return redirect()->route('new-customer')->with('success', 'Customer and their insurance deleted successfully.');
+            }
+
+            // If confirmation not given, redirect back with warning
+            return redirect()->route('new-customer')->with('error', 'This customer has insurance. Please confirm deletion.');
+        }
+
+        // No insurance, safe to delete
+        $customer->delete();
         return redirect()->route('new-customer')->with('success', 'Customer deleted successfully.');
     }
+
 
     public function view($id)
     {

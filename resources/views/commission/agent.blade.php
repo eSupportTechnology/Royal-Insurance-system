@@ -138,7 +138,7 @@
                     },
                     {
                         data: 'net',
-                        name: 'net'
+                        name: 'net',
                     },
                     {
                         data: 'srcc',

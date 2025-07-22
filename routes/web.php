@@ -134,6 +134,8 @@ Route::prefix('authentication')->group(function () {
         Route::delete('/new-customer/delete/{id}', [CustomerController::class, 'deleteCustomer'])->name('delete-customer');
 
 
+
+
         // Agent Routes
         Route::get('/agents', [AgentController::class, 'index'])->name('agents.index');
         Route::get('/agents/create', [AgentController::class, 'create'])->name('agents.create');

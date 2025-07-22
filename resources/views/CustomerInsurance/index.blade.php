@@ -199,8 +199,6 @@
                                         <th>Others</th>
                                         <th>Total</th>
                                         <th>Sum Insured</th>
-                                        <th>Paid</th>
-                                        <th>Outstanding</th>
                                         <th>From</th>
                                         <th>To</th>
                                         <th>Agent</th>
@@ -311,36 +309,47 @@
                     },
                     {
                         data: 'basic',
-                        name: 'basic'
+                        name: 'basic',
+                        render: function(data, type, row) {
+        return parseFloat(data).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
                     },
                     {
                         data: 'srcc',
-                        name: 'srcc'
+                        name: 'srcc',
+                        render: function(data, type, row) {
+        return parseFloat(data).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
                     },
                     {
                         data: 'tc',
-                        name: 'tc'
+                        name: 'tc',
+                        render: function(data, type, row) {
+        return parseFloat(data).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
                     },
                     {
                         data: 'others',
-                        name: 'others'
+                        name: 'others',
+                        render: function(data, type, row) {
+        return parseFloat(data).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
                     },
                     {
                         data: 'total',
-                        name: 'total'
+                        name: 'total',
+                        render: function(data, type, row) {
+        return parseFloat(data).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
                     },
                     {
                         data: 'sum_insured',
-                        name: 'sum_insured'
+                        name: 'sum_insured',
+                        render: function(data, type, row) {
+        return parseFloat(data).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
                     },
-                    {
-                        data: 'paid_amount',
-                        name: 'paid_amount'
-                    },
-                    {
-                        data: 'outstanding_amount',
-                        name: 'outstanding_amount'
-                    },
+
                     {
                         data: 'from_date',
                         name: 'from_date'

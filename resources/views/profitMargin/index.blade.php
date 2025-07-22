@@ -92,7 +92,9 @@
                 { data: 'sub_category', name: 'sub_category.name' },
                 { data: 'form_field', name: 'form_field.field_name' },
                 { data: 'profit_type', name: 'profit_type' },
-                { data: 'total', name: 'total' },
+                { data: 'total', name: 'total',  render: function(data, type, row) {
+        return parseFloat(data).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    } },
                 { data: 'rib', name: 'rib' },
                 { data: 'main_agent', name: 'main_agent' },
                 { data: 'sub_agent', name: 'sub_agent' },

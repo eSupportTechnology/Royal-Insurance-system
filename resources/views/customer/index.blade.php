@@ -59,6 +59,7 @@
                                 </tbody>
                             </table>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -121,6 +122,18 @@
             });
         });
     </script>
+
+    <script>
+    function confirmDelete(form) {
+        const hasInsurance = confirm("Customer already added an insurance. Do you want to delete all the data?");
+        if (hasInsurance) {
+            form.querySelector('[name="confirm_delete"]').value = 'yes';
+            return true;
+        }
+        return false;
+    }
+</script>
+
 
     <style>
         /* Position search bar (top right) */

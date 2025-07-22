@@ -221,22 +221,6 @@
                                         </div>
                                     </div>
 
-                                    {{-- outstanding --}}
-                                    <div class="row">
-                                        <div class="mb-3 col-md-6">
-                                            <label for="paid_amount" class="form-label">Paid Amount <span
-                                                    class="text-danger">*</span></label>
-                                            <input type="number" name="paid_amount" id="paid_amount"
-                                                class="form-control" required>
-                                        </div>
-                                        <div class="mb-3 col-md-6">
-                                            <label for="outstanding_amount" class="form-label">Outstanding Amount <span
-                                                    class="text-danger">*</span></label>
-                                            <input type="number" name="outstanding_amount" id="outstanding_amount"
-                                                class="form-control" required>
-                                        </div>
-                                    </div>
-
 
                                     {{-- Dates --}}
                                     <div class="row">

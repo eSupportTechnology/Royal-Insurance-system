@@ -100,7 +100,7 @@ class CustomerInsuranceController extends Controller
                     $edit = '<a href="' . route('customerinsurance.edit', $row->id) . '" class="btn btn-sm btn-warning action-btn" title="Edit"><i class="icon-pencil-alt"></i></a>';
 
                     $delete = '
-<form action="' . route('customerinsurance.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\'Are you sure?\');" style="display:inline;">
+<form action="' . route('customerinsurance.destroy', $row->id) . '" method="POST" onsubmit="return confirm(\'are you sure\');" style="display:inline;">
     ' . csrf_field() . method_field('DELETE') . '
     <button type="submit" class="btn btn-sm btn-danger action-btn delete-btn" title="Delete">
         <i class="icon-trash"></i>
@@ -223,7 +223,7 @@ class CustomerInsuranceController extends Controller
         return view('CustomerInsurance.show', compact('customerinsurance'));
     }
 
-    
+
 
     public function edit(string $id)
     {

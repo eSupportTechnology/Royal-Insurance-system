@@ -124,16 +124,10 @@
     </script>
 
     <script>
-    function confirmDelete(form) {
-        const hasInsurance = confirm("Customer already added an insurance. Do you want to delete all the data?");
-        if (hasInsurance) {
-            form.querySelector('[name="confirm_delete"]').value = 'yes';
-            return true;
+        function confirmDelete(form) {
+            return confirm("Are you sure you want to delete this customer?");
         }
-        return false;
-    }
-</script>
-
+    </script>
 
     <style>
         /* Position search bar (top right) */

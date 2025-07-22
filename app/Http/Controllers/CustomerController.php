@@ -145,28 +145,16 @@ class CustomerController extends Controller
     {
         $customer = Customer::findOrFail($id);
 
-        // Check if this customer has any insurance
-        $hasInsurance = CustomerInsurance::where('name', $customer->id)->exists();
-
-        if ($hasInsurance) {
-            // Check if confirmation was passed
-            if (request()->has('confirm_delete') && request()->confirm_delete == 'yes') {
-                // Delete insurance first
-                CustomerInsurance::where('name', $customer->id)->delete();
-                // Then delete customer
-                $customer->delete();
-                return redirect()->route('new-customer')->with('success', 'Customer and their insurance deleted successfully.');
-            }
-
-            // If confirmation not given, redirect back with warning
-            return redirect()->route('new-customer')->with('error', 'This customer has insurance. Please confirm deletion.');
+        // Check if the customer has any customer insurance
+        if ($customer->customer_insurances()->exists()) {
+            return redirect()->route('new-customer')->with('error', 'This customer already has insurances and cannot be deleted.');
         }
 
-        // No insurance, safe to delete
+
+        // Safe to delete
         $customer->delete();
         return redirect()->route('new-customer')->with('success', 'Customer deleted successfully.');
     }
-
 
     public function view($id)
     {

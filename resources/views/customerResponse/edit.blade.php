@@ -57,7 +57,7 @@
                         <div class="mb-3">
                             <label for="category_id" class="form-label">Category</label>
                             <div class="position-relative">
-                                <select name="category_id" id="category_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
+                                <select name="category_id" id="category_id" class="form-control" style="appearance: none; padding-right: 2.5rem;">
                                     @foreach($categories as $cat)
                                         <option value="{{ $cat->id }}" {{ $response->category_id == $cat->id ? 'selected' : '' }}>
                                             {{ $cat->name }}
@@ -91,7 +91,7 @@
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
                             <div class="position-relative">
-                                <select name="status" id="status" class="form-control" style="appearance: none; padding-right: 2.5rem;">
+                                <select name="status" id="status" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
                                     <option value="Pending" {{ $response->status == 'Pending' ? 'selected' : '' }}>Pending</option>
                                     <option value="Approved" {{ $response->status == 'Approved' ? 'selected' : '' }}>Approved</option>
                                     <option value="Rejected" {{ $response->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
@@ -104,7 +104,7 @@
 
                         <div class="mb-3">
                             <label for="date" class="form-label">Date</label>
-                            <input type="date" name="date" id="date" class="form-control" value="{{ $response->date }}">
+                            <input type="date" name="date" id="date" class="form-control" value="{{ $response->date }}" required>
                         </div>
 
                         <!-- Form Fields -->

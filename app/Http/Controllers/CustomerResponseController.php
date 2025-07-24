@@ -19,16 +19,16 @@ use Illuminate\Support\Facades\Storage;
 class CustomerResponseController extends Controller
 {
     public function create()
-{
-    $agents = Agent::select('id', 'name')->get();
-    $customers = Customer::select('id', 'name')->get();
-    $insurance_types = InsuranceType::all();
-    $categories = Category::all();
-    $subcategories = SubCategory::all();
-    $formFields = FormField::with('options')->get();
+    {
+        $agents = Agent::select('id', 'name')->get();
+        $customers = Customer::select('id', 'name')->get();
+        $insurance_types = InsuranceType::all();
+        $categories = Category::all();
+        $subcategories = SubCategory::all();
+        $formFields = FormField::with('options')->get();
 
-    return view('customerResponse.create', compact('agents', 'customers', 'insurance_types', 'categories', 'subcategories', 'formFields'));
-}
+        return view('customerResponse.create', compact('agents', 'customers', 'insurance_types', 'categories', 'subcategories', 'formFields'));
+    }
 
 
 
@@ -45,7 +45,7 @@ class CustomerResponseController extends Controller
 
         // Only filter by sub_category_id if it's provided
         if ($subCategoryId) {
-            $query->where(function($q) use ($subCategoryId) {
+            $query->where(function ($q) use ($subCategoryId) {
                 $q->whereNull('sub_category_id')->orWhere('sub_category_id', $subCategoryId);
             });
         } else {
@@ -65,11 +65,11 @@ class CustomerResponseController extends Controller
             'agent_id' => 'required|exists:agents,id',
             'customer_id' => 'required|exists:customers,id',
             'insurance_type_id' => 'required|exists:insurance_types,id',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'sub_category_id' => 'nullable|exists:sub_categories,id',
-            'responses' => 'required|array',
-            'status' => 'nullable|string',
-            'date' => 'nullable|date',
+            'responses' => 'nullable|array',
+            'status' => 'required|string',
+            'date' => 'required|date',
         ]);
 
         // Retrieve customer details from the Customer table
@@ -89,12 +89,12 @@ class CustomerResponseController extends Controller
         ]);
 
         // Save individual form field responses
-        foreach ($request->responses as $fieldId => $response) {
+        foreach ($request->input('responses', []) as $fieldId => $response) {
             $field = FormField::find($fieldId);
 
             if ($field && $field->field_type === 'file' && $request->hasFile("responses.$fieldId")) {
                 $file = $request->file("responses.$fieldId");
-                $path = $file->store('uploads/files', 'public'); // Save in storage/app/public/uploads/files
+                $path = $file->store('uploads/files', 'public');
                 $finalValue = $path;
             } else {
                 $finalValue = is_array($response) ? implode(', ', $response) : $response;
@@ -108,28 +108,29 @@ class CustomerResponseController extends Controller
         }
 
 
+
         return redirect()->route('indexxx')->with('success', 'Customer response saved successfully.');
     }
 
     public function edit($id)
-{
-    $response = CustomerResponse::with(['responseFields.formField.options', 'agent', 'customer'])->findOrFail($id);
-// dd([
-//         'response_id' => $response->id,
-//         'agent_id' => $response->agent_id,
-//         'customer_id' => $response->customer_id,
-//         'customer_relationship' => $response->customer,
-//         'customer_name' => $response->customer->name ?? 'NOT FOUND',
-//         'agent_name' => $response->agent->name ?? 'NOT FOUND'
-//     ]);
-    $agents = Agent::select('id', 'name')->get();
-    $customers = Customer::select('id', 'name')->get();
-    $insurance_types = InsuranceType::all();
-    $categories = Category::all();
-    $subcategories = SubCategory::all();
+    {
+        $response = CustomerResponse::with(['responseFields.formField.options', 'agent', 'customer'])->findOrFail($id);
+        // dd([
+        //         'response_id' => $response->id,
+        //         'agent_id' => $response->agent_id,
+        //         'customer_id' => $response->customer_id,
+        //         'customer_relationship' => $response->customer,
+        //         'customer_name' => $response->customer->name ?? 'NOT FOUND',
+        //         'agent_name' => $response->agent->name ?? 'NOT FOUND'
+        //     ]);
+        $agents = Agent::select('id', 'name')->get();
+        $customers = Customer::select('id', 'name')->get();
+        $insurance_types = InsuranceType::all();
+        $categories = Category::all();
+        $subcategories = SubCategory::all();
 
-    return view('customerResponse.edit', compact('response', 'agents', 'customers', 'insurance_types', 'categories', 'subcategories'));
-}
+        return view('customerResponse.edit', compact('response', 'agents', 'customers', 'insurance_types', 'categories', 'subcategories'));
+    }
 
 
     public function update(Request $request, $id)
@@ -138,11 +139,11 @@ class CustomerResponseController extends Controller
             'agent_id' => 'required|exists:agents,id',
             'customer_id' => 'required|exists:customers,id',
             'insurance_type_id' => 'required|exists:insurance_types,id',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
             'sub_category_id' => 'nullable|exists:sub_categories,id',
-            'responses' => 'required|array',
-            'status' => 'nullable|string',
-            'date' => 'nullable|date',
+            'responses' => 'nullable|array',
+            'status' => 'required|string',
+            'date' => 'required|date',
         ]);
 
         $customer = Customer::findOrFail($request->customer_id);
@@ -237,11 +238,4 @@ class CustomerResponseController extends Controller
 
         return redirect()->route('sendindex')->with('success', 'Quotation email sent to selected companies.');
     }
-
-
-
-
-
-
-
 }

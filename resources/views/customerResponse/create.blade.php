@@ -67,7 +67,7 @@
                         <div class="mb-3">
                             <label for="category_id" class="form-label">Select Category</label>
                             <div class="position-relative">
-                                <select name="category_id" id="category_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
+                                <select name="category_id" id="category_id" class="form-control" style="appearance: none; padding-right: 2.5rem;">
                                     <option value="">Select Category</option>
                                 </select>
                                 <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
@@ -80,7 +80,7 @@
                         <div class="mb-3">
                             <label for="sub_category_id" class="form-label">Select Sub Category</label>
                             <div class="position-relative">
-                                <select name="sub_category_id" id="sub_category_id" class="form-control" required style="appearance: none; padding-right: 2.5rem;">
+                                <select name="sub_category_id" id="sub_category_id" class="form-control" style="appearance: none; padding-right: 2.5rem;">
                                     <option value="">Select Sub Category</option>
                                 </select>
                                 <span style="position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); pointer-events: none;">
@@ -110,7 +110,7 @@
                         <!-- Submission Date -->
                         <div class="mb-3">
                             <label for="date" class="form-label">Submission Date</label>
-                            <input type="date" name="date" class="form-control" value="{{ date('Y-m-d') }}">
+                            <input type="date" name="date" class="form-control" value="{{ date('Y-m-d') }}" required>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Submit Insurance Request</button>

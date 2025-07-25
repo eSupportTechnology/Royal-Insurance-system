@@ -229,7 +229,7 @@ class CustomerResponseController extends Controller
         ];
 
         // Send email
-        Mail::to('kavidumalshankulathunga@gmail.com') // required "To"
+        Mail::to('royalinsurancebrockers@gmail.com') // required "To"
             ->bcc($request->companies)
             ->send(new QuotationRequestMail($mailData, $response->responseFields));
 

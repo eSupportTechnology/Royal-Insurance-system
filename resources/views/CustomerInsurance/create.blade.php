@@ -120,7 +120,8 @@
                                         <div class="position-relative">
                                             <input type="text" id="company_search" class="form-control mb-2"
                                                 placeholder="Type at least 1 character..." autocomplete="off">
-                                            <input type="hidden" name="insurance_company" id="insurance_company" required>
+                                            <input type="hidden" name="insurance_company" id="insurance_company"
+                                                required>
                                             <div id="company_suggestions" class="dropdown-menu w-100"
                                                 style="max-height: 200px; overflow-y: auto;"></div>
                                         </div>
@@ -187,18 +188,18 @@
                                     <div class="row">
                                         <div class="mb-3 col-md-4">
                                             <label for="basic" class="form-label">Net Premium</label>
-                                            <input type="number" name="basic" id="basic" step="0.01"
-                                                class="form-control">
+                                            <input type="text" name="basic" id="basic"
+                                                class="form-control format-number" inputmode="decimal">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="srcc" class="form-label">SRCC Premium</label>
-                                            <input type="number" name="srcc" id="srcc" step="0.01"
-                                                class="form-control">
+                                            <input type="text" name="srcc" id="srcc"
+                                                class="form-control format-number" inputmode="decimal">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="tc" class="form-label">TC Premium</label>
-                                            <input type="number" name="tc" id="tc" step="0.01"
-                                                class="form-control">
+                                            <input type="text" name="tc" id="tc"
+                                                class="form-control format-number" inputmode="decimal">
                                         </div>
                                     </div>
 
@@ -206,18 +207,18 @@
                                     <div class="row">
                                         <div class="mb-3 col-md-4">
                                             <label for="others" class="form-label">Others</label>
-                                            <input type="number" name="others" id="others" step="0.01"
-                                                class="form-control">
+                                            <input type="text" name="others" id="others"
+                                                class="form-control format-number" inputmode="decimal">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="total" class="form-label">Total</label>
-                                            <input type="number" name="total" id="total" step="0.01"
-                                                class="form-control">
+                                            <input type="text" name="total" id="total"
+                                                class="form-control format-number" inputmode="decimal">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="sum_insured" class="form-label">Sum Insured</label>
-                                            <input type="number" name="sum_insured" id="sum_insured" step="0.01"
-                                                class="form-control">
+                                            <input type="text" name="sum_insured" id="sum_insured"
+                                                class="form-control format-number" inputmode="decimal">
                                         </div>
                                     </div>
 
@@ -580,6 +581,27 @@
             updateStatus();
         });
     </script>
+
+    <script>
+        document.querySelectorAll('.format-number').forEach(function(input) {
+            input.addEventListener('input', function(e) {
+                let value = this.value.replace(/,/g, '');
+                if (!isNaN(value) && value !== '') {
+                    const parts = value.split('.');
+                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                    this.value = parts.join('.');
+                }
+            });
+
+            // Optional: Remove commas before form submit
+            input.closest('form')?.addEventListener('submit', function() {
+                document.querySelectorAll('.format-number').forEach(function(el) {
+                    el.value = el.value.replace(/,/g, '');
+                });
+            });
+        });
+    </script>
+
 
 @endsection
 

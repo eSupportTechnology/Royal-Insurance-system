@@ -187,18 +187,21 @@
                                     <div class="row">
                                         <div class="mb-3 col-md-4">
                                             <label for="basic" class="form-label">Net Premium</label>
-                                            <input type="number" step="0.01" name="basic" id="basic"
-                                                class="form-control" value="{{ $customerinsurance->basic }}">
+                                            <input type="text" name="basic" id="basic"
+                                                class="form-control format-number" inputmode="decimal"
+                                                value="{{ number_format($customerinsurance->basic, 2) }}">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="srcc" class="form-label">SRCC Premium</label>
-                                            <input type="number" step="0.01" name="srcc" id="srcc"
-                                                class="form-control" value="{{ $customerinsurance->srcc }}">
+                                            <input type="text" name="srcc" id="srcc"
+                                                class="form-control format-number" inputmode="decimal"
+                                                value="{{ number_format($customerinsurance->srcc, 2) }}">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="tc" class="form-label">TC Premium</label>
-                                            <input type="number" step="0.01" name="tc" id="tc"
-                                                class="form-control" value="{{ $customerinsurance->tc }}">
+                                            <input type="text" name="tc" id="tc"
+                                                class="form-control format-number" inputmode="decimal"
+                                                value="{{ number_format($customerinsurance->tc, 2) }}">
                                         </div>
                                     </div>
 
@@ -206,20 +209,24 @@
                                     <div class="row">
                                         <div class="mb-3 col-md-4">
                                             <label for="others" class="form-label">Others</label>
-                                            <input type="number" step="0.01" name="others" id="others"
-                                                class="form-control" value="{{ $customerinsurance->others }}">
+                                            <input type="text" name="others" id="others"
+                                                class="form-control format-number" inputmode="decimal"
+                                                value="{{ number_format($customerinsurance->others, 2) }}">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="total" class="form-label">Total</label>
-                                            <input type="number" step="0.01" name="total" id="total"
-                                                class="form-control" value="{{ $customerinsurance->total }}">
+                                            <input type="text" name="total" id="total"
+                                                class="form-control format-number" inputmode="decimal"
+                                                value="{{ number_format($customerinsurance->total, 2) }}">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="sum_insured" class="form-label">Sum Insured</label>
-                                            <input type="number" step="0.01" name="sum_insured" id="sum_insured"
-                                                class="form-control" value="{{ $customerinsurance->sum_insured }}">
+                                            <input type="text" name="sum_insured" id="sum_insured"
+                                                class="form-control format-number" inputmode="decimal"
+                                                value="{{ number_format($customerinsurance->sum_insured, 2) }}">
                                         </div>
                                     </div>
+
 
                                     {{-- Dates --}}
                                     <div class="row">
@@ -514,6 +521,36 @@
         //     premiumType.addEventListener('change', updateStatus);
         // });
     </script>
+
+    <script>
+        document.querySelectorAll('.format-number').forEach(function(input) {
+            // Format existing value on load
+            let rawValue = input.value.replace(/,/g, '');
+            if (!isNaN(rawValue) && rawValue !== '') {
+                const parts = rawValue.split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                input.value = parts.join('.');
+            }
+
+            // Format while typing
+            input.addEventListener('input', function() {
+                let value = this.value.replace(/,/g, '');
+                if (!isNaN(value) && value !== '') {
+                    const parts = value.split('.');
+                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                    this.value = parts.join('.');
+                }
+            });
+
+            // Clean commas before form submission
+            input.closest('form')?.addEventListener('submit', function() {
+                document.querySelectorAll('.format-number').forEach(function(el) {
+                    el.value = el.value.replace(/,/g, '');
+                });
+            });
+        });
+    </script>
+
 @endsection
 
 @section('script')

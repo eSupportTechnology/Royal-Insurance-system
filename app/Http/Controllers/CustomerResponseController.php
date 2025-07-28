@@ -67,7 +67,7 @@ class CustomerResponseController extends Controller
             'insurance_type_id' => 'required|exists:insurance_types,id',
             'category_id' => 'nullable|exists:categories,id',
             'sub_category_id' => 'nullable|exists:sub_categories,id',
-            'response' => 'nullable|array',
+            'responses' => 'nullable|array',
             'status' => 'required|string',
             'date' => 'required|date',
         ]);
@@ -141,7 +141,7 @@ class CustomerResponseController extends Controller
             'insurance_type_id' => 'required|exists:insurance_types,id',
             'category_id' => 'nullable|exists:categories,id',
             'sub_category_id' => 'nullable|exists:sub_categories,id',
-            'response' => 'nullable|array',
+            'responses' => 'nullable|array',
             'status' => 'required|string',
             'date' => 'required|date',
         ]);

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +35,8 @@
             margin-bottom: 10px;
         }
 
-        .info, .footer {
+        .info,
+        .footer {
             font-size: 14px;
             color: #000;
         }
@@ -52,7 +54,8 @@
             margin-bottom: 30px;
         }
 
-        .field-table th, .field-table td {
+        .field-table th,
+        .field-table td {
             padding: 10px 12px;
             border: 1px solid #ddd;
             text-align: left;
@@ -80,29 +83,31 @@
         a:hover {
             color: #000;
         }
-
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
             <h2>Royal Insurance Broker</h2>
             <p>Colombo, Sri Lanka<br>
-            info@royalinsurance.lk | +94 11 280 9809</p>
+                info@royalinsurance.lk | +94 11 280 9809</p>
         </div>
 
         <p class="info" style="text-align:right;"><strong>Date:</strong> {{ $data['date'] }}</p>
 
-        <p class="section-title">Subject: Quotation for Insurance Coverage</p>
+        <p class="section-title">Subject: Request for Insurance Quotation</p>
 
-        <p>We have received a customer request for an insurance quotation. The relevant details are as follows</p>
+        <p>We have received a customer inquiry for a comprehensive insurance quotation. Kindly find the vehicle and
+            coverage details below:
+        </p>
 
         <table class="field-table">
-            @foreach($fields as $field)
+            @foreach ($fields as $field)
                 <tr>
                     <th>{{ $field->formField->field_name }}</th>
                     <td>
-                        @if($field->formField->field_type === 'file')
+                        @if ($field->formField->field_type === 'file')
                             <a href="{{ asset('storage/' . $field->response) }}" target="_blank">Download File</a>
                         @else
                             {{ $field->response }}
@@ -112,17 +117,22 @@
             @endforeach
         </table>
 
-        <p>Please provide us with the minimum possible premium along with the maximum benefits you can offer.</p>
+        <p>We kindly request you to provide the most competitive premium possible along with details of the maximum
+            benefits you can offer for this coverage.
+        </p>
 
-        <p>Thank you for considering Royal Insurance Broker.</p>
+        <p>Thank you for your attention to this request. We look forward to your prompt and favorable response.
+        </p>
 
         <p>Best regards,<br>
-        <strong>Royal Insurance Broker Team</strong></p>
+            <strong>Royal Insurance Broker Team</strong>
+        </p>
 
         <div class="footer">
-            <p>This email was generated from our quotation system. Please do not reply directly to this email. For any queries, contact us at <a href="mailto:info@royalinsurance.lk">info@royalinsurance.lk</a>.</p>
+            <p>This email was generated from our quotation system. Please do not reply directly to this email. For any
+                queries, contact us at <a href="mailto:info@royalinsurance.lk">info@royalinsurance.lk</a>.</p>
         </div>
     </div>
 </body>
-</html>
 
+</html>

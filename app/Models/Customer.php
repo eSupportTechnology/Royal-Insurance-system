@@ -17,6 +17,12 @@ class Customer extends Model
     ];
     public function customer_insurances()
     {
-        return $this->hasMany(CustomerInsurance::class);
+        return $this->hasMany(CustomerInsurance::class, 'name');
     }
+    public function customer_responses()
+    {
+        return $this->hasMany(CustomerResponse::class);
+    }
+
+
 }

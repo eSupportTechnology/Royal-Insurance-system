@@ -19,6 +19,14 @@ class RibCommission extends Model
     {
         return $this->belongsTo(CustomerInsurance::class);
     }
+
+    public function customer(){
+        return $this->belongsTo(Customer::class, 'name', 'id');
+    }
+
+    public function company(){
+        return $this->belongsTo(Company::class, 'insurance_company', 'id');
+    }
 }
 
 

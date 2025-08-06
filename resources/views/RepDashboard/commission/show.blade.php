@@ -1,4 +1,4 @@
-@extends('AdminDashboard.master')
+@extends('RepDashboard.master')
 @section('title', 'Base Inputs')
 
 @section('css')
@@ -140,38 +140,50 @@
 
                                     <div class="mb-3">
                                         <label class="form-label">Net Premium</label>
-                                        <input type="text" class="form-control" value="{{ number_format($customerinsurance->basic, 2) }}"
+                                        <input type="text" class="form-control" value="{{ $customerinsurance->basic }}"
                                             readonly>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label">SRCC Premium</label>
                                         <input type="text" class="form-control"
-                                            value="{{ number_format($customerinsurance->srcc, 2) }}" readonly>
+                                            value="{{ $customerinsurance->srcc }}" readonly>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label">TC Premium</label>
-                                        <input type="text" class="form-control" value="{{ number_format($customerinsurance->tc, 2) }}"
+                                        <input type="text" class="form-control" value="{{ $customerinsurance->tc }}"
                                             readonly>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label">Others</label>
                                         <input type="text" class="form-control"
-                                            value="{{ number_format($customerinsurance->others, 2) }}" readonly>
+                                            value="{{ $customerinsurance->others }}" readonly>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label">Total</label>
                                         <input type="text" class="form-control"
-                                            value="{{ number_format($customerinsurance->total, 2) }}" readonly>
+                                            value="{{ $customerinsurance->total }}" readonly>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label">Sum Insured</label>
                                         <input type="text" class="form-control"
-                                            value="{{ number_format($customerinsurance->sum_insured, 2) }}" readonly>
+                                            value="{{ $customerinsurance->sum_insured }}" readonly>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Paid Amount</label>
+                                        <input type="text" class="form-control"
+                                            value="{{ $customerinsurance->paid_amount }}" readonly>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label">Outstanding Amount</label>
+                                        <input type="text" class="form-control"
+                                            value="{{ $customerinsurance->outstanding_amount }}" readonly>
                                     </div>
 
                                     <div class="mb-3">

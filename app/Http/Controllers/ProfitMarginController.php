@@ -9,17 +9,40 @@ use App\Models\InsuranceType;
 use App\Models\ProfitMargin;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class ProfitMarginController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $profits = ProfitMargin::all();
-        return view('profitMargin.index',compact('profits'));
+    public function index(Request $request)
+{
+    if ($request->ajax()) {
+        $data = ProfitMargin::with(['company', 'insurance_type', 'category', 'sub_category', 'form_field']);
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('company', fn($row) => $row->company->name ?? 'N/A')
+            ->addColumn('insurance_type', fn($row) => $row->insurance_type->name ?? 'N/A')
+            ->addColumn('category', fn($row) => $row->category->name ?? 'N/A')
+            ->addColumn('sub_category', fn($row) => $row->sub_category->name ?? 'N/A')
+            ->addColumn('form_field', fn($row) => $row->form_field->field_name ?? 'N/A')
+            ->addColumn('action', function ($row) {
+                $edit = '<a href="' . route('profitMargin.edit', $row->id) . '" class="btn btn-sm btn-warning" title="Edit"><i class="icon-pencil-alt"></i></a>';
+                $delete = '
+                    <form action="' . route('profitMargin.destroy', $row->id) . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Are you sure?\');">
+                        ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-sm btn-danger" style="height: 31px; padding: 0 28px;" title="Delete"><i class="icon-trash"></i></button>
+                    </form>';
+                return '<div class="d-flex gap-1 align-items-center">' . $edit . $delete . '</div>';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
+
+    return view('profitMargin.index');
+}
 
     /**
      * Show the form for creating a new resource.

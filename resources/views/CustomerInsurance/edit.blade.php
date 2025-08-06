@@ -187,18 +187,21 @@
                                     <div class="row">
                                         <div class="mb-3 col-md-4">
                                             <label for="basic" class="form-label">Net Premium</label>
-                                            <input type="number" step="0.01" name="basic" id="basic"
-                                                class="form-control" value="{{ $customerinsurance->basic }}">
+                                            <input type="text" name="basic" id="basic"
+                                                class="form-control format-number" inputmode="decimal"
+                                                value="{{ number_format($customerinsurance->basic, 2) }}">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="srcc" class="form-label">SRCC Premium</label>
-                                            <input type="number" step="0.01" name="srcc" id="srcc"
-                                                class="form-control" value="{{ $customerinsurance->srcc }}">
+                                            <input type="text" name="srcc" id="srcc"
+                                                class="form-control format-number" inputmode="decimal"
+                                                value="{{ number_format($customerinsurance->srcc, 2) }}">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="tc" class="form-label">TC Premium</label>
-                                            <input type="number" step="0.01" name="tc" id="tc"
-                                                class="form-control" value="{{ $customerinsurance->tc }}">
+                                            <input type="text" name="tc" id="tc"
+                                                class="form-control format-number" inputmode="decimal"
+                                                value="{{ number_format($customerinsurance->tc, 2) }}">
                                         </div>
                                     </div>
 
@@ -206,39 +209,24 @@
                                     <div class="row">
                                         <div class="mb-3 col-md-4">
                                             <label for="others" class="form-label">Others</label>
-                                            <input type="number" step="0.01" name="others" id="others"
-                                                class="form-control" value="{{ $customerinsurance->others }}">
+                                            <input type="text" name="others" id="others"
+                                                class="form-control format-number" inputmode="decimal"
+                                                value="{{ number_format($customerinsurance->others, 2) }}">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="total" class="form-label">Total</label>
-                                            <input type="number" step="0.01" name="total" id="total"
-                                                class="form-control" value="{{ $customerinsurance->total }}">
+                                            <input type="text" name="total" id="total"
+                                                class="form-control format-number" inputmode="decimal"
+                                                value="{{ number_format($customerinsurance->total, 2) }}">
                                         </div>
                                         <div class="mb-3 col-md-4">
                                             <label for="sum_insured" class="form-label">Sum Insured</label>
-                                            <input type="number" step="0.01" name="sum_insured" id="sum_insured"
-                                                class="form-control" value="{{ $customerinsurance->sum_insured }}">
+                                            <input type="text" name="sum_insured" id="sum_insured"
+                                                class="form-control format-number" inputmode="decimal"
+                                                value="{{ number_format($customerinsurance->sum_insured, 2) }}">
                                         </div>
                                     </div>
 
-                                    {{-- outstanding --}}
-
-                                    <div class="row">
-                                        <div class="mb-3 col-md-6">
-                                            <label for="paid_amount" class="form-label">Paid Amount <span
-                                                    class="text-danger">*</span></label>
-                                            <input type="number" name="paid_amount" id="paid_amount"
-                                                value="{{ $customerinsurance->paid_amount }}" class="form-control"
-                                                required>
-                                        </div>
-                                        <div class="mb-3 col-md-6">
-                                            <label for="outstanding_amount" class="form-label">Outstanding Amount <span
-                                                    class="text-danger">*</span></label>
-                                            <input type="number" name="outstanding_amount" id="outstanding_amount"
-                                                value="{{ $customerinsurance->outstanding_amount }}" class="form-control"
-                                                required>
-                                        </div>
-                                    </div>
 
                                     {{-- Dates --}}
                                     <div class="row">
@@ -293,11 +281,14 @@
                                     </div>
 
                                     {{-- Premium Type --}}
+                                    {{-- Premium Type (Read-only display, but submits value) --}}
                                     <div class="row">
                                         <div class="mb-3 col-md-6">
                                             <label for="premium_type" class="form-label">Premium Type <span
                                                     class="text-danger">*</span></label>
-                                            <select name="premium_type" id="premium_type" class="form-control" required>
+
+                                            {{-- Disabled dropdown (for display only) --}}
+                                            <select class="form-control" disabled>
                                                 <option value="">Select Premium Type</option>
                                                 <option value="Cash"
                                                     {{ $customerinsurance->premium_type == 'Cash' ? 'selected' : '' }}>Cash
@@ -306,21 +297,27 @@
                                                     {{ $customerinsurance->premium_type == 'Debit' ? 'selected' : '' }}>
                                                     Debit</option>
                                             </select>
+
+                                            {{-- Hidden input to actually submit the value --}}
+                                            <input type="hidden" name="premium_type"
+                                                value="{{ $customerinsurance->premium_type }}">
                                         </div>
+
 
                                         <div class="mb-3 col-md-6">
                                             <label for="status" class="form-label">Status</label>
                                             <input type="text" name="status" id="status" class="form-control"
                                                 value="{{ $customerinsurance->status }}" readonly>
                                         </div>
+                                    </div>
 
-                                        {{-- Submit --}}
-                                        <div class="card-footer text-end">
-                                            <button class="btn btn-primary" type="submit">Update</button>
-                                        </div>
+                                    {{-- Submit --}}
+                                    <div class="card-footer text-end">
+                                        <button class="btn btn-primary" type="submit">Update</button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </form>
 
 
@@ -505,25 +502,55 @@
             });
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const premiumType = document.getElementById('premium_type');
-            const statusField = document.getElementById('status');
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const premiumType = document.getElementById('premium_type');
+        //     const statusField = document.getElementById('status');
 
-            function updateStatus() {
-                if (premiumType.value === 'Cash') {
-                    statusField.value = 'Completed';
-                } else if (premiumType.value === 'Debit') {
-                    statusField.value = 'Pending';
-                } else {
-                    statusField.value = '';
-                }
+        //     function updateStatus() {
+        //         if (premiumType.value === 'Cash') {
+        //             statusField.value = 'Completed';
+        //         } else if (premiumType.value === 'Debit') {
+        //             statusField.value = 'Pending';
+        //         } else {
+        //             statusField.value = '';
+        //         }
+        //     }
+
+        //     // Update status on page load and when premium type changes
+        //     updateStatus();
+        //     premiumType.addEventListener('change', updateStatus);
+        // });
+    </script>
+
+    <script>
+        document.querySelectorAll('.format-number').forEach(function(input) {
+            // Format existing value on load
+            let rawValue = input.value.replace(/,/g, '');
+            if (!isNaN(rawValue) && rawValue !== '') {
+                const parts = rawValue.split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                input.value = parts.join('.');
             }
 
-            // Update status on page load and when premium type changes
-            updateStatus();
-            premiumType.addEventListener('change', updateStatus);
+            // Format while typing
+            input.addEventListener('input', function() {
+                let value = this.value.replace(/,/g, '');
+                if (!isNaN(value) && value !== '') {
+                    const parts = value.split('.');
+                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                    this.value = parts.join('.');
+                }
+            });
+
+            // Clean commas before form submission
+            input.closest('form')?.addEventListener('submit', function() {
+                document.querySelectorAll('.format-number').forEach(function(el) {
+                    el.value = el.value.replace(/,/g, '');
+                });
+            });
         });
     </script>
+
 @endsection
 
 @section('script')

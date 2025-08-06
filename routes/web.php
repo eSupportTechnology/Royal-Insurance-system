@@ -213,7 +213,6 @@ Route::middleware('auth:rep')->group(function () {
     Route::get('/rep-subagent-commissions', [CommissionController::class, 'repsubagentIndex'])->name('rep.commissions.subagent');
 
     Route::get('/rep-customer-insurance/{id}/show', [CommissionController::class, 'show'])->name('rep.commissions.show');
-
 });
 
 require __DIR__ . '/auth.php';

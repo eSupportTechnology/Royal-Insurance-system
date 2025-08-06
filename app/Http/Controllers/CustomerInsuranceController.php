@@ -56,6 +56,9 @@ class CustomerInsuranceController extends Controller
                 ->addIndexColumn()
 
                 ->addColumn('customer', fn($row) => $row->customer->name ?? 'N/A')
+                ->addColumn('contact', fn($row) => $row->customer->phone ?? 'N/A')
+                ->addColumn('whatsapp', fn($row) => $row->customer->whatsapp_number ?? 'N/A')
+                ->addColumn('address', fn($row) => $row->customer->address ?? 'N/A')
                 ->addColumn('company', fn($row) => $row->company->name ?? 'N/A')
                 ->addColumn('insurance_type', fn($row) => $row->insuranceType->name ?? 'N/A')
                 ->addColumn('category', fn($row) => $row->categories->name ?? 'N/A')

@@ -398,62 +398,62 @@ class CommissionController extends Controller
             return abort(403, 'Unauthorized. Only agents can view this page.');
         }
 
-        // Recalculate commissions for this agent's assigned insurances
-        $customerInsurances = CustomerInsurance::with('agent')
-            ->whereHas('agent', function ($query) use ($rep) {
-                $query->where('rep_code', $rep->code);
-            })
-            ->get();
+        // // Recalculate commissions for this agent's assigned insurances
+        // $customerInsurances = CustomerInsurance::with('agent')
+        //     ->whereHas('agent', function ($query) use ($rep) {
+        //         $query->where('rep_code', $rep->code);
+        //     })
+        //     ->get();
 
-        $newlyCreatedIds = [];
+        // $newlyCreatedIds = [];
 
-        foreach ($customerInsurances as $insurance) {
-            $profitMargins = ProfitMargin::where('company_id', $insurance->insurance_company)
-                ->where('insurance_type_id', $insurance->insurance_type)
-                ->where(function ($query) use ($insurance) {
-                    $query->whereNull('category_id')->orWhere('category_id', $insurance->category);
-                })
-                ->where(function ($query) use ($insurance) {
-                    $query->whereNull('sub_category_id')->orWhere('sub_category_id', $insurance->subcategory);
-                })
-                ->where(function ($query) use ($insurance) {
-                    $query->whereNull('form_field_id')->orWhere('form_field_id', $insurance->varietyfields);
-                })
-                ->get();
+        // foreach ($customerInsurances as $insurance) {
+        //     $profitMargins = ProfitMargin::where('company_id', $insurance->insurance_company)
+        //         ->where('insurance_type_id', $insurance->insurance_type)
+        //         ->where(function ($query) use ($insurance) {
+        //             $query->whereNull('category_id')->orWhere('category_id', $insurance->category);
+        //         })
+        //         ->where(function ($query) use ($insurance) {
+        //             $query->whereNull('sub_category_id')->orWhere('sub_category_id', $insurance->subcategory);
+        //         })
+        //         ->where(function ($query) use ($insurance) {
+        //             $query->whereNull('form_field_id')->orWhere('form_field_id', $insurance->varietyfields);
+        //         })
+        //         ->get();
 
-            $net = $srcc = $tc = 0;
-            foreach ($profitMargins as $margin) {
-                $rate = floatval($margin->main_agent);
-                switch ($margin->profit_type) {
-                    case 'Net Premium':
-                        $net += ($rate / 100) * $insurance->basic;
-                        break;
-                    case 'RCC':
-                        $srcc += ($rate / 100) * $insurance->srcc;
-                        break;
-                    case 'TC':
-                        $tc += ($rate / 100) * $insurance->tc;
-                        break;
-                }
-            }
+        //     $net = $srcc = $tc = 0;
+        //     foreach ($profitMargins as $margin) {
+        //         $rate = floatval($margin->main_agent);
+        //         switch ($margin->profit_type) {
+        //             case 'Net Premium':
+        //                 $net += ($rate / 100) * $insurance->basic;
+        //                 break;
+        //             case 'RCC':
+        //                 $srcc += ($rate / 100) * $insurance->srcc;
+        //                 break;
+        //             case 'TC':
+        //                 $tc += ($rate / 100) * $insurance->tc;
+        //                 break;
+        //         }
+        //     }
 
-            $status = ($insurance->premium_type === 'Debit') ? 'Pending' : 'Completed';
-            $total = $net + $srcc + $tc;
+        //     $status = ($insurance->premium_type === 'Debit') ? 'Pending' : 'Completed';
+        //     $total = $net + $srcc + $tc;
 
-            $updated = AgentCommission::updateOrCreate(
-                ['customer_insurance_id' => $insurance->id],
-                [
-                    'agent_rep_code' => $insurance->agent->rep_code ?? null,
-                    'net_premium' => round($net, 2),
-                    'srcc_premium' => round($srcc, 2),
-                    'tc_premium' => round($tc, 2),
-                    'total' => round($total, 2),
-                    'status' => $status,
-                ]
-            );
+        //     $updated = AgentCommission::updateOrCreate(
+        //         ['customer_insurance_id' => $insurance->id],
+        //         [
+        //             'agent_rep_code' => $insurance->agent->rep_code ?? null,
+        //             'net_premium' => round($net, 2),
+        //             'srcc_premium' => round($srcc, 2),
+        //             'tc_premium' => round($tc, 2),
+        //             'total' => round($total, 2),
+        //             'status' => $status,
+        //         ]
+        //     );
 
-            $newlyCreatedIds[] = $updated->id;
-        }
+        //     $newlyCreatedIds[] = $updated->id;
+        // }
 
         // AJAX DataTables request with filters
         if ($request->ajax()) {
@@ -548,59 +548,59 @@ class CommissionController extends Controller
             return abort(403, 'Unauthorized. Only sub-agents can view this page.');
         }
 
-        // Recalculate commissions
-        $customerInsurances = CustomerInsurance::with('agent')
-            ->whereHas('agent', function ($query) use ($rep) {
-                $query->where('rep_code', $rep->code);
-            })
-            ->get();
+        // // Recalculate commissions
+        // $customerInsurances = CustomerInsurance::with('agent')
+        //     ->whereHas('agent', function ($query) use ($rep) {
+        //         $query->where('rep_code', $rep->code);
+        //     })
+        //     ->get();
 
-        foreach ($customerInsurances as $insurance) {
-            $profitMargins = ProfitMargin::where('company_id', $insurance->insurance_company)
-                ->where('insurance_type_id', $insurance->insurance_type)
-                ->where(function ($query) use ($insurance) {
-                    $query->whereNull('category_id')->orWhere('category_id', $insurance->category);
-                })
-                ->where(function ($query) use ($insurance) {
-                    $query->whereNull('sub_category_id')->orWhere('sub_category_id', $insurance->subcategory);
-                })
-                ->where(function ($query) use ($insurance) {
-                    $query->whereNull('form_field_id')->orWhere('form_field_id', $insurance->varietyfields);
-                })
-                ->get();
+        // foreach ($customerInsurances as $insurance) {
+        //     $profitMargins = ProfitMargin::where('company_id', $insurance->insurance_company)
+        //         ->where('insurance_type_id', $insurance->insurance_type)
+        //         ->where(function ($query) use ($insurance) {
+        //             $query->whereNull('category_id')->orWhere('category_id', $insurance->category);
+        //         })
+        //         ->where(function ($query) use ($insurance) {
+        //             $query->whereNull('sub_category_id')->orWhere('sub_category_id', $insurance->subcategory);
+        //         })
+        //         ->where(function ($query) use ($insurance) {
+        //             $query->whereNull('form_field_id')->orWhere('form_field_id', $insurance->varietyfields);
+        //         })
+        //         ->get();
 
-            $net = $srcc = $tc = 0;
+        //     $net = $srcc = $tc = 0;
 
-            foreach ($profitMargins as $margin) {
-                $rate = floatval($margin->sub_agent);
-                switch ($margin->profit_type) {
-                    case 'Net Premium':
-                        $net += ($rate / 100) * $insurance->basic;
-                        break;
-                    case 'RCC':
-                        $srcc += ($rate / 100) * $insurance->srcc;
-                        break;
-                    case 'TC':
-                        $tc += ($rate / 100) * $insurance->tc;
-                        break;
-                }
-            }
+        //     foreach ($profitMargins as $margin) {
+        //         $rate = floatval($margin->sub_agent);
+        //         switch ($margin->profit_type) {
+        //             case 'Net Premium':
+        //                 $net += ($rate / 100) * $insurance->basic;
+        //                 break;
+        //             case 'RCC':
+        //                 $srcc += ($rate / 100) * $insurance->srcc;
+        //                 break;
+        //             case 'TC':
+        //                 $tc += ($rate / 100) * $insurance->tc;
+        //                 break;
+        //         }
+        //     }
 
-            $status = ($insurance->premium_type === 'Debit') ? 'Pending' : 'Completed';
-            $total = $net + $srcc + $tc;
+        //     $status = ($insurance->premium_type === 'Debit') ? 'Pending' : 'Completed';
+        //     $total = $net + $srcc + $tc;
 
-            SubAgentCommission::updateOrCreate(
-                ['customer_insurance_id' => $insurance->id],
-                [
-                    'sub_agent_rep_code' => $rep->code,
-                    'net_premium' => round($net, 2),
-                    'srcc_premium' => round($srcc, 2),
-                    'tc_premium' => round($tc, 2),
-                    'total' => round($total, 2),
-                    'status' => $status,
-                ]
-            );
-        }
+        //     SubAgentCommission::updateOrCreate(
+        //         ['customer_insurance_id' => $insurance->id],
+        //         [
+        //             'sub_agent_rep_code' => $rep->code,
+        //             'net_premium' => round($net, 2),
+        //             'srcc_premium' => round($srcc, 2),
+        //             'tc_premium' => round($tc, 2),
+        //             'total' => round($total, 2),
+        //             'status' => $status,
+        //         ]
+        //     );
+        // }
 
         if ($request->ajax()) {
             $query = SubAgentCommission::with(['customerInsurance.customer', 'customerInsurance.company'])

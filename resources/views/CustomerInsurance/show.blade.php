@@ -71,19 +71,19 @@
 
                                     <div class="mb-3">
                                         <label class="form-label">Contact Number</label>
-                                        <input type="text" class="form-control" value="{{ $customerinsurance->contact }}"
+                                        <input type="text" class="form-control" value="{{ $customerinsurance->customer->phone }}"
                                             readonly>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label">Whatsapp Number</label>
                                         <input type="text" class="form-control"
-                                            value="{{ $customerinsurance->whatsapp }}" readonly>
+                                            value="{{ $customerinsurance->customer->whatsapp_number }}" readonly>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label">Address</label>
-                                        <textarea class="form-control" rows="3" readonly>{{ $customerinsurance->address }}</textarea>
+                                        <textarea class="form-control" rows="3" readonly>{{ $customerinsurance->customer->address }}</textarea>
                                     </div>
 
                                     <div class="mb-3">
